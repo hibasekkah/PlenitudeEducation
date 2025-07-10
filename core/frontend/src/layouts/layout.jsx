@@ -1,6 +1,6 @@
 import {Link, Outlet} from "react-router-dom";
 import logo from '../assets/images/logo.png'; 
-import {LOGIN_ROUTE,CONTACT_ROUTE,ABOUT_ROUTE} from "../router/index.jsx";
+import {LOGIN_ROUTE,CONTACT_ROUTE,ABOUT_ROUTE} from "../router/index";
 import {HomeIcon, LogInIcon, MailIcon,UsersIcon} from "lucide-react";
 
 export default function Layout() {

@@ -1,5 +1,7 @@
+import UserLogin from "../components/Login/UserLogin";
+
 export default function Login(){
     return <>
-        Hi from login page
+        <UserLogin/>
     </>
 }

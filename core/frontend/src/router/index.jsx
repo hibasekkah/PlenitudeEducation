@@ -1,40 +1,77 @@
-import {createBrowserRouter} from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
+import ProtectedRoute from './ProtectedRoute';
+import LoginRedirect from './LoginRedirect';
+
+import Layout from '../layouts/Layout';
 import Home from '../pages/Home';
 import Contact from '../pages/Contact';
 import About from '../pages/About';
 import Login from '../pages/Login';
 import NotFound from '../pages/NotFound';
-import Layout from '../layouts/Layout';
-
+import Dashboard from "../pages/Dashbord";
 
 export const LOGIN_ROUTE = '/login'
 export const ABOUT_ROUTE = '/about'
 export const CONTACT_ROUTE = '/contact'
 
-export const router = createBrowserRouter([
-    {
-        element: <Layout/>,
-        children:[
-            {
-                path:'/',
-                element: <Home/>
-            }
-            ,{
-                path:'/login',
-                element: <Login/>
-            },
-            {
-                path:'/contact',
-                element:<Contact/>
-            },
-            {
-                path:'/about',
-                element: <About/>
-            },
-            {
-                path:'*',
-                element:<NotFound/>
-            }
-                ]
-    } 
-])
+const UserDashboard = () => <Dashboard/>;
+const UserProfile = () => <div>Profil de l'Utilisateur</div>;
+const Logout = () => <div>Page de Déconnexion</div>;
+
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,       
+    errorElement: <NotFound />,  
+    children: [
+      {
+        path: "about",
+        element: <About />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
+      },
+
+      {
+        element: <LoginRedirect />,
+        children: [
+          {
+            path: "/",
+            element: <Home />, 
+          },
+          {
+            path: "login",
+            element: <Login />,
+          },
+        ]
+      },
+
+      {
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "dashboard",
+            element: <UserDashboard />,
+          },
+          {
+            path: "profile",
+            element: <UserProfile />,
+          },
+          {
+            path: "logout",
+            element: <Logout />,
+          },
+        ],
+      },
+    ],
+  },
+]);
+
+const AppRouter = () => {
+  return <RouterProvider router={router} />;
+};
+
+export default AppRouter;

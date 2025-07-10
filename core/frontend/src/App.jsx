@@ -1,16 +1,13 @@
-import { useState } from 'react'
-import './App.css'
-import { RouterProvider } from 'react-router-dom'
-import { router } from './router'
+// Exemple dans App.jsx
+import AuthProvider from "./provider/authProvider";
+import AppRouter from "./router"; // Assurez-vous que le chemin est correct
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <RouterProvider router={router}/>   
-    </>
-  )
+    <AuthProvider>
+      <AppRouter />
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;
