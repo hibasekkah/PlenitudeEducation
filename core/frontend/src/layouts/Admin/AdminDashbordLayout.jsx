@@ -1,15 +1,30 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../provider/authProvider';
+import { useAuth } from '@/provider/authProvider';
 import {Link} from "react-router-dom";
 import logo from '@/assets/images/logo.png'; 
 import {HomeIcon, LogOut} from "lucide-react";
 import { LOGOUT_ROUTE } from "@/router";
-const ProtectedRoute = () => {
+import { axiosUser } from '../../components/api/axios';
+import { Button } from '../../components/ui/button';
+
+import { useNavigate } from 'react-router-dom';
+import { AdminSideBar } from './AdminSideBar';
+
+
+const AdminDashbordLayout = () => {
   const { token } = useAuth();
 
   if (!token) {
     return <Navigate to="/login" replace />;
+  }
+
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout(); 
+    navigate('/login');
   }
 
   return (<>
@@ -26,21 +41,23 @@ const ProtectedRoute = () => {
           </div>
         <div>
           <ul className="flex text-white">
-            <li className="ml-5 px-2 py-1">
-              <Link className={'flex'} to={'/'}><HomeIcon className={'mx-1'}/> Profil</Link>
-            </li>
-            <li className="ml-5 px-2 py-1">
-              <Link className={'flex'} to={LOGOUT_ROUTE}><LogOut className={'mx-1'}/> Login</Link>
-            </li>
+            <Button onClick={handleLogout}>Logout</Button>
           </ul>
         </div>
       </div>
     </header>
-    <main className={'container'}>
-      <Outlet/>
+    <main className={'mx-auto px-10 space-y-4 py-4'}>
+      <div className="flex">
+        <div className={'w-full md:w-2/12 border mr-2 rounded-l'}>
+          <AdminSideBar/>
+        </div>
+        <div className={'w-full md:w-10/12 border rounded-l'}>
+          <Outlet/>
+        </div>
+      </div>
     </main>
   </>
   );
 };
 
-export default ProtectedRoute;
+export default AdminDashbordLayout;

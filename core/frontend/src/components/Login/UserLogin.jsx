@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { axiosUser } from "../api/axios"
 import { useAuth } from "@/provider/authProvider";
+import { Loader } from "lucide-react"
 
 
 const formSchema = z.object({
@@ -45,6 +46,10 @@ export default function UserLogin(){
 
     } catch (error) {
       console.error("Login failed:", error);
+      form.setError('password', {
+        message:"email/mot de passe incorrect"
+      })
+      form.formState.isSubmitting
       if (error.response && error.response.status === 422) {
         console.log("Validation errors:", error.response.data.errors);
       }
@@ -80,7 +85,8 @@ export default function UserLogin(){
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button disabled={form.formState.isSubmitting} type="submit">
+          {form.formState.isSubmitting && <Loader className={"mx-2 my-2 animate-spin"}/>} {' '}se connecter</Button>
       </form>
     </Form>
     </>

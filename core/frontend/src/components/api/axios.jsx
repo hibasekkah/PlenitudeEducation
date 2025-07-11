@@ -8,12 +8,6 @@ export const axiosUser = axios.create({
   }
 })
 
-export const axiosLogout = axios.create({
-    baseURL: 'http://localhost:8000',
-    headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-  }
-})
+
 
 

@@ -10,12 +10,14 @@ import About from '../pages/About';
 import Login from '../pages/Login';
 import NotFound from '../pages/NotFound';
 import Dashboard from "../pages/Dashbord";
+import AdminDashbordLayout from "../layouts/Admin/AdminDashbordLayout";
 
 export const LOGIN_ROUTE = '/login'
 export const ABOUT_ROUTE = '/about'
 export const CONTACT_ROUTE = '/contact'
+export const LOGOUT_ROUTE = '/logout'
 
-const UserDashboard = () => <Dashboard/>;
+const UserDashboard = () => <div>dashbord</div>;
 const UserProfile = () => <div>Profil de l'Utilisateur</div>;
 const Logout = () => <div>Page de Déconnexion</div>;
 
@@ -34,7 +36,6 @@ const router = createBrowserRouter([
         path: "contact",
         element: <Contact />,
       },
-
       {
         element: <LoginRedirect />,
         children: [
@@ -48,9 +49,12 @@ const router = createBrowserRouter([
           },
         ]
       },
-
+      
+    ],
+  },
+  
       {
-        element: <ProtectedRoute />,
+        element: <AdminDashbordLayout />,
         children: [
           {
             path: "dashboard",
@@ -66,8 +70,6 @@ const router = createBrowserRouter([
           },
         ],
       },
-    ],
-  },
 ]);
 
 const AppRouter = () => {
