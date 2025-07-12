@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('modules', function (Blueprint $table) {
             $table->id();
+            $table->string('titre');
+            $table->int('duree');
+            $table->string('categorie');
+            $table->string('contenu');//files
             $table->timestamps();
         });
     }

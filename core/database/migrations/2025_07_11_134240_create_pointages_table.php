@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('pointages', function (Blueprint $table) {
             $table->id();
+            $table->date('date');
+            $table->dateTime('arriver');
+            $table->dateTime('sortie')->nullable();;
             $table->timestamps();
         });
     }

@@ -14,4 +14,8 @@ class Formation extends Model
     public function modules(){
         return $this->hasMany(Module::class);
     }
+
+    public function sessions(){
+        return $this->belongsTo(SessionFormationEntreprise::class, 'session_user');
+    }
 }

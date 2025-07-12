@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('formations', function (Blueprint $table) {
             $table->id();
+            $table->string('intitule');
+            $table->text('objectifs')->charset('binary');
+            $table->int('duree');
+            $table->string('niveau');
+            $table->float('cout');
+            $table->string('categorie');
+            $table->string('support');//files
             $table->timestamps();
         });
     }

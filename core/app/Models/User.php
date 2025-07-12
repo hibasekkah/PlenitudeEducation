@@ -71,4 +71,16 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function sessions(){
+        return $this->hasMany(SessionFormationEntreprise::class);
+    }
+
+    public function attestations(){
+        return $this->hasMany(Attestation::class);
+    }
+
+    public function pointage(){
+        return $this->hasMany(Pointage::class);
+    }
 }

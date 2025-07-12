@@ -13,7 +13,7 @@ class Entreprise extends Model
         return $this->hasMany(User::class);
     }
 
-    public function formations(){
-        return $this->hasMany(User::class);
+    public function sessions(){
+        return $this->hasMany(SessionFormationEntreprise::class);
     }
 }

@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attestations', function (Blueprint $table) {
+        Schema::create('session_formation_entreprises', function (Blueprint $table) {
             $table->id();
-            $table->date('date_generation');
-            $table->string('url');
+            $table->date('date_debut');
+            $table->date('date_fin');
+            $table->int('duree');
+            $table->string('etat')->default('active')	;
+            $table->text('observations')->charset('binary')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attestations');
+        Schema::dropIfExists('session_formation_entreprises');
     }
 };

@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('ateliers', function (Blueprint $table) {
             $table->id();
+            $table->string('type');
+            $table->string('Materiels')->nullable();;
+            $table->string('lieu');
+            $table->int('duree');
             $table->timestamps();
         });
     }

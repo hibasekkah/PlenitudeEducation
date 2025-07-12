@@ -13,7 +13,7 @@ export default function Layout() {
             <img 
               src={logo} 
               alt="Plenitude Education Logo" 
-              width="80" 
+              width="50" 
             />
             <p>Plénitude Education</p>
           </div>
@@ -35,7 +35,7 @@ export default function Layout() {
         </div>
       </div>
     </header>
-    <main className={'container'}>
+    <main className={'container flex'}>
       <Outlet/>
     </main>
   </>
