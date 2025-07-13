@@ -6,9 +6,17 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [token, setToken_] = useState(localStorage.getItem("token"));
-  const setToken = (newToken) => {
+  const [user, setUser_] = useState(
+    localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
+  );
+  const setToken = (newToken,userData) => {
     setToken_(newToken);
+    if (userData) {
+      setUser_(userData);
+      localStorage.setItem('user', JSON.stringify(userData));
+    }
   };
+
 
   useEffect(() => {
     if (token) {
@@ -28,7 +36,9 @@ const AuthProvider = ({ children }) => {
       console.error("Erreur lors de la déconnexion côté serveur:", error);
     } finally {
       setToken_(null);
+      setUser_(null);
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
     }
   };
   
@@ -38,8 +48,9 @@ const contextValue = useMemo(
       token,
       setToken,
       logout,
+      user,
     }),
-    [token]
+    [token,user]
   );
 
   return (

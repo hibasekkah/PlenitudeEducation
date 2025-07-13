@@ -190,22 +190,6 @@ const Contact = () => {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <div className="bg-gray-800 dark:bg-gray-950 py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-gray-300">
-            &copy; {new Date().getFullYear()} Issaaf Kattan React Land Page Template. Design by{" "}
-            <a 
-              href="http://www.templatewire.com" 
-              className="text-blue-400 hover:text-blue-300"
-              rel="nofollow"
-            >
-              TemplateWire
-            </a>
-          </p>
-        </div>
-      </div>
     </div>
   );
 };

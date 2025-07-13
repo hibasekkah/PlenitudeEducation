@@ -11,6 +11,7 @@ import Login from '../pages/Login';
 import NotFound from '../pages/NotFound';
 import Dashboard from "../pages/Dashbord";
 import AdminDashbordLayout from "../layouts/Admin/AdminDashbordLayout";
+import AdminProfile from "../layouts/Admin/profile";
 import Layout from "../layouts/layout";
 
 export const LOGIN_ROUTE = '/login'
@@ -55,6 +56,7 @@ const router = createBrowserRouter([
   },
   
       {
+        path: "/admin/",
         element: <AdminDashbordLayout />,
         children: [
           {
@@ -63,7 +65,7 @@ const router = createBrowserRouter([
           },
           {
             path: "profile",
-            element: <UserProfile />,
+            element: <AdminProfile />,
           },
           {
             path: "logout",

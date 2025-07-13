@@ -6,7 +6,7 @@ const LoginRedirect = () => {
   const { token } = useAuth();
 
   if (token) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/admin/dashboard" replace />;
   }
 
   return <Outlet />;

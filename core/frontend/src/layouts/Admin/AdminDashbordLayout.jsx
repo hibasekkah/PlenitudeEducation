@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '@/provider/authProvider';
 import {Link} from "react-router-dom";
@@ -26,6 +26,12 @@ const AdminDashbordLayout = () => {
     await logout(); 
     navigate('/login');
   }
+
+  // useEffect(()=>{
+  //   axiosUser.get("/user-profile").then((resp)=>{
+  //     console.log(resp)
+  //   })
+  // },[])
 
   return (<>
     <header>

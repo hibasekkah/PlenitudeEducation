@@ -17,6 +17,15 @@ import { axiosUser } from "../api/axios"
 import { useAuth } from "@/provider/authProvider";
 import { Loader } from "lucide-react"
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
+
 
 const formSchema = z.object({
   email: z.string().email().min(2).max(50),
@@ -41,12 +50,15 @@ export default function UserLogin(){
       console.log("Login successful:", response.data);
 
       if (response.data && response.data.authorisation && response.data.authorisation.token) {
-        auth.setToken(response.data.authorisation.token);
+        auth.setToken(response.data.authorisation.token,response.data.user);
       }
 
     } catch (error) {
       console.error("Login failed:", error);
       form.setError('password', {
+        message:"email/mot de passe incorrect"
+      })
+      form.setError('email', {
         message:"email/mot de passe incorrect"
       })
       form.formState.isSubmitting
@@ -57,37 +69,47 @@ export default function UserLogin(){
   };
 
     return <>
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="Email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Mot de passe</FormLabel>
-              <FormControl>
-                <Input type="password" placeholder="Mot de passe" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button disabled={form.formState.isSubmitting} type="submit">
-          {form.formState.isSubmitting && <Loader className={"mx-2 my-2 animate-spin"}/>} {' '}se connecter</Button>
-      </form>
-    </Form>
+        <Card className="w-full max-w-sm m-16">
+          <CardHeader>
+            <CardTitle>Login to your account</CardTitle>
+            <CardDescription>
+              Enter your email below to login to your account
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Email" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Mot de passe</FormLabel>
+                      <FormControl>
+                        <Input type="password" placeholder="Mot de passe" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button disabled={form.formState.isSubmitting} type="submit">
+                  {form.formState.isSubmitting && <Loader className={"mx-2 my-2 animate-spin"}/>} {' '}se connecter</Button>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
     </>
 }
