@@ -3,14 +3,15 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from './ProtectedRoute';
 import LoginRedirect from './LoginRedirect';
 
-import Layout from '../layouts/Layout';
-import Home from '../pages/Home';
-import Contact from '../pages/Contact';
+
+import Home from '@/pages/Home';
+import Contact from '@/pages/Contact';
 import About from '../pages/About';
 import Login from '../pages/Login';
 import NotFound from '../pages/NotFound';
 import Dashboard from "../pages/Dashbord";
 import AdminDashbordLayout from "../layouts/Admin/AdminDashbordLayout";
+import Layout from "../layouts/layout";
 
 export const LOGIN_ROUTE = '/login'
 export const ABOUT_ROUTE = '/about'
