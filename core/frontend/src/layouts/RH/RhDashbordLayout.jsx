@@ -3,16 +3,14 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '@/provider/authProvider';
 import {Link} from "react-router-dom";
 import logo from '@/assets/images/logo.png'; 
-import {HomeIcon, LogOut} from "lucide-react";
-import { LOGOUT_ROUTE } from "@/router";
-import { axiosUser } from '../../components/api/axios';
+
 import { Button } from '../../components/ui/button';
 
 import { useNavigate } from 'react-router-dom';
-import { AdminSideBar } from './AdminSideBar';
+import { RhSideBar } from './RhSideBar';
 
 
-const AdminDashbordLayout = () => {
+const RhDashbordLayout = () => {
   const { token } = useAuth();
 
   if (!token) {
@@ -27,12 +25,6 @@ const AdminDashbordLayout = () => {
     navigate('/login');
   }
 
-  // useEffect(()=>{
-  //   axiosUser.get("/user-profile").then((resp)=>{
-  //     console.log(resp)
-  //   })
-  // },[])
-
   return (<>
     <header>
       <div
@@ -41,7 +33,7 @@ const AdminDashbordLayout = () => {
             <img 
               src={logo} 
               alt="Plenitude Education Logo" 
-              width="50" 
+              width="80" 
             />
             <p>Plénitude Education</p>
           </div>
@@ -55,16 +47,15 @@ const AdminDashbordLayout = () => {
     <main className={'mx-auto px-10 space-y-4 py-4'}>
       <div className="flex">
         <div className={'w-full md:w-2/12 border mr-2 rounded-l'}>
-          <AdminSideBar/>
+          <RhSideBar/>
         </div>
         <div className={'w-full md:w-10/12 border rounded-l'}>
           <Outlet/>
         </div>
       </div>
     </main>
-    
   </>
   );
 };
 
-export default AdminDashbordLayout;
+export default RhDashbordLayout;

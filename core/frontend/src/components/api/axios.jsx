@@ -1,13 +1,19 @@
-import axios from "axios";
+import axios from 'axios';
 
-export const axiosUser = axios.create({
-    baseURL: 'http://localhost:8000',
-    headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
+const axiosUser = axios.create({
+  baseURL: 'http://localhost:8000', 
+});
+
+
+axiosUser.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
-})
+  return config;
+});
 
+export { axiosUser };
 
 
 

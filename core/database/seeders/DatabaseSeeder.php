@@ -23,5 +23,32 @@ class DatabaseSeeder extends Seeder
             'telephone' => '00000000',
             'statut' => 'active',
         ]);
+        User::create([
+            'nom' => 'hiba',
+            'prenom' => 'hiba',
+            'email' => 'hiba@example.com',
+            'password' => Hash::make('hibahiba'),
+            'role' => 'formateur',
+            'telephone' => '00000000',
+            'statut' => 'active',
+        ]);
+        User::create([
+            'nom' => 'oualid',
+            'prenom' => 'oualid',
+            'email' => 'oualid@example.com',
+            'password' => Hash::make('oualidoualid'),
+            'role' => 'rh',
+            'telephone' => '00000000',
+            'statut' => 'active',
+        ]);
+        User::create([
+            'nom' => 'ouafae',
+            'prenom' => 'ouafae',
+            'email' => 'ouafae@example.com',
+            'password' => Hash::make('ouafaeouafae'),
+            'role' => 'participant',
+            'telephone' => '00000000',
+            'statut' => 'active',
+        ]);
     }
 }

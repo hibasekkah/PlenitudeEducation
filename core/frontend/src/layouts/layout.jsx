@@ -4,7 +4,7 @@ import {LOGIN_ROUTE,CONTACT_ROUTE,ABOUT_ROUTE} from "../router/index";
 import {HomeIcon, LogInIcon, MailIcon,UsersIcon} from "lucide-react";
 
 export default function Layout() {
-
+ 
   return <>
     <header>
       <div

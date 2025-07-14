@@ -22,7 +22,6 @@ const AuthProvider = ({ children }) => {
     if (token) {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       localStorage.setItem('token',token);
-      console.log(token)
     } else {
       delete axios.defaults.headers.common["Authorization"];
       localStorage.removeItem('token');
@@ -31,7 +30,8 @@ const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axiosUser.post('/api/logout'); 
+      const resp = await axiosUser.post('/api/logout'); 
+      console.log(resp.data.message);
     } catch (error) {
       console.error("Erreur lors de la déconnexion côté serveur:", error);
     } finally {

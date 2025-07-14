@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
-import ProtectedRoute from './ProtectedRoute';
+
 import LoginRedirect from './LoginRedirect';
 
 
@@ -9,9 +9,14 @@ import Contact from '@/pages/Contact';
 import About from '../pages/About';
 import Login from '../pages/Login';
 import NotFound from '../pages/NotFound';
-import Dashboard from "../pages/Dashbord";
 import AdminDashbordLayout from "../layouts/Admin/AdminDashbordLayout";
+import FormateurDashbordLayout from "../layouts/Formateur/FormateurDashbordLayout";
+import RhDashbordLayout from "../layouts/RH/RhDashbordLayout";
+import ParticipantDashbordLayout from "../layouts/Participant/ParticipantDashbordLayout";
 import AdminProfile from "../layouts/Admin/profile";
+import RhProfile from "../layouts/RH/Rhprofile";
+import ParticipantProfile from "../layouts/Participant/Participantprofile";
+import FormateurProfile from "../layouts/Formateur/Formateurprofile";
 import Layout from "../layouts/layout";
 
 export const LOGIN_ROUTE = '/login'
@@ -66,6 +71,60 @@ const router = createBrowserRouter([
           {
             path: "profile",
             element: <AdminProfile />,
+          },
+          {
+            path: "logout",
+            element: <Logout />,
+          },
+        ],
+      },
+      {
+        path: "/participant/",
+        element: <ParticipantDashbordLayout />,
+        children: [
+          {
+            path: "dashboard",
+            element: <UserDashboard />,
+          },
+          {
+            path: "profile",
+            element: <ParticipantProfile />,
+          },
+          {
+            path: "logout",
+            element: <Logout />,
+          },
+        ],
+      },
+      {
+        path: "/formateur/",
+        element: <FormateurDashbordLayout />,
+        children: [
+          {
+            path: "dashboard",
+            element: <UserDashboard />,
+          },
+          {
+            path: "profile",
+            element: <FormateurProfile />,
+          },
+          {
+            path: "logout",
+            element: <Logout />,
+          },
+        ],
+      },
+      {
+        path: "/rh/",
+        element: <RhDashbordLayout />,
+        children: [
+          {
+            path: "dashboard",
+            element: <UserDashboard />,
+          },
+          {
+            path: "profile",
+            element: <RhProfile />,
           },
           {
             path: "logout",
