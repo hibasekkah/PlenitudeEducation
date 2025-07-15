@@ -13,19 +13,20 @@ return new class extends Migration
     {
         Schema::create('entreprises', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
+            $table->string('nom',100);
             $table->string('secteur');
             $table->string('SIRET');
             $table->string('IF');
             $table->string('CNSS');
-            $table->string('Telephone');
-            $table->string('Email');
-            $table->string('Adresse');
+            $table->string('telephone');
+            $table->string('email');
+            $table->string('adresse');
             $table->string('capital');
             $table->string('budget');
             $table->string('priode');
             $table->date('debut_period');
             $table->date('fin_period');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('date_debut');
             $table->date('date_fin');
-            $table->int('duree');
+            $table->integer('duree');
             $table->string('etat')->default('active')	;
             $table->text('observations')->charset('binary')->nullable();
             $table->timestamps();

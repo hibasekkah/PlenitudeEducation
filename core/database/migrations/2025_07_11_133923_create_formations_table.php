@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('intitule');
             $table->text('objectifs')->charset('binary');
-            $table->int('duree');
+            $table->integer('duree');
             $table->string('niveau');
             $table->float('cout');
             $table->string('categorie');
-            $table->string('support');//files
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -3,7 +3,7 @@ import {Button} from "../../components/ui/button.jsx";
 import {Link} from "react-router-dom";
 
 
-import {BookText , UserIcon,ChartNoAxesCombined,Building2  } from "lucide-react";
+import {BookText , UserIcon,ChartNoAxesCombined,Calendar  } from "lucide-react";
 
 export function FormateurSideBar({className}) {
   const profile = "/formateur/profile"
@@ -23,13 +23,13 @@ export function FormateurSideBar({className}) {
             </Link>
             <Link >
               <Button variant="ghost" className="w-full justify-start">
-                <Building2  className="mr-2"/>
-                Entreprises
+                <Calendar  className="mr-2"/>
+                Planning
               </Button>
             </Link><Link >
               <Button variant="ghost" className="w-full justify-start">
                 <BookText  className="mr-2"/>
-                formations
+                Formations
               </Button>
             </Link>
             <Link to={profile}>

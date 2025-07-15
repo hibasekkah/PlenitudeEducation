@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('type');
             $table->string('Materiels')->nullable();;
             $table->string('lieu');
-            $table->int('duree');
+            $table->integer('duree');
             $table->timestamps();
         });
     }

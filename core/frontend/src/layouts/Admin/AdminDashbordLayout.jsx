@@ -27,12 +27,6 @@ const AdminDashbordLayout = () => {
     navigate('/login');
   }
 
-  // useEffect(()=>{
-  //   axiosUser.get("/user-profile").then((resp)=>{
-  //     console.log(resp)
-  //   })
-  // },[])
-
   return (<>
     <header>
       <div

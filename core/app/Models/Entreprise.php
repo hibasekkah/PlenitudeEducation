@@ -2,12 +2,36 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 class Entreprise extends Model
 {
+    use Notifiable,SoftDeletes,HasFactory;
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        'nom',
+        'secteur',
+        'SIRET',
+        'IF',
+        'CNSS',
+        'telephone',
+        'email',
+        'adresse',
+        'capital',
+        'budget',
+        'priode',
+        'debut_period',
+        'fin_period',
+    ];
     
-
+    protected $table = 'entreprises';  
 
     public function employees(){
         return $this->hasMany(User::class);

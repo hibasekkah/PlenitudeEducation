@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Formation;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreFormationRequest;
+use App\Http\Requests\UpdateFormationRequest;
+use App\Http\Resources\FormationResource;
 
 class FormationController extends Controller
 {
@@ -12,15 +14,21 @@ class FormationController extends Controller
      */
     public function index()
     {
-        //
+        return FormationResource::collection(Formation::all());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreFormationRequest $request)
     {
-        //
+        $formFields = $request ->validated();
+        $formation = Formation::create($formFields);
+        $response = new FormationResource($formation);
+        return response()->json([
+            'formation' => $response,
+            'message' => __('formation created successfully')
+            ]);
     }
 
     /**
@@ -28,15 +36,20 @@ class FormationController extends Controller
      */
     public function show(Formation $formation)
     {
-        //
+        return new FormationResource($formation); 
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Formation $formation)
+    public function update(UpdateFormationRequest $request, Formation $formation)
     {
-        //
+        dd($request->all());
+        $formation->update($request->validated());
+        return response()->json([
+            'entreprise' => new FormationResource($formation),
+            'message' => __('formation updated successfully')
+            ]);
     }
 
     /**
@@ -44,6 +57,10 @@ class FormationController extends Controller
      */
     public function destroy(Formation $formation)
     {
-        //
+        $formation->delete();
+        return response()->json([
+            'entreprise' => $formation,
+            'message' => __('formation deleted successfully')
+            ]); 
     }
 }

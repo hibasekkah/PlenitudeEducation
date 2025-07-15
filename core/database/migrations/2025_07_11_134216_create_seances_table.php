@@ -16,7 +16,7 @@ return new class extends Migration
             $table->date('date');
             $table->dateTime('Heure_debut');
             $table->dateTime('Heure_fin');
-            $table->int('duree');
+            $table->integer('duree');
             $table->string('lieu');
             $table->string('etat');
             $table->text('Observations')->charset('binary')->nullable();;

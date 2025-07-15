@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
@@ -11,7 +12,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -26,7 +27,9 @@ class User extends Authenticatable implements JWTSubject
         'role',
         'telephone',
         'photo_profil',
-        'statut'
+        'statut',
+        'specialite/fonction',
+        'entrprise_id',
     ];
 
     /**
@@ -82,5 +85,14 @@ class User extends Authenticatable implements JWTSubject
 
     public function pointage(){
         return $this->hasMany(Pointage::class);
+    }
+
+    /**
+     * Obtenir l'entreprise à laquelle l'utilisateur appartient.
+     * Cette relation retournera NULL pour les admins et les formateurs.
+     */
+    public function entreprise()
+    {
+        return $this->belongsTo(Entreprise::class, 'entrprise_id');
     }
 }

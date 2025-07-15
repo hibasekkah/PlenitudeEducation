@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Entreprise;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,16 +14,17 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
-            $table->string('prenom');
+            $table->string('nom',50);
+            $table->string('prenom',50);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('role'); // admin, formateur, rh, participant
+            $table->enum('role',['admin','formateur','rh','participant']); 
             $table->string('telephone')->nullable();
             $table->string('photo_profil')->nullable();
-            $table->string('statut')->nullable();
-            $table->rememberToken();
+            $table->string('specialite/fonction')->nullable();
+            $table->enum('statut',['active','inactive','deleted']);
+            $table->softDeletes();
             $table->timestamps();
         });
 
