@@ -44,7 +44,6 @@ class FormationController extends Controller
      */
     public function update(UpdateFormationRequest $request, Formation $formation)
     {
-        dd($request->all());
         $formation->update($request->validated());
         return response()->json([
             'entreprise' => new FormationResource($formation),

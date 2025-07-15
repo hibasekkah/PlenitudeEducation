@@ -44,8 +44,9 @@ class EntrepriseController extends Controller
      */
     public function update(UpdateEntrepriseRequest $request, Entreprise $entreprise)
     {
-        dd($request->all());
-        $entreprise->update($request->validated());
+        
+        $formFields =$request->validated();
+        $entreprise->update($formFields);
         return response()->json([
             'entreprise' => new EntrepriseResource($entreprise),
             'message' => __('entreprise updated successfully')

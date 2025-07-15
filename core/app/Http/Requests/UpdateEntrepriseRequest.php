@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateEntrepriseRequest extends FormRequest
 {
@@ -21,7 +22,7 @@ class UpdateEntrepriseRequest extends FormRequest
      */
     public function rules(): array
     {
-        
+        $entrepriseId = $this->route('entreprise');
         return [
             'nom' => 'sometimes|required|max:50',
             'secteur' => 'sometimes|required',
@@ -29,7 +30,7 @@ class UpdateEntrepriseRequest extends FormRequest
             'IF' => 'sometimes|required',
             'CNSS' => 'sometimes|required',
             'telephone' => 'sometimes|required',
-            'email' => 'sometimes|required|email|unique:entreprises,'.$this->id,
+            'email' => Rule::unique('entreprises','email')->ignore($entrepriseId),
             'adresse' => 'sometimes|required',
             'capital'=>'sometimes|required',
             'budget' => 'sometimes|required',

@@ -19,11 +19,11 @@ export default function About(props) {
           <div className="w-full md:w-1/2">
             <div className="space-y-6">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-                About Us
+                Qui somme nous?
               </h2>
               
               <p className="text-lg text-gray-600 dark:text-gray-300">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Acteur engagé de la formation professionnelle, nous aidons les entreprises à renforcer les compétences de leurs équipes, en proposant des solutions sur mesure pour favoriser l’évolution, la motivation et la performance de leurs collaborateurs.
               </p>
 
               <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">

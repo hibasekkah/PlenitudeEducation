@@ -29,7 +29,7 @@ export default function Layout() {
               <Link className={'flex'} to={CONTACT_ROUTE}><MailIcon className={'mx-1'}/> Contact</Link>
             </li>
             <li className="ml-5 px-2 py-1">
-              <Link className={'flex'} to={LOGIN_ROUTE}><LogInIcon className={'mx-1'}/> Login</Link>
+              <Link className={'flex'} to={LOGIN_ROUTE}><LogInIcon className={'mx-1'}/> se connecter</Link>
             </li>
           </ul>
         </div>
