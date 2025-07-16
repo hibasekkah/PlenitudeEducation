@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Invitation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -41,20 +44,46 @@ class AuthController extends Controller
 
     }
 
-    public function register(Request $request){
+    public function registerWithInvitation(Request $request){
+
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
+            'nom' => 'required|string',
+            'prenom' => 'required|string',
+            'telephone' => 'required',
+            'photo_profile' => 'image|mimes:jpeg,png,jpg,gif',
+            'specialite_fonction' => 'required',
+            'password' => 'required|string|min:8',
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+        $invitation = Invitation::where('token',$request->token)->where('used',false)->firstOrFail();
+
+        $userData = [
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'email' => $invitation->email,
+            'telephone' => $request->telephone,
+            'specialite_fonction' => $request->specialite_fonction,
             'password' => Hash::make($request->password),
-        ]);
+            'role' => $invitation->role,
+            'statut' => 'active',
+            'entreprise_id'=>$invitation->entreprise,
+        ];
+
+        if($request->hasFile('photo_profile')){
+            $path = $request->file('photo_profile')->store('profile_pictures', 'public');
+            $userData['photo_profile'] = $path;
+        }
+        
+        $user = User::create($userData);
+
+        $invitation->update(['used'=>true]);
 
         $token = Auth::login($user);
+
+        if ($user->photo_profil) {
+            $user->photo_profil_url = Storage::url($user->photo_profil);
+        }
+
         return response()->json([
             'status' => 'success',
             'message' => 'User created successfully',

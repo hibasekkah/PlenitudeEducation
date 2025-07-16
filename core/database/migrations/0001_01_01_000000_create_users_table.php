@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role',['admin','formateur','rh','participant']); 
             $table->string('telephone')->nullable();
-            $table->string('photo_profil')->nullable();
-            $table->string('specialite/fonction')->nullable();
+            $table->string('photo_profile')->nullable();
+            $table->string('specialite_fonction')->nullable();
             $table->enum('statut',['active','inactive','deleted']);
             $table->softDeletes();
             $table->timestamps();

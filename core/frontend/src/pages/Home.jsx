@@ -19,14 +19,14 @@ export default function Home() {
         <div className="container relative z-10 px-4 text-center">
           <div className="max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              W
+              Plénitude Education
               <span className="block w-20 h-1 bg-blue-500 mx-auto mt-4"></span>
             </h1>
             <p className="text-xl text-gray-200 mb-8">
               Nous accompagnons les entreprises dans le développement et la valorisation des compétences de leurs collaborateurs, en leur proposant des parcours de formation adaptés, innovants et orientés vers la performance collective et individuelle
             </p>
             <a
-              href="#about" // Changed to link to About section
+              href="#about" 
               className="inline-block px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-200 hover:scale-105 transform"
             >
               Learn More
