@@ -19,7 +19,12 @@ return new class extends Migration
             $table->integer('duree');
             $table->string('lieu');
             $table->string('etat');
-            $table->text('Observations')->charset('binary')->nullable();;
+            $table->text('Observations')->charset('binary')->nullable();
+            $table->unsignedBigInteger('formateur_id')->nullable();
+            $table->foreign('formateur_id')
+                ->references('id')
+                ->on('users')
+                ->nullOnDelete();
             $table->timestamps();
         });
     }

@@ -27,7 +27,7 @@ class FileController extends Controller
         
         if($request->hasFile('file_path')){
             $path = $request->file('file_path')->store('files', 'public');
-            $file['file_path'] = $path;
+            $formFields['file_path'] = $path;
         }
         $file= File::create($formFields);
         $response = new FileResource($file);
@@ -59,7 +59,7 @@ class FileController extends Controller
                 }
             }
             $path = $request->file('file_path')->store('files', 'public');
-            $file['file_path'] = $path;
+            $formFields['file_path'] = $path;
         }
         $file->update($formFields);
         $response = new FileResource($file);

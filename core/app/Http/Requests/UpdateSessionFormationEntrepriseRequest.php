@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateFileRequest extends FormRequest
+class UpdateSessionFormationEntrepriseRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,11 +22,7 @@ class UpdateFileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'module_id' => 'sometimes|required',
-            'file_path' => 'sometimes|required',
-            'file_nom' => 'sometimes|required',
-            'description' => 'sometimes',
-            'size' => 'sometimes',
+            //
         ];
     }
 }

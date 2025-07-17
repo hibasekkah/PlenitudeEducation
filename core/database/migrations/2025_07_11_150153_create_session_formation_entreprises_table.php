@@ -15,10 +15,22 @@ return new class extends Migration
             $table->id();
             $table->date('date_debut');
             $table->date('date_fin');
-            $table->integer('duree');
-            $table->string('etat')->default('active')	;
+            $table->enum('etat',['active','termine','annuler','suspendue'])->default('active');
+            $table->text('raison_sus')->charset('binary')->nullable();
+            $table->text('raison_annulation')->charset('binary')->nullable();
             $table->text('observations')->charset('binary')->nullable();
+            $table->unsignedBigInteger('entreprise_id')->nullable();
+            $table->foreign('entreprise_id')
+                ->references('id')
+                ->on('entreprises')
+                ->nullOnDelete();
+            $table->unsignedBigInteger('formation_id')->nullable();
+            $table->foreign('formation_id')
+                ->references('id')
+                ->on('formations')
+                ->nullOnDelete(); 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

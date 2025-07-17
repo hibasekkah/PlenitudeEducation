@@ -87,10 +87,6 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Pointage::class);
     }
 
-    /**
-     * Obtenir l'entreprise à laquelle l'utilisateur appartient.
-     * Cette relation retournera NULL pour les admins et les formateurs.
-     */
     public function entreprise()
     {
         return $this->belongsTo(Entreprise::class, 'entrprise_id');

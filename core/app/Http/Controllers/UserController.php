@@ -59,8 +59,9 @@ class UserController extends Controller
                 }
             }
             $path = $request->file('photo_profile')->store('profile_pictures', 'public');
-            $user['photo_profile'] = $path;
+            $formFields['photo_profile'] = $path;
         }
+        //dd($formFields);
         $user->update($formFields);
         $response = new UserResource($user);
         return response()->json([
@@ -123,7 +124,7 @@ class UserController extends Controller
                 }
             }
             $path = $request->file('photo_profile')->store('profile_pictures', 'public');
-            $user['photo_profile'] = $path;
+            $formFields['photo_profile'] = $path;
         }
         $user->update($formFields);
         $response = new UserResource($user);
