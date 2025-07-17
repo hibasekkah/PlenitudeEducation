@@ -10,7 +10,8 @@ class File extends Model
         'module_id',
         'file_path',
         'file_nom',
-        'size'
+        'description',
+        'size',
     ];
 
     public function modules(){

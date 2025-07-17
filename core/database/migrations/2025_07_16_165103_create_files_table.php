@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('file_path');
             $table->string('file_nom');
+            $table->text('description')->nullable()->charset('binary');
             $table->unsignedBigInteger('size')->nullable();
             $table->foreignId('module_id')->constrained('modules')->onDelete('cascade');
             $table->timestamps();

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EntrepriseController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ModuleController;
@@ -29,6 +30,7 @@ Route::apiResources([
     'formations' => FormationController::class,
     'modules' => ModuleController::class,
     'ateliers' => AtelierController::class,
+    'files' => FileController::class,
 ]);
 
 Route::middleware('auth:api')->group(function () {

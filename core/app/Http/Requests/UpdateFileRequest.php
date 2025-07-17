@@ -11,7 +11,7 @@ class UpdateFileRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class UpdateFileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'module_id' => 'required',
+            'file_path' => 'sometimes|required',
+            'file_nom' => 'sometimes|required',
+            'description' => 'sometimes',
+            'size' => 'sometimes',
         ];
     }
 }
