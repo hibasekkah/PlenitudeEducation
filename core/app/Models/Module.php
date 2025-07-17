@@ -3,9 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Module extends Model
 {
+    use SoftDeletes;
+
+    public $fillable = [
+        'titre',
+        'duree',
+        'categorie',
+        'formation_id',
+    ];
 
 
     public function formation(){
@@ -14,6 +23,10 @@ class Module extends Model
 
     public function seances(){
         return $this->hasMany(Seance::class);
+    }
+
+    public function files(){
+        return $this->hasMany(File::class);
     }
 
 }

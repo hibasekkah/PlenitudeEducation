@@ -16,7 +16,12 @@ return new class extends Migration
             $table->string('titre');
             $table->integer('duree');
             $table->string('categorie');
-            $table->string('contenu');//files
+            $table->unsignedBigInteger('formation_id')->nullable();
+            $table->foreign('formation_id')
+                    ->references('id')
+                    ->on('formations')
+                    ->nullOnDelete();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

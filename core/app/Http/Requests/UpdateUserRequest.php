@@ -22,16 +22,12 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nom' => 'required',
-            'prenom' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'role' => 'required',
-            'telephone' => 'required',
-            'photo_profil' => 'image|mimes:jpeg,png,jpg,gif|2048',
-            'statut' => 'required',
-            'specialite/fonction' => 'required',
-            'entrprise_id',
+            'nom' => 'sometimes|required',
+            'prenom' => 'sometimes|required',
+            'telephone' => 'sometimes|required',
+            'photo_profile' => 'required|image|mimes:jpeg,png,jpg,gif',
+            'specialite_fonction' => 'sometimes|required',
+            'entreprise_id'=>'sometimes|required',
         ];
     }
 }
