@@ -22,9 +22,9 @@ class StoreSessionFormationEntrepriseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date_debut' => 'required',
-            'date_fin' => 'required',
-            'etat' => 'required',
+            'date_debut' => 'required|date',
+            'date_fin' => 'required|date',
+            'etat' => 'sometimes',
             'raison_sus'=>'sometimes',
             'raison_annulation' =>'sometimes',
             'observations' =>'sometimes',

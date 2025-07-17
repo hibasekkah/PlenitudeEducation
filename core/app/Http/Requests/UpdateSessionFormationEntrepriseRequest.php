@@ -11,7 +11,7 @@ class UpdateSessionFormationEntrepriseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class UpdateSessionFormationEntrepriseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'date_debut' => 'required',
+            'date_fin' => 'required',
+            'etat' => 'sometimes|required',
+            'raison_sus'=>'sometimes',
+            'raison_annulation' =>'sometimes',
+            'observations' =>'sometimes',
+            'formation_id' => 'sometimes|required',
+            'entreprise_id' => 'sometimes|required',
         ];
     }
 }

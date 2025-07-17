@@ -11,9 +11,11 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\SessionFormationEntrepriseController;
 use App\Http\Controllers\UserController;
 use App\Models\Atelier;
 use App\Models\Invitation;
+use App\Models\SessionFormationEntreprise;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
@@ -31,6 +33,7 @@ Route::apiResources([
     'modules' => ModuleController::class,
     'ateliers' => AtelierController::class,
     'files' => FileController::class,
+    'sessions' => SessionFormationEntrepriseController::class,
 ]);
 
 Route::middleware('auth:api')->group(function () {
@@ -46,3 +49,5 @@ Route::middleware('auth:api')->group(function () {
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
 Route::post('/reset-password', [NewPasswordController::class, 'store']);
 Route::put('/user/update/{user}',[UserController::class,'update']);
+
+Route::put('/sessions/update/{SessionFormationEntreprise}',[SessionFormationEntrepriseController::class,'update']);
