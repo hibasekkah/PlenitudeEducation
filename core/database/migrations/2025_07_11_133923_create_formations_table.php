@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('intitule');
             $table->text('objectifs')->charset('binary');
-            $table->integer('duree');
+            $table->float('duree');
             $table->string('niveau');
             $table->float('cout');
             $table->string('categorie');

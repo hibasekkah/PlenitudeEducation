@@ -11,7 +11,7 @@ class UpdateModuleRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class UpdateModuleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'titre' => 'sometimes|required|string|max:200',
+            'duree' => 'required',
+            'categorie' => 'sometimes|required|string|max:200',
+            'formation_id' => 'sometimes|required',
         ];
     }
 }

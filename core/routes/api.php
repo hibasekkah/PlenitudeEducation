@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AtelierController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use Illuminate\Http\Request;
@@ -8,7 +9,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\UserController;
+use App\Models\Atelier;
 use App\Models\Invitation;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -24,7 +27,8 @@ Route::get('/api/invitation/verify/{token}', [InvitationController::class, 'veri
 Route::apiResources([
     'entreprises' => EntrepriseController::class,
     'formations' => FormationController::class,
-    //'users' => UserController::class,
+    'modules' => ModuleController::class,
+    'ateliers' => AtelierController::class,
 ]);
 
 Route::middleware('auth:api')->group(function () {

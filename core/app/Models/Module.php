@@ -9,7 +9,7 @@ class Module extends Model
 {
     use SoftDeletes;
 
-    public $fillable = [
+    protected $fillable = [
         'titre',
         'duree',
         'categorie',

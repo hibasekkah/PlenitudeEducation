@@ -14,9 +14,16 @@ return new class extends Migration
         Schema::create('ateliers', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->string('Materiels')->nullable();;
-            $table->string('lieu');
-            $table->integer('duree');
+            $table->string('Materiels')->nullable();
+            $table->text('Observations')->nullable();
+            $table->string('lieu')->nullable();
+            $table->float('duree');
+            $table->unsignedBigInteger('formation_id')->nullable();
+            $table->foreign('formation_id')
+                    ->references('id')
+                    ->on('formations')
+                    ->nullOnDelete();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
