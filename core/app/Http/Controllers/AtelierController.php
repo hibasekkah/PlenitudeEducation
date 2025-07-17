@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Atelier;
 use App\Http\Requests\StoreAtelierRequest;
 use App\Http\Requests\UpdateAtelierRequest;
+use App\Http\Resources\AtelierResource;
 
 class AtelierController extends Controller
 {
@@ -13,7 +14,8 @@ class AtelierController extends Controller
      */
     public function index()
     {
-        //
+        return AtelierResource::collection(Atelier::all());
+
     }
 
     /**
@@ -21,7 +23,13 @@ class AtelierController extends Controller
      */
     public function store(StoreAtelierRequest $request)
     {
-        //
+        $formFields = $request ->validated();
+        $atelier = Atelier::create($formFields);
+        $response = new AtelierResource($atelier);
+        return response()->json([
+            'atelier' => $response,
+            'message' => __('atelier created successfully')
+            ]);
     }
 
     /**
@@ -29,7 +37,7 @@ class AtelierController extends Controller
      */
     public function show(Atelier $atelier)
     {
-        //
+        return new AtelierResource($atelier);
     }
 
     /**
@@ -37,7 +45,12 @@ class AtelierController extends Controller
      */
     public function update(UpdateAtelierRequest $request, Atelier $atelier)
     {
-        //
+        $formFields =$request->validated();
+        $atelier->update($formFields);
+        return response()->json([
+            'atelier' => new AtelierResource($atelier),
+            'message' => __('atelier updated successfully')
+            ]);
     }
 
     /**
@@ -45,6 +58,10 @@ class AtelierController extends Controller
      */
     public function destroy(Atelier $atelier)
     {
-        //
+        $atelier->delete();
+        return response()->json([
+            'atelier' => $atelier,
+            'message' => __('atelier deleted successfully')
+            ]); 
     }
 }

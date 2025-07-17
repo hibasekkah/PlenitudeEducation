@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Module;
-use App\Http\Requests\StoreModuleRequest;
-use App\Http\Requests\UpdateModuleRequest;
+use App\Models\File;
+use App\Http\Requests\StoreFileRequest;
+use App\Http\Requests\UpdateFileRequest;
 
 class FileController extends Controller
 {
@@ -19,7 +19,7 @@ class FileController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreModuleRequest $request)
+    public function store(StoreFileRequest $request)
     {
         //
     }
@@ -27,7 +27,7 @@ class FileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Module $module)
+    public function show(File $file)
     {
         //
     }
@@ -35,7 +35,7 @@ class FileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateModuleRequest $request, Module $module)
+    public function update(UpdateFileRequest $request, File $file)
     {
         //
     }
@@ -43,7 +43,7 @@ class FileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Module $module)
+    public function destroy(File $file)
     {
         //
     }

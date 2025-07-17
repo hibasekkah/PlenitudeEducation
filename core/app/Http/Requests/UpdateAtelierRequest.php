@@ -11,7 +11,7 @@ class UpdateAtelierRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class UpdateAtelierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'type' => 'sometimes|required',
+            'materiels' => 'sometimes|required',
+            'observations'=>'sometimes',
+            'lieu' => 'sometimes|required',
+            'duree' => 'sometimes|required',
+            'formation_id' => 'sometimes|required',
         ];
     }
 }

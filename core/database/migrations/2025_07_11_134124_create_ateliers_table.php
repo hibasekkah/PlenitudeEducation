@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('ateliers', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->string('Materiels')->nullable();
-            $table->text('Observations')->nullable();
+            $table->string('materiels')->nullable();
+            $table->text('observations')->nullable()->charset('binary');
             $table->string('lieu')->nullable();
             $table->float('duree');
             $table->unsignedBigInteger('formation_id')->nullable();
