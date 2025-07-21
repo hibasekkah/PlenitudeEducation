@@ -28,16 +28,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/api/invitation/verify/{token}', [InvitationController::class, 'verify']);
 
 
-Route::apiResources([
-    'entreprises' => EntrepriseController::class,
-    'formations' => FormationController::class,
-    'modules' => ModuleController::class,
-    'ateliers' => AtelierController::class,
-    'files' => FileController::class,
-    'sessionFormationEntreprise' => SessionFormationEntrepriseController::class,
-    'sessionUsers' => SessionUserController::class,
-    'seances' => SeanceController::class,
-]);
+
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -48,6 +39,16 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/user/photo',[UserController::class,'updatePhoto']);
     Route::get('/dashbord/admin',[DashbordAdminController::class,'getStatistics']);
     Route::get('/admin/formation/{formation}',[DashbordAdminController::class,'getFStatistics']);
+    Route::apiResources([
+        'entreprises' => EntrepriseController::class,
+        'formations' => FormationController::class,
+        'modules' => ModuleController::class,
+        'ateliers' => AtelierController::class,
+        'files' => FileController::class,
+        'sessionFormationEntreprise' => SessionFormationEntrepriseController::class,
+        'sessionUsers' => SessionUserController::class,
+        'seances' => SeanceController::class,
+    ]);
 });
 
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
