@@ -6,11 +6,13 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashbordAdminController;
 use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\SeanceController;
 use App\Http\Controllers\SessionFormationEntrepriseController;
 use App\Http\Controllers\SessionUserController;
 use App\Http\Controllers\UserController;
@@ -34,6 +36,7 @@ Route::apiResources([
     'files' => FileController::class,
     'sessionFormationEntreprise' => SessionFormationEntrepriseController::class,
     'sessionUsers' => SessionUserController::class,
+    'seances' => SeanceController::class,
 ]);
 
 Route::middleware('auth:api')->group(function () {
@@ -43,7 +46,8 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/invitation/send', [InvitationController::class,'send']);
     Route::put('/user/password',[UserController::class,'updatePassword']);
     Route::put('/user/photo',[UserController::class,'updatePhoto']);
-    //Route::put('/user/update/{user}',[UserController::class,'update']);
+    Route::get('/dashbord/admin',[DashbordAdminController::class,'getStatistics']);
+    Route::get('/admin/formation/{formation}',[DashbordAdminController::class,'getFStatistics']);
 });
 
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
