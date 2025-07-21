@@ -29,7 +29,8 @@ class SessionFormationEntreprise extends Model
         return $this->belongsTo(Entreprise::class);
     }
 
-    public function participants(){
-        return $this->hasMany(User::class,'session_user');
+    public function participants()
+    {
+        return $this->belongsToMany(User::class, 'session_users');
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Session_FormationResource extends JsonResource
+class SessionUserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

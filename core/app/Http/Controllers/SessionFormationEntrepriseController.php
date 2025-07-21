@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\SessionFormationEntreprise;
 use App\Http\Requests\StoreSessionFormationEntrepriseRequest;
 use App\Http\Requests\UpdateSessionFormationEntrepriseRequest;
-use App\Http\Resources\Session_FormationResource;
+use App\Http\Resources\SessionFormationEntrepriseResource;
+use Illuminate\Http\Request;
 
 class SessionFormationEntrepriseController extends Controller
 {
@@ -14,7 +15,7 @@ class SessionFormationEntrepriseController extends Controller
      */
     public function index()
     {
-        return Session_FormationResource::collection(SessionFormationEntreprise::all());
+        return SessionFormationEntrepriseResource::collection(SessionFormationEntreprise::all());
     }
 
     /**
@@ -24,7 +25,7 @@ class SessionFormationEntrepriseController extends Controller
     {
         $formfields = $request->validated();
         $session = SessionFormationEntreprise::create($formfields);
-        $response = new Session_FormationResource($session);
+        $response = new SessionFormationEntrepriseResource($session);
         return response()->json([
             'session'=>$response,
             'message'=>__('sessionFormationEntreprise created successfully')
@@ -36,7 +37,10 @@ class SessionFormationEntrepriseController extends Controller
      */
     public function show(SessionFormationEntreprise $sessionFormationEntreprise)
     {
-        return new Session_FormationResource($sessionFormationEntreprise); 
+         return response()->json([
+            'session'=>$sessionFormationEntreprise->id,
+            'message'=>__('sessionFormationEntreprise created successfully')
+        ]); 
     }
 
     /**
@@ -45,10 +49,11 @@ class SessionFormationEntrepriseController extends Controller
     public function update(UpdateSessionFormationEntrepriseRequest $request, SessionFormationEntreprise $sessionFormationEntreprise)
     {
         $formfields = $request->validated();
+        //dd($formfields);
         $sessionFormationEntreprise->update($formfields);
-        $response = new Session_FormationResource($sessionFormationEntreprise);
+        //$response = new SessionFormationEntrepriseResource($sessionFormationEntreprise);
         return response()->json([
-            'session'=>$response,
+            'session'=>$sessionFormationEntreprise,
             'message'=>__('sessionFormationEntreprise updated successfully')
         ]);
     }
@@ -64,4 +69,51 @@ class SessionFormationEntrepriseController extends Controller
             'message' => __('sessionFormationEntreprise deleted successfully')
             ]); 
     }
+
+    public function suspendreSession(Request $request, SessionFormationEntreprise $sessionFormationEntreprise)
+    {
+        //dd($request);
+        $formfields = $request->validate([
+            'raison_sus'=>'required'
+        ]);
+        //dd($sessionFormationEntreprise->update($formfields));
+        $formfields['etat']='suspendue';
+        $sessionFormationEntreprise->update($formfields);
+        //$response = new SessionFormationEntrepriseResource($sessionFormationEntreprise);
+        return response()->json([
+            'session'=>$sessionFormationEntreprise,
+            'message'=>__('sessionFormationEntreprise suspendre successfully')
+        ]);
+    }
+
+    public function annulerSession(Request $request, SessionFormationEntreprise $sessionFormationEntreprise)
+    {
+        //dd($request);
+        $formfields = $request->validate([
+            'raison_annulation'=>'required'
+        ]);
+        //dd($sessionFormationEntreprise->update($formfields));
+        $formfields['etat']='annuler';
+        $sessionFormationEntreprise->update($formfields);
+        //$response = new SessionFormationEntrepriseResource($sessionFormationEntreprise);
+        return response()->json([
+            'session'=>$sessionFormationEntreprise,
+            'message'=>__('sessionFormationEntreprise annuler successfully')
+        ]);
+    }
+
+    public function activerSession(Request $request, SessionFormationEntreprise $sessionFormationEntreprise)
+    {
+
+        //dd($sessionFormationEntreprise->update($formfields));
+        $formfields['etat']='active';
+        $sessionFormationEntreprise->update($formfields);
+        //$response = new SessionFormationEntrepriseResource($sessionFormationEntreprise);
+        return response()->json([
+            'session'=>$sessionFormationEntreprise,
+            'message'=>__('sessionFormationEntreprise activer successfully')
+        ]);
+    }
+
+
 }
