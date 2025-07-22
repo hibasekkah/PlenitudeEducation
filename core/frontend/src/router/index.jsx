@@ -1,8 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
-
 import LoginRedirect from './LoginRedirect';
-
 
 import Home from '@/pages/Home';
 import Contact from '@/pages/Contact';
@@ -18,6 +16,7 @@ import RhProfile from "../layouts/RH/Rhprofile";
 import ParticipantProfile from "../layouts/Participant/Participantprofile";
 import FormateurProfile from "../layouts/Formateur/Formateurprofile";
 import Layout from "../layouts/layout";
+import { ManageEntreprise } from "../layouts/Admin/ManageEntreprise";
 
 export const LOGIN_ROUTE = '/login'
 export const ABOUT_ROUTE = '/about'
@@ -75,6 +74,10 @@ const router = createBrowserRouter([
           {
             path: "logout",
             element: <Logout />,
+          },
+          {
+            path: "entreprise",
+            element: <ManageEntreprise />,
           },
         ],
       },

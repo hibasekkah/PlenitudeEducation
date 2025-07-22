@@ -21,7 +21,7 @@ export function AdminSideBar({className}) {
                 Dashboard
               </Button>
             </Link>
-            <Link >
+            <Link to="/admin/entreprise">
               <Button variant="ghost" className="w-full justify-start">
                 <Building2  className="mr-2"/>
                 Entreprises
