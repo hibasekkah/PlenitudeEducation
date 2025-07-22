@@ -2,35 +2,35 @@
 
 namespace App\Policies;
 
-use App\Models\Atelier;
+use App\Models\Module;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class AtelierPolicy
+class ModulePolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-       if ($user->role === 'admin' ) {
+        if ($user->role === 'admin') {
             return true;
-        }  
+        }
         return false;
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Atelier $atelier): bool
+    public function view(User $user, Module $module): bool
     {
         if ($user->role === 'admin') {
             return true;
         }
-        if(($user->role === 'rh' || $user->role === 'participant') && $user->sessionsDeFormation->formation->ateliers->id === $atelier->id){
+        if(($user->role === 'rh' || $user->role === 'participant') && $user->sessionsDeFormation->formation->modules->id === $module->id){
             return true;
         }
-        if($user->role === 'formateur' && $user->seances->atelier->id === $atelier->id){
+        if($user->role === 'formateur' && $user->seances->module->id === $module->id){
             return true;
         }
         return false;
@@ -50,7 +50,7 @@ class AtelierPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Atelier $atelier): bool
+    public function update(User $user, Module $module): bool
     {
         if ($user->role === 'admin' ) {
             return true;
@@ -61,7 +61,7 @@ class AtelierPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Atelier $atelier): bool
+    public function delete(User $user, Module $module): bool
     {
         if ($user->role === 'admin' ) {
             return true;
@@ -72,7 +72,7 @@ class AtelierPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Atelier $atelier): bool
+    public function restore(User $user, Module $module): bool
     {
         if ($user->role === 'admin' ) {
             return true;
@@ -83,7 +83,7 @@ class AtelierPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Atelier $atelier): bool
+    public function forceDelete(User $user, Module $module): bool
     {
         if ($user->role === 'admin' ) {
             return true;
