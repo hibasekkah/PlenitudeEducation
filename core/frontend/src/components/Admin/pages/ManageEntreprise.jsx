@@ -3,6 +3,7 @@ import {Separator} from "@/components/ui/separator.jsx";
 import {ScrollArea,ScrollBar} from "@/components/ui/scroll-area.jsx";
 import EntrepriseApi from "../../../services/api/Entreprise";
 import AddEntrepriseForm from "../Forms/AddEntrepriseForm";
+import AdminEntrepriseList from "../Data-table/entreprises/AdminEntrepriseList";
 
 export function ManageEntreprise(){
     return <>
@@ -23,15 +24,15 @@ export function ManageEntreprise(){
                             </TabsList>
                             </div>
                             <TabsContent
-                            value="parents_list"
+                            value="entreprise"
                             className="border-none p-0 outline-none"
                             >
                             <div className="flex items-center justify-between">
                                 <div className="space-y-1 w-full">
                                 <h2 className="text-2xl font-semibold tracking-tight">
-                                    All parents
+                                    Entreprises
                                 </h2>
-                                 {/* <AdminEntrepriseList/> */}
+                                 <AdminEntrepriseList/>
                                 </div>
                             </div>
                             <Separator className="my-4"/>
@@ -44,7 +45,7 @@ export function ManageEntreprise(){
                             </div>
                             </TabsContent>
                             <TabsContent
-                            value="add_parent">
+                            value="add_entreprise">
                             <div className="space-y-1">
                                 <AddEntrepriseForm onFormSubmit={EntrepriseApi.create} />
                             </div>

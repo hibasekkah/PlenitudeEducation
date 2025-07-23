@@ -56,7 +56,6 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData }) {
 
   const form = useForm({
     resolver: zodResolver(formSchema),
-    // Gère correctement les valeurs par défaut pour les modes création et mise à jour
     defaultValues: initialData ? { ...initialValues, ...initialData } : initialValues,
   });
   const { setError, formState: { isSubmitting }, reset } = form;
@@ -66,16 +65,14 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData }) {
     const loader = toast.loading(loaderMsg);
 
     try {
-      // Le prop `onFormSubmit` est une fonction qui retourne la promesse Axios
       const response = await onFormSubmit(values);
       console.log(response.data);
       toast.success(response.data.message || (isUpdate ? "Mise à jour réussie !" : "Ajout réussi !"));
       
       if (!isUpdate) {
-        reset(); // Réinitialise le formulaire seulement en mode création
+        reset(); 
       }
     } catch (error) {
-      // --- Logique de gestion d'erreur améliorée ---
       console.error("Échec de la soumission du formulaire:", error.response || error);
 
       if (error.response) {
@@ -83,7 +80,6 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData }) {
         const data = error.response.data;
 
         if (status === 422 && data.errors) {
-          // Erreurs de validation (422)
           toast.error("Certains champs sont invalides. Veuillez corriger.");
           Object.entries(data.errors).forEach(([fieldName, errorMessages]) => {
             setError(fieldName, {
@@ -96,14 +92,11 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData }) {
         } else if (status === 404) {
           toast.error("L'endpoint de l'API est introuvable. Vérifiez l'URL.");
         } else if (status >= 500) {
-          // Erreur serveur (500+)
           toast.error("Une erreur est survenue sur le serveur. Veuillez réessayer plus tard.");
         } else {
-          // Autres erreurs HTTP
           toast.error(data.message || "Une erreur inattendue est survenue.");
         }
       } else {
-        // Erreur réseau ou autre
         toast.error("Impossible de contacter le serveur. Vérifiez votre connexion internet.");
       }
     } finally {
@@ -156,7 +149,7 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData }) {
         
         <Button className={'mt-4'} type="submit" disabled={isSubmitting}>
           {isSubmitting && <Loader className={'mr-2 h-4 w-4 animate-spin'} />}
-          {isUpdate ? 'Mettre à jour' : 'Créer l entreprise'}
+          {isUpdate ? 'Mettre à jour' : 'Créer'}
         </Button>
       </form>
     </Form>
