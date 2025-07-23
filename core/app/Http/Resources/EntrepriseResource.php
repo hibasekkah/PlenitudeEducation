@@ -14,7 +14,10 @@ class EntrepriseResource extends JsonResource
      */
     // public function toArray(Request $request): array
     // {
-    //     dd($this->resource);
-    //     return [];
+        
+    //     // return [ 
+    //     //     'id'=>$this->id,
+    //     //     'nom_entreprise' => $this->nom,
+    //     // ];
     // }
 }

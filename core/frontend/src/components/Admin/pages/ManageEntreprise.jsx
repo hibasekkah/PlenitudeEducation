@@ -1,8 +1,10 @@
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
 import {Separator} from "@/components/ui/separator.jsx";
 import {ScrollArea,ScrollBar} from "@/components/ui/scroll-area.jsx";
+import EntrepriseApi from "../../../services/api/Entreprise";
+import AddEntrepriseForm from "../Forms/AddEntrepriseForm";
 
-export default function ManageEntreprise(){
+export function ManageEntreprise(){
     return <>
         <div className="relative overflow-x-auto">
             <div className="hidden md:block">
@@ -11,13 +13,13 @@ export default function ManageEntreprise(){
                     <div className="grid">
                     <div className="col-span-3 lg:col-span-4">
                         <div className="h-full px-4 py-6 lg:px-8">
-                        <Tabs defaultValue="parents_list" className="h-full space-y-6">
+                        <Tabs defaultValue="entreprise" className="h-full space-y-6">
                             <div className="space-between flex items-center">
                             <TabsList>
-                                <TabsTrigger value="parents_list" className="relative">
+                                <TabsTrigger value="entreprise" className="relative">
                                 Entreprises
                                 </TabsTrigger>
-                                <TabsTrigger value="add_parent">Add new Entreprise</TabsTrigger>
+                                <TabsTrigger value="add_entreprise">crée entreprise</TabsTrigger>
                             </TabsList>
                             </div>
                             <TabsContent
@@ -44,7 +46,7 @@ export default function ManageEntreprise(){
                             <TabsContent
                             value="add_parent">
                             <div className="space-y-1">
-                                {/* <ParentUpsertForm handleSubmit={(values) => ParentApi.create(values)}/> */}
+                                <AddEntrepriseForm onFormSubmit={EntrepriseApi.create} />
                             </div>
                             <Separator className="my-4"/>
                             </TabsContent>

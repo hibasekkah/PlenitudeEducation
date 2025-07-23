@@ -16,7 +16,7 @@ class EntrepriseController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny');
+        //$this->authorize('viewAny', Entreprise::class);
         return EntrepriseResource::collection(Entreprise::all());
     }
 
@@ -25,7 +25,7 @@ class EntrepriseController extends Controller
      */
     public function store(StoreEntrepriseRequest $request)
     {
-        $this->authorize('create');
+        $this->authorize('create', Entreprise::class);
         $formFields = $request->validated();
         $entreprise = Entreprise::create($formFields);
         $response = new EntrepriseResource($entreprise);
