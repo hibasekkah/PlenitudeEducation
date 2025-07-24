@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { DataTable } from "../../../data-table/DataTable";
-import EntrepriseApi from "../../../../services/api/Entreprise";
+import { DataTable } from "../../data-table/DataTable";
+import EntrepriseApi from "../../../services/api/Entreprise";
 import {Button} from "@/components/ui/Button";
 import { ArrowUpDown } from "lucide-react";
 import {toast} from "sonner";
@@ -23,7 +23,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import AddEntrepriseForm from "../../Forms/AddEntrepriseForm";
+import AddEntrepriseForm from "../Forms/AddEntrepriseForm";
 
 
 export default function AdminEntrepriseList(){

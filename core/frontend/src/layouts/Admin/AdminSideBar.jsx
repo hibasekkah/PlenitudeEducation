@@ -3,10 +3,11 @@ import {Button} from "../../components/ui/button.jsx";
 import {Link} from "react-router-dom";
 
 
-import {BookText , UserIcon,ChartNoAxesCombined,Building2  } from "lucide-react";
+import {BookText , UserIcon,ChartNoAxesCombined,Building2, BookOpen, TestTube  } from "lucide-react";
 
 export function AdminSideBar({className}) {
   const profile = "/admin/profile"
+  const fromation = "/admin/formation"
   return (
     <div className={cn("pb-12", className)}>
       <div>
@@ -26,10 +27,23 @@ export function AdminSideBar({className}) {
                 <Building2  className="mr-2"/>
                 Entreprises
               </Button>
-            </Link><Link >
+            </Link>
+            <Link to={fromation}>
               <Button variant="ghost" className="w-full justify-start">
                 <BookText  className="mr-2"/>
                 formations
+              </Button>
+            </Link>
+            <Link to={profile}>
+              <Button variant="ghost" className="w-full justify-start">
+                <BookOpen className="mr-2"/>
+                Modules
+              </Button>
+            </Link>
+            <Link to={profile}>
+              <Button variant="ghost" className="w-full justify-start">
+                <TestTube  className="mr-2"/>
+                Ateliers
               </Button>
             </Link>
             <Link to={profile}>

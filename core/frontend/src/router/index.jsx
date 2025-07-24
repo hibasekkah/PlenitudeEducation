@@ -17,6 +17,7 @@ import ParticipantProfile from "../layouts/Participant/Participantprofile";
 import FormateurProfile from "../layouts/Formateur/Formateurprofile";
 import Layout from "../layouts/layout";
 import { ManageEntreprise } from "../components/Admin/pages/ManageEntreprise";
+import { ManageFormation } from "../components/Admin/pages/ManageFormation";
 
 export const LOGIN_ROUTE = '/login'
 export const ABOUT_ROUTE = '/about'
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
           {
             path: "entreprise",
             element: <ManageEntreprise />,
+          },
+          {
+            path: "formation",
+            element: <ManageFormation />,
           },
         ],
       },

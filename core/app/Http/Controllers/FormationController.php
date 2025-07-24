@@ -16,7 +16,7 @@ class FormationController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny');
+        $this->authorize('viewAny',Formation::class);
         return FormationResource::collection(Formation::all());
     }
 
@@ -25,7 +25,7 @@ class FormationController extends Controller
      */
     public function store(StoreFormationRequest $request)
     {
-        $this->authorize('create');
+        $this->authorize('create', Formation::class);
         $formFields = $request ->validated();
         $formation = Formation::create($formFields);
         $response = new FormationResource($formation);

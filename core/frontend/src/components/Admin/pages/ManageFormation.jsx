@@ -1,11 +1,11 @@
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
 import {Separator} from "@/components/ui/separator.jsx";
 import {ScrollArea,ScrollBar} from "@/components/ui/scroll-area.jsx";
-import EntrepriseApi from "../../../services/api/Entreprise";
-import AddEntrepriseForm from "../Forms/AddEntrepriseForm";
-import AdminEntrepriseList from "../Data-table/AdminEntrepriseList";
+import FormationApi from "../../../services/api/Formation";
+import AddFormationForm from "../Forms/AddFormationForm";
+import AdminFormationList from "../Data-table/AdminFormationList";
 
-export function ManageEntreprise(){
+export function ManageFormation(){
     return <>
         <div className="relative overflow-x-auto">
             <div className="hidden md:block">
@@ -18,9 +18,9 @@ export function ManageEntreprise(){
                             <div className="space-between flex items-center">
                             <TabsList>
                                 <TabsTrigger value="entreprise" className="relative">
-                                Entreprises
+                                formations
                                 </TabsTrigger>
-                                <TabsTrigger value="add_entreprise">crée entreprise</TabsTrigger>
+                                <TabsTrigger value="add_entreprise">crée formation</TabsTrigger>
                             </TabsList>
                             </div>
                             <TabsContent
@@ -30,9 +30,9 @@ export function ManageEntreprise(){
                             <div className="flex items-center justify-between">
                                 <div className="space-y-1 w-full">
                                 <h2 className="text-2xl font-semibold tracking-tight">
-                                    Entreprises
+                                    formations
                                 </h2>
-                                 <AdminEntrepriseList/>
+                                 <AdminFormationList/>
                                 </div>
                             </div>
                             <Separator className="my-4"/>
@@ -47,7 +47,7 @@ export function ManageEntreprise(){
                             <TabsContent
                             value="add_entreprise">
                             <div className="space-y-1">
-                                <AddEntrepriseForm onFormSubmit={EntrepriseApi.create} />
+                                <AddFormationForm onFormSubmit={FormationApi.create} /> 
                             </div>
                             <Separator className="my-4"/>
                             </TabsContent>
