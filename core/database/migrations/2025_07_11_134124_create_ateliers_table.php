@@ -18,11 +18,11 @@ return new class extends Migration
             $table->text('observations')->nullable()->charset('binary');
             $table->string('lieu')->nullable();
             $table->float('duree');
-            $table->unsignedBigInteger('formation_id')->nullable();
+            $table->unsignedBigInteger('formation_id');
             $table->foreign('formation_id')
                     ->references('id')
                     ->on('formations')
-                    ->nullOnDelete();
+                    ->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });

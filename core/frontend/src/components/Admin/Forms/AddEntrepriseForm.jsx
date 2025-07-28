@@ -135,10 +135,10 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData }) {
           <FormItem><FormLabel>Capital</FormLabel><FormControl><Input type="number" placeholder="Capital" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormField control={form.control} name="budget" render={({ field }) => (
-          <FormItem><FormLabel>Budget</FormLabel><FormControl><Input type="number" placeholder="Budget" {...field} /></FormControl><FormMessage /></FormItem>
+          <FormItem><FormLabel>Budget (dh)</FormLabel><FormControl><Input type="number" placeholder="Budget" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormField control={form.control} name="priode" render={({ field }) => (
-          <FormItem><FormLabel>Période de budget (en mois)</FormLabel><FormControl><Input type="number" placeholder="Période" {...field} /></FormControl><FormMessage /></FormItem>
+          <FormItem><FormLabel>Période (en mois)</FormLabel><FormControl><Input type="number" placeholder="Période" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormField control={form.control} name="debut_period" render={({ field }) => (
           <FormItem><FormLabel>Début de période</FormLabel><FormControl><Input type="date" {...field} /></FormControl><FormMessage /></FormItem>

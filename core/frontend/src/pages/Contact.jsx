@@ -20,7 +20,7 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     emailjs
-      .sendForm("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", e.target, "YOUR_PUBLIC_KEY")
+      .sendForm("service_8c9cj97", "template_nacr9vs", e.target, "ERsIJ1g9NyNpRRN72")
       .then(
         (result) => {
           console.log(result.text);
@@ -43,11 +43,10 @@ const Contact = () => {
             <div className="lg:w-2/3">
               <div className="mb-12">
                 <h2 className="text-3xl font-bold text-gray-900">
-                  Get In Touch
+                  Contact
                 </h2>
                 <p className="text-lg text-gray-600 dark:text-gray-300">
-                  Please fill out the form below to send us an email and we will
-                  get back to you as soon as possible.
+                  Veuillez remplir le formulaire ci-dessous pour nous envoyer un e-mail. Nous vous répondrons dans les plus brefs délais.
                 </p>
               </div>
 
@@ -61,7 +60,7 @@ const Contact = () => {
                       name="name"
                       value={name}
                       className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Name"
+                      placeholder="Nom complet"
                       required
                       onChange={handleChange}
                     />
@@ -89,7 +88,7 @@ const Contact = () => {
                     value={message}
                     rows="5"
                     className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Your message"
+                    placeholder="votre message"
                     required
                     onChange={handleChange}
                   ></textarea>
@@ -99,7 +98,7 @@ const Contact = () => {
                   type="submit"
                   className="w-full md:w-auto px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
                 >
-                  Send Message
+                  Envoyer
                 </button>
               </form>
             </div>
@@ -121,7 +120,7 @@ const Contact = () => {
                     </div>
                     <div className="ml-4">
                       <p className="text-gray-600 dark:text-gray-300">
-                        4321 California St, San Francisco, CA 12345
+                        6ème étage Imm El youbia, Ave Allal Ben Abdellah, Fes 30000
                       </p>
                     </div>
                   </div>
@@ -134,7 +133,7 @@ const Contact = () => {
                     </div>
                     <div className="ml-4">
                       <p className="text-gray-600 dark:text-gray-300">
-                        +1 123 456 1234
+                        +212 6 63 73 90 26
                       </p>
                     </div>
                   </div>
@@ -147,7 +146,7 @@ const Contact = () => {
                     </div>
                     <div className="ml-4">
                       <p className="text-gray-600 dark:text-gray-300">
-                        info@company.com
+                        contact@plenitudegroupe.com
                       </p>
                     </div>
                   </div>

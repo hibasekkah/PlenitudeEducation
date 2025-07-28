@@ -23,28 +23,32 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader } from "lucide-react";
 import { toast } from "sonner";
+import { useEffect, useState } from "react";
+import FormationApi from "../../../services/api/Formation";
 
 const formSchema = z.object({
-  intitule: z.string().min(2, { message: "L'intitule doit contenir au moins 2 caractères." }).max(100),
-  objectifs: z.string().min(1, { message: "Les objectifs sont obligatoires." }),
-  niveau: z.string(),
-  categorie: z.string(),
-  duree: z.coerce.number({ invalid_type_error: "La période doit être un nombre." })
+  type: z.string().min(2, { message: "L'intitule doit contenir au moins 2 caractères." }).max(100),
+  materiels: z.string().min(1, { message: "Les objectifs sont obligatoires." }),
+  lieu: z.string().min(1, { message: "Le lieu est obligatoire." }),
+  observations: z.string().optional(),
+  formation_id: z.coerce 
+      .number({ required_error: "Veuillez sélectionner une formation." })
+      .int()
+      .positive("Veuillez sélectionner une formation valide."),
+  duree: z.coerce.number({ invalid_type_error: "La durée doit être un nombre." })
     .int({ message: "La duree doit être un nombre entier." })
     .positive({ message: "La duree doit être un nombre positif." }),
-  cout: z.coerce.number({ invalid_type_error: "Le cout doit être un nombre." }).positive(),
 });
 
 const initialValues = {
-  intitule: "",
-  objectifs: "",
-  niveau: "",
-  categorie: "",
+  type: "",
+  materiels: "",
+  lieu: "",
+  observations: "",
   duree: "",
-  cout: "",
 };
 
-export default function AddFormationForm({ onFormSubmit, initialData }) {
+export default function AddAtelierForm({ onFormSubmit, initialData }) {
   const isUpdate = !!initialData;
 
   const form = useForm({
@@ -52,6 +56,21 @@ export default function AddFormationForm({ onFormSubmit, initialData }) {
     defaultValues: initialData ? { ...initialValues, ...initialData } : initialValues,
   });
   const { setError, formState: { isSubmitting }, reset } = form;
+  const [formationsdata,setFormationsdata] = useState([]);
+
+  useEffect(()=>{
+    const fetchFormations = async () => {
+    try {
+      const response = await FormationApi.all();
+      setFormationsdata(response.data.data);
+      console.log(response.data); 
+    } catch (error) {
+      console.error("Impossible de récupérer les formations :", error);
+    }
+  };
+
+  fetchFormations();
+  },[]);
 
   const onSubmit = async (values) => {
     const loaderMsg = isUpdate ? "Mise à jour en cours..." : "Ajout en cours...";
@@ -100,34 +119,33 @@ export default function AddFormationForm({ onFormSubmit, initialData }) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField control={form.control} name="intitule" render={({ field }) => (
-          <FormItem><FormLabel>Intitulé</FormLabel><FormControl><Input placeholder="Intitulé" {...field} /></FormControl><FormMessage /></FormItem>
+        <FormField control={form.control} name="type" render={({ field }) => (
+          <FormItem><FormLabel>Type</FormLabel><FormControl><Input placeholder="Type" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
-        <FormField control={form.control} name="objectifs" render={({ field }) => (
-          <FormItem><FormLabel>Objectifs</FormLabel><FormControl><Textarea placeholder="objectifs" className="resize-none" {...field} /></FormControl><FormMessage /></FormItem>
+        <FormField control={form.control} name="materiels" render={({ field }) => (
+          <FormItem><FormLabel>materiels</FormLabel><FormControl><Textarea placeholder="materiels" className="resize-none" {...field} /></FormControl><FormMessage /></FormItem>
+        )} />
+        <FormField control={form.control} name="observations" render={({ field }) => (
+          <FormItem><FormLabel>observations</FormLabel><FormControl><Textarea placeholder="observations" className="resize-none" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormField control={form.control} name="duree" render={({ field }) => (
-          <FormItem><FormLabel>Durée (heures)</FormLabel><FormControl><Input type="number" placeholder="Durée" {...field} /></FormControl><FormMessage /></FormItem>
+          <FormItem><FormLabel>Durée</FormLabel><FormControl><Input type="number" placeholder="Durée" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
-        <FormField control={form.control} name="cout" render={({ field }) => (
-          <FormItem><FormLabel>Cout (DH)</FormLabel><FormControl><Input type="number" placeholder="Cout" {...field} /></FormControl><FormMessage /></FormItem>
+        <FormField control={form.control} name="lieu" render={({ field }) => (
+          <FormItem><FormLabel>lieu</FormLabel><FormControl><Input placeholder="lieu" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
-        <FormField control={form.control} name="categorie" render={({ field }) => (
-          <FormItem><FormLabel>Catégorie</FormLabel><FormControl><Input placeholder="Catégorie" {...field} /></FormControl><FormMessage /></FormItem>
-        )} />
-        <FormField control={form.control} name="niveau" render={({ field }) => (
+        <FormField control={form.control} name="formation_id" render={({ field }) => (
             <FormItem>
-              <FormLabel>Niveau</FormLabel>
+              <FormLabel>Formation</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Choisir le niveau de la formation" />
+                    <SelectValue placeholder="Choisir la formation" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="Debutant">Debutant</SelectItem>
-                  <SelectItem value="Dntermédiaire">Intermédiaire</SelectItem>
-                  <SelectItem value="Expert">Expert</SelectItem>
+                  {formationsdata.map((formation)=><SelectItem key={formation.id} value={String(formation.id)}>{formation.intitule}</SelectItem>)
+                  }
                 </SelectContent>
               </Select>
               <FormMessage />

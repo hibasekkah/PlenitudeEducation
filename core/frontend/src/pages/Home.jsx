@@ -29,7 +29,7 @@ export default function Home() {
               href="#about" 
               className="inline-block px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition duration-200 hover:scale-105 transform"
             >
-              Learn More
+              Plus d'informations
             </a>
           </div>
         </div>

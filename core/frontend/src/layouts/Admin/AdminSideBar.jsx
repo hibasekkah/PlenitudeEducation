@@ -8,6 +8,8 @@ import {BookText , UserIcon,ChartNoAxesCombined,Building2, BookOpen, TestTube  }
 export function AdminSideBar({className}) {
   const profile = "/admin/profile"
   const fromation = "/admin/formation"
+  const module = "/admin/module"
+  const atelier = "/admin/atelier"
   return (
     <div className={cn("pb-12", className)}>
       <div>
@@ -34,13 +36,13 @@ export function AdminSideBar({className}) {
                 formations
               </Button>
             </Link>
-            <Link to={profile}>
+            <Link to={module}>
               <Button variant="ghost" className="w-full justify-start">
                 <BookOpen className="mr-2"/>
                 Modules
               </Button>
             </Link>
-            <Link to={profile}>
+            <Link to={atelier}>
               <Button variant="ghost" className="w-full justify-start">
                 <TestTube  className="mr-2"/>
                 Ateliers

@@ -1,5 +1,5 @@
 import React from "react";
-import p from '@/assets/images/photo1.webp';
+import p from '@/assets/images/photo2.jpeg';
 
 export default function About(props) {
   return (
@@ -27,7 +27,7 @@ export default function About(props) {
               </p>
 
               <h3 className="text-2xl font-semibold text-gray-800 dark:text-gray-200">
-                Why Choose Us?
+                Pourquoi nous choisir ?
               </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -35,19 +35,19 @@ export default function About(props) {
                 <ul className="space-y-3">
                   <li className="flex items-start">
                       <span className="text-green-500 mr-2">✓</span>
-                      <span className="text-gray-700 dark:text-gray-300">Lorem ipsum dolor</span>
+                      <span className="text-gray-700 dark:text-gray-300">Des formations 100 % personnalisées selon vos besoins</span>
                     </li>
                     <li className="flex items-start">
                       <span className="text-green-500 mr-2">✓</span>
-                      <span className="text-gray-700 dark:text-gray-300">Tempor incididunt</span>
+                      <span className="text-gray-700 dark:text-gray-300">Une équipe d'experts métiers avec une solide expérience terrain</span>
                     </li>
                     <li className="flex items-start">
                       <span className="text-green-500 mr-2">✓</span>
-                      <span className="text-gray-700 dark:text-gray-300">Lorem ipsum dolor</span>
+                      <span className="text-gray-700 dark:text-gray-300">Un accompagnement de A à Z : diagnostic, formation, suivi</span>
                     </li>
                     <li className="flex items-start">
                       <span className="text-green-500 mr-2">✓</span>
-                      <span className="text-gray-700 dark:text-gray-300">Lorem ipsum dolor</span>
+                      <span className="text-gray-700 dark:text-gray-300">Plateforme en ligne pour faciliter l’accès aux contenus</span>
                     </li>
                 </ul>
 
@@ -55,19 +55,19 @@ export default function About(props) {
                 <ul className="space-y-3">
                   <li className="flex items-start">
                       <span className="text-green-500 mr-2">✓</span>
-                      <span className="text-gray-700 dark:text-gray-300">Aliquip ex ea commodo</span>
+                      <span className="text-gray-700 dark:text-gray-300"> Méthodes pédagogiques actives et orientées résultats</span>
                     </li>
                     <li className="flex items-start">
                       <span className="text-green-500 mr-2">✓</span>
-                      <span className="text-gray-700 dark:text-gray-300">Aliquip ex ea commodo</span>
+                      <span className="text-gray-700 dark:text-gray-300">Certifications reconnues et programmes actualisés</span>
                     </li>
                     <li className="flex items-start">
                       <span className="text-green-500 mr-2">✓</span>
-                      <span className="text-gray-700 dark:text-gray-300">Aliquip ex ea commodo</span>
+                      <span className="text-gray-700 dark:text-gray-300">Flexibilité : en présentiel, distanciel ou hybride</span>
                     </li>
                     <li className="flex items-start">
                       <span className="text-green-500 mr-2">✓</span>
-                      <span className="text-gray-700 dark:text-gray-300">Aliquip ex ea commodo</span>
+                      <span className="text-gray-700 dark:text-gray-300">Taux de satisfaction client supérieur à 95 %</span>
                     </li>
                 </ul>
               </div>

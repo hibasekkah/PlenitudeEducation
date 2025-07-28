@@ -71,9 +71,9 @@ export default function UserLogin(){
     return <>
         <Card className="w-full max-w-sm m-16">
           <CardHeader>
-            <CardTitle>Login to your account</CardTitle>
+            <CardTitle>Connectez-vous à votre compte</CardTitle>
             <CardDescription>
-              Enter your email below to login to your account
+              Saisissez votre adresse e-mail ci-dessous pour accéder à votre compte
             </CardDescription>
           </CardHeader>
           <CardContent>

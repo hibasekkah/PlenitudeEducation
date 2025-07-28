@@ -18,9 +18,9 @@ export function ManageFormation(){
                             <div className="space-between flex items-center">
                             <TabsList>
                                 <TabsTrigger value="entreprise" className="relative">
-                                formations
+                                Formations
                                 </TabsTrigger>
-                                <TabsTrigger value="add_entreprise">crée formation</TabsTrigger>
+                                <TabsTrigger value="add_entreprise">Crée formation</TabsTrigger>
                             </TabsList>
                             </div>
                             <TabsContent
@@ -30,7 +30,7 @@ export function ManageFormation(){
                             <div className="flex items-center justify-between">
                                 <div className="space-y-1 w-full">
                                 <h2 className="text-2xl font-semibold tracking-tight">
-                                    formations
+                                    Formations
                                 </h2>
                                  <AdminFormationList/>
                                 </div>

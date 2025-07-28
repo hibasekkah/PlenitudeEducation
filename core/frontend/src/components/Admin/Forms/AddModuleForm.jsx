@@ -20,31 +20,34 @@ import {
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+
 import { Loader } from "lucide-react";
 import { toast } from "sonner";
+import FormationApi from "../../../services/api/Formation";
+import { useEffect, useState } from "react";
+import ModuleApi from "../../../services/api/Module";
 
 const formSchema = z.object({
-  intitule: z.string().min(2, { message: "L'intitule doit contenir au moins 2 caractères." }).max(100),
-  objectifs: z.string().min(1, { message: "Les objectifs sont obligatoires." }),
-  niveau: z.string(),
+  titre: z.string().min(2, { message: "Le titre doit contenir au moins 2 caractères." }).max(100),
   categorie: z.string(),
   duree: z.coerce.number({ invalid_type_error: "La période doit être un nombre." })
     .int({ message: "La duree doit être un nombre entier." })
     .positive({ message: "La duree doit être un nombre positif." }),
-  cout: z.coerce.number({ invalid_type_error: "Le cout doit être un nombre." }).positive(),
+  formation_id: z.coerce 
+    .number({ required_error: "Please select a formation." })
+    .int()
+    .positive("Please select a valid formation."),
+  files: z.any().optional(),
 });
 
 const initialValues = {
-  intitule: "",
-  objectifs: "",
-  niveau: "",
+  titre: "",
   categorie: "",
   duree: "",
-  cout: "",
+  formation_id: "",
 };
 
-export default function AddFormationForm({ onFormSubmit, initialData }) {
+export default function AddModuleForm({ onFormSubmit, initialData }) {
   const isUpdate = !!initialData;
 
   const form = useForm({
@@ -53,17 +56,72 @@ export default function AddFormationForm({ onFormSubmit, initialData }) {
   });
   const { setError, formState: { isSubmitting }, reset } = form;
 
+  const [formationsdata,setFormationsdata] = useState([]);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+
+  const [existingFiles, setExistingFiles] = useState([]);
+  const [filesToDelete, setFilesToDelete] = useState([]);
+  const [newFilesToUpload, setNewFilesToUpload] = useState([]);
+
+  const handleMarkForDeletion = (fileId) => {
+    setFilesToDelete(prev => [...prev, fileId]);
+    setExistingFiles(prev => prev.filter(file => file.id !== fileId));
+  };
+
+  useEffect(() => {
+    if (initialData?.files) {
+      setExistingFiles(initialData.files);
+    }
+  }, [initialData]);
+
+  useEffect(()=>{
+    const fetchFormations = async () => {
+    try {
+      const response = await FormationApi.all();
+      setFormationsdata(response.data.data);
+      console.log(response.data); 
+    } catch (error) {
+      console.error("Failed to fetch formations:", error);
+    }
+  };
+
+  fetchFormations();
+  },[])
+
+
   const onSubmit = async (values) => {
     const loaderMsg = isUpdate ? "Mise à jour en cours..." : "Ajout en cours...";
     const loader = toast.loading(loaderMsg);
+    const formData = new FormData();
+
+    formData.append('titre', values.titre);
+    formData.append('categorie', values.categorie);
+    formData.append('duree', values.duree);
+    formData.append('formation_id', values.formation_id);
+
+    if (selectedFiles.length > 0) {
+      selectedFiles.forEach(file => {
+        formData.append('files[]', file);
+      });
+    }
+
+    if (filesToDelete.length > 0) {
+      filesToDelete.forEach(id => formData.append('files_to_delete[]', id));
+    }
+
+    if (newFilesToUpload.length > 0) {
+      newFilesToUpload.forEach(file => formData.append('files[]', file));
+    }
 
     try {
-      const response = await onFormSubmit(values);
+      const response = await onFormSubmit(formData);
       console.log(response.data);
       toast.success(response.data.message || (isUpdate ? "Mise à jour réussie !" : "Ajout réussi !"));
       
       if (!isUpdate) {
         reset(); 
+        setSelectedFiles([]);
+        document.getElementById('module_files').value = ''; 
       }
     } catch (error) {
       console.error("Échec de la soumission du formulaire:", error.response || error);
@@ -100,40 +158,40 @@ export default function AddFormationForm({ onFormSubmit, initialData }) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField control={form.control} name="intitule" render={({ field }) => (
-          <FormItem><FormLabel>Intitulé</FormLabel><FormControl><Input placeholder="Intitulé" {...field} /></FormControl><FormMessage /></FormItem>
-        )} />
-        <FormField control={form.control} name="objectifs" render={({ field }) => (
-          <FormItem><FormLabel>Objectifs</FormLabel><FormControl><Textarea placeholder="objectifs" className="resize-none" {...field} /></FormControl><FormMessage /></FormItem>
+        <FormField control={form.control} name="titre" render={({ field }) => (
+          <FormItem><FormLabel>Titre</FormLabel><FormControl><Input placeholder="titre" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormField control={form.control} name="duree" render={({ field }) => (
-          <FormItem><FormLabel>Durée (heures)</FormLabel><FormControl><Input type="number" placeholder="Durée" {...field} /></FormControl><FormMessage /></FormItem>
-        )} />
-        <FormField control={form.control} name="cout" render={({ field }) => (
-          <FormItem><FormLabel>Cout (DH)</FormLabel><FormControl><Input type="number" placeholder="Cout" {...field} /></FormControl><FormMessage /></FormItem>
+          <FormItem><FormLabel>Durée (heures) </FormLabel><FormControl><Input type="number" placeholder="Durée" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormField control={form.control} name="categorie" render={({ field }) => (
           <FormItem><FormLabel>Catégorie</FormLabel><FormControl><Input placeholder="Catégorie" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
-        <FormField control={form.control} name="niveau" render={({ field }) => (
+        <FormField control={form.control} name="formation_id" render={({ field }) => (
             <FormItem>
-              <FormLabel>Niveau</FormLabel>
+              <FormLabel>Formation</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Choisir le niveau de la formation" />
+                    <SelectValue placeholder="Choisir la formation" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="Debutant">Debutant</SelectItem>
-                  <SelectItem value="Dntermédiaire">Intermédiaire</SelectItem>
-                  <SelectItem value="Expert">Expert</SelectItem>
+                  {formationsdata.map((formation)=><SelectItem key={formation.id} value={String(formation.id)}>{formation.intitule}</SelectItem>)
+                  }
                 </SelectContent>
               </Select>
               <FormMessage />
             </FormItem>
           )}
         />
+        <FormField control={form.control} name="files" render={({ field }) => (
+          <FormItem>
+            <FormLabel>Fichiers</FormLabel>
+            <FormControl><Input id="module_files" type="file" multiple placeholder="Fichier" {...field} 
+            onChange={(event) => setSelectedFiles(Array.from(event.target.files))}/>
+            </FormControl><FormMessage /></FormItem>
+        )} />
         <Button className={'mt-4'} type="submit" disabled={isSubmitting}>
           {isSubmitting && <Loader className={'mr-2 h-4 w-4 animate-spin'} />}
           {isUpdate ? 'Mettre à jour' : 'Créer'}

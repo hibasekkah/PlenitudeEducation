@@ -63,9 +63,17 @@ class FormationController extends Controller
     public function destroy(Formation $formation)
     {
         $this->authorize('delete', $formation);
+        $modules = $formation->modules;
+        foreach($modules as $module){
+            $module->delete();
+        }
+        $aletiers = $formation->ateliers;
+        foreach($aletiers as $aletier){
+            $aletiers->delete();
+        }
         $formation->delete();
         return response()->json([
-            'entreprise' => $formation,
+            'formation' => $formation,
             'message' => __('formation deleted successfully')
             ]); 
     }

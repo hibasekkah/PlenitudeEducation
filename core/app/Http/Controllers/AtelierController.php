@@ -16,7 +16,7 @@ class AtelierController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny');
+        $this->authorize('viewAny',Atelier::class);
         return AtelierResource::collection(Atelier::all());
 
     }
@@ -26,7 +26,7 @@ class AtelierController extends Controller
      */
     public function store(StoreAtelierRequest $request)
     {
-        $this->authorize('create');
+        $this->authorize('create',Atelier::class);
         $formFields = $request ->validated();
         $atelier = Atelier::create($formFields);
         $response = new AtelierResource($atelier);

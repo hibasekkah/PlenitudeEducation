@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('titre');
             $table->float('duree');
             $table->string('categorie');
-            $table->unsignedBigInteger('formation_id')->nullable();
+            $table->unsignedBigInteger('formation_id');
             $table->foreign('formation_id')
                     ->references('id')
                     ->on('formations')
-                    ->nullOnDelete();
+                    ->cascadeOnDelete();
             $table->softDeletes();
             $table->timestamps();
         });

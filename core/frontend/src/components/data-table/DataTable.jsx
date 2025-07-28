@@ -9,14 +9,8 @@ import {
   //ColumnFiltersState,
   //VisibilityState,
   getFilteredRowModel,
+  getPaginationRowModel,
 } from "@tanstack/react-table"
-
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 
 import {
   Table,
@@ -29,6 +23,8 @@ import {
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { DataTableViewOptions } from "./DataTableViewOptions"
+import { DataTablePagination } from "./DataTablePagination"
 
 
 
@@ -47,6 +43,7 @@ export function DataTable({columns, data}) {
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    getPaginationRowModel: getPaginationRowModel(),
     state: {
       sorting,
       columnFilters,
@@ -58,42 +55,15 @@ export function DataTable({columns, data}) {
     <>
     <div>
     <div className="flex items-center py-4">
-        <Input
+        {/* <Input
           placeholder="Filter intitule..."
           value={(table.getColumn("intitule")?.getFilterValue()) ?? ""}
           onChange={(event) =>
             table.getColumn("intitule")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
-        />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter(
-                (column) => column.getCanHide()
-              )
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        /> */}
+        <DataTableViewOptions table={table} />
       </div>
       </div>
       
@@ -134,12 +104,13 @@ export function DataTable({columns, data}) {
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                Aucun résultat.
               </TableCell>
             </TableRow>
           )}
         </TableBody>
       </Table>
+      <DataTablePagination table={table} />
     </div></>
   )
 }

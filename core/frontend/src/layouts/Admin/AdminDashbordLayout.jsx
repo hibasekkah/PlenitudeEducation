@@ -41,17 +41,17 @@ const AdminDashbordLayout = () => {
           </div>
         <div>
           <ul className="flex text-white">
-            <Button onClick={handleLogout}>Logout</Button>
+            <Button onClick={handleLogout}>Se déconnecter</Button>
           </ul>
         </div>
       </div>
     </header>
-    <main className={'mx-auto px-10 space-y-4 py-4'}>
+    <main className={'mx-auto'}>
       <div className="flex">
-        <div className={'w-full md:w-2/12 border mr-2 rounded-l'}>
+        <div className={'w-full md:w-2/12 border mr-2 rounded-l bg-card'}>
           <AdminSideBar/>
         </div>
-        <div className={'w-full md:w-10/12 border rounded-l'}>
+        <div className={'w-full md:w-10/12 border rounded-l bg-card'}>
           <Outlet/>
         </div>
       </div>

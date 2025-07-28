@@ -41,7 +41,7 @@ const ParticipantDashbordLayout = () => {
           </div>
         <div>
           <ul className="flex text-white">
-            <Button onClick={handleLogout}>Logout</Button>
+            <Button onClick={handleLogout}>Se déconnecter</Button>
           </ul>
         </div>
       </div>

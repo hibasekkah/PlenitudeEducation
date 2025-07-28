@@ -1,11 +1,13 @@
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
 import {Separator} from "@/components/ui/separator.jsx";
 import {ScrollArea,ScrollBar} from "@/components/ui/scroll-area.jsx";
-import EntrepriseApi from "../../../services/api/Entreprise";
-import AddEntrepriseForm from "../Forms/AddEntrepriseForm";
-import AdminEntrepriseList from "../Data-table/AdminEntrepriseList";
+import FormationApi from "../../../services/api/Formation";
+import AddFormationForm from "../Forms/AddFormationForm";
+import AdminModuleList from "../Data-table/AdminModuleList";
+import ModuleApi from "../../../services/api/Module";
+import AddModuleForm from "../Forms/AddModuleForm";
 
-export function ManageEntreprise(){
+export function ManageModule(){
     return <>
         <div className="relative overflow-x-auto">
             <div className="hidden md:block">
@@ -18,9 +20,9 @@ export function ManageEntreprise(){
                             <div className="space-between flex items-center">
                             <TabsList>
                                 <TabsTrigger value="entreprise" className="relative">
-                                Entreprises
+                                Modules
                                 </TabsTrigger>
-                                <TabsTrigger value="add_entreprise">Crée entreprise</TabsTrigger>
+                                <TabsTrigger value="add_entreprise">Crée Module</TabsTrigger>
                             </TabsList>
                             </div>
                             <TabsContent
@@ -30,9 +32,9 @@ export function ManageEntreprise(){
                             <div className="flex items-center justify-between">
                                 <div className="space-y-1 w-full">
                                 <h2 className="text-2xl font-semibold tracking-tight">
-                                    Entreprises
+                                    Modules
                                 </h2>
-                                 <AdminEntrepriseList/>
+                                 <AdminModuleList/>
                                 </div>
                             </div>
                             <Separator className="my-4"/>
@@ -47,7 +49,7 @@ export function ManageEntreprise(){
                             <TabsContent
                             value="add_entreprise">
                             <div className="space-y-1">
-                                <AddEntrepriseForm onFormSubmit={EntrepriseApi.create} />
+                                <AddModuleForm onFormSubmit={ModuleApi.create} /> 
                             </div>
                             <Separator className="my-4"/>
                             </TabsContent>

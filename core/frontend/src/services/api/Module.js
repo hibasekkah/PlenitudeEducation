@@ -1,6 +1,6 @@
 import { axiosUser } from "@/components/api/axios"
 
-const EntrepriseApi = {
+const ModuleApi = {
     create: async (payload)=>{
         return await axiosUser.post('/api/modules',payload)
     },
@@ -15,4 +15,4 @@ const EntrepriseApi = {
     },
 }
 
-export default EntrepriseApi
+export default ModuleApi

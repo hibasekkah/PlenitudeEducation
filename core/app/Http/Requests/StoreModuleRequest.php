@@ -26,6 +26,8 @@ class StoreModuleRequest extends FormRequest
             'duree' => 'required',
             'categorie' => 'required|string|max:200',
             'formation_id' => 'required',
+            'files'=>'sometimes|array',
+            'files.*' => 'required|file|mimes:pdf,jpg,png,zip,doc,docx',
             ];
     }
 }

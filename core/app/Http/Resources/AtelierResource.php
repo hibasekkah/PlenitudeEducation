@@ -14,6 +14,14 @@ class AtelierResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id'=>$this->id,
+            'type'=>$this->type,
+            'materiels'=>$this->materiels,
+            'observations'=>$this->observations,
+            'duree'=>$this->duree,
+            'lieu'=>$this->lieu,
+            'formation'=>$this->formation,
+        ];
     }
 }

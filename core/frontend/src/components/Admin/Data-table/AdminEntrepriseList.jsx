@@ -4,6 +4,8 @@ import EntrepriseApi from "../../../services/api/Entreprise";
 import {Button} from "@/components/ui/Button";
 import { ArrowUpDown } from "lucide-react";
 import {toast} from "sonner";
+import { format } from 'date-fns';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,6 +26,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import AddEntrepriseForm from "../Forms/AddEntrepriseForm";
+import { DataTableColumnHeader } from "../../data-table/DataTableColumnHeader";
 
 
 export default function AdminEntrepriseList(){
@@ -45,103 +48,97 @@ export default function AdminEntrepriseList(){
     accessorKey: "id",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          #ID
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <DataTableColumnHeader column={column} title="ID" />
       )
     },
+    displayName:"ID",
   },
   {
     accessorKey: "nom",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Nom de l'entreprise
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <DataTableColumnHeader column={column} title="Nom de l'entreprise" />
       )
     },
+    displayName:"Nom de l'entreprise",
   },
   {
     accessorKey: "secteur",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Secteur d'activité
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <DataTableColumnHeader column={column} title="Secteur d'activité" />
       )
     },
+    displayName:"Secteur d'activité",
   },
   {
     accessorKey: "email",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <DataTableColumnHeader column={column} title="Email" />
       )
     },
+    displayName:"Email",
   },
   {
     accessorKey: "telephone",
-    header: "Téléphone",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Téléphone" />
+      )
+    },
+    displayName:"Téléphone",
   },
   {
     accessorKey: "SIRET",
-    header: "SIRET",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="SIRET" />
+      )
+    },
+    displayName:"SIRET",
   },
   {
     accessorKey: "IF",
-    header: "IF",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="IF" />
+      )
+    },
+    displayName:"IF",
   },
   {
     accessorKey: "CNSS",
-    header: "CNSS",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="CNSS" />
+      )
+    },
+    displayName:"CNSS",
   },
   {
     accessorKey: "adresse",
-    header: "Adresse",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Adresse" />
+      )
+    },
+    displayName:"Adresse",
   },
   {
     accessorKey: "capital",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Capital
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <DataTableColumnHeader column={column} title="Capital" />
       )
     },
+    displayName:"Capital",
   },
   {
     accessorKey: "budget",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Budget
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <DataTableColumnHeader column={column} title="Budget" />
       )
     },
   },
@@ -149,57 +146,45 @@ export default function AdminEntrepriseList(){
     accessorKey: "priode",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Période de budget
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <DataTableColumnHeader column={column} title="Période" />
       )
     },
+    displayName:"Période",
   },
   {
     accessorKey: "debut_period",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Début de période
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <DataTableColumnHeader column={column} title="Date de début" />
       )
     },
+    displayName:"Date de début",
   },
   {
     accessorKey: "fin_period",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Fin de période
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <DataTableColumnHeader column={column} title="Date de fin" />
       )
     },
+    displayName:"Date de fin",
   },
   {
     accessorKey: "created_at",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          La date de création
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+        <DataTableColumnHeader column={column} title="La date de création" />
       )
     },
+    displayName:"La date de création",
+    cell:({row}) => {
+      const date = format(row.original.created_at,'dd/MM/yyyy HH:mm')
+      return (
+        <div className="flex flex-col space-y-2">
+          {date}
+        </div>
+      );
+    }
   },
   {
     id: "actions",
@@ -209,7 +194,7 @@ export default function AdminEntrepriseList(){
       return <>
         <Sheet>
           <SheetTrigger asChild>
-            <Button>Edit</Button>
+            <Button>Editer</Button>
           </SheetTrigger>
           
           <SheetContent className="flex flex-col">
@@ -236,7 +221,7 @@ export default function AdminEntrepriseList(){
           </AlertDialogTrigger>
           <AlertDialogContent>
               <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogTitle>Êtes-vous certain(e) de vouloir continuer ?</AlertDialogTitle>
               </AlertDialogHeader>
               <AlertDialogFooter>
               <AlertDialogCancel>Cancel</AlertDialogCancel>

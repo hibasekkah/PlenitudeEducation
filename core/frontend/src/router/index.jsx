@@ -18,6 +18,8 @@ import FormateurProfile from "../layouts/Formateur/Formateurprofile";
 import Layout from "../layouts/layout";
 import { ManageEntreprise } from "../components/Admin/pages/ManageEntreprise";
 import { ManageFormation } from "../components/Admin/pages/ManageFormation";
+import { ManageModule } from "../components/Admin/pages/ManageModule";
+import { ManageAtelier } from "../components/Admin/pages/ManageAtelier";
 
 export const LOGIN_ROUTE = '/login'
 export const ABOUT_ROUTE = '/about'
@@ -83,6 +85,14 @@ const router = createBrowserRouter([
           {
             path: "formation",
             element: <ManageFormation />,
+          },
+          {
+            path: "module",
+            element: <ManageModule />,
+          },
+          {
+            path: "atelier",
+            element: <ManageAtelier />,
           },
         ],
       },
