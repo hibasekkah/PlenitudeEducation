@@ -3,13 +3,15 @@ import {Button} from "../../components/ui/button.jsx";
 import {Link} from "react-router-dom";
 
 
-import {BookText , UserIcon,ChartNoAxesCombined,Building2, BookOpen, TestTube  } from "lucide-react";
+import {BookText , UserIcon,ChartNoAxesCombined,Building2, BookOpen, TestTube, BookCopy, Clock  } from "lucide-react";
 
 export function AdminSideBar({className}) {
-  const profile = "/admin/profile"
-  const fromation = "/admin/formation"
-  const module = "/admin/module"
-  const atelier = "/admin/atelier"
+  const profile = "/admin/profile";
+  const fromation = "/admin/formation";
+  const module = "/admin/module";
+  const atelier = "/admin/atelier";
+  const seance = "/admin/seance";
+  const session = "/admin/session";
   return (
     <div className={cn("pb-12", className)}>
       <div>
@@ -33,7 +35,7 @@ export function AdminSideBar({className}) {
             <Link to={fromation}>
               <Button variant="ghost" className="w-full justify-start">
                 <BookText  className="mr-2"/>
-                formations
+                Formations
               </Button>
             </Link>
             <Link to={module}>
@@ -46,6 +48,18 @@ export function AdminSideBar({className}) {
               <Button variant="ghost" className="w-full justify-start">
                 <TestTube  className="mr-2"/>
                 Ateliers
+              </Button>
+            </Link>
+            <Link to={session}>
+              <Button variant="ghost" className="w-full justify-start">
+                <BookCopy  className="mr-2"/>
+                Sessions
+              </Button>
+            </Link>
+            <Link to={seance}>
+              <Button variant="ghost" className="w-full justify-start">
+                <Clock  className="mr-2"/>
+                Seances
               </Button>
             </Link>
             <Link to={profile}>

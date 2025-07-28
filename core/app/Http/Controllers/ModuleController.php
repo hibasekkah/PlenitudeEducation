@@ -6,9 +6,11 @@ use App\Models\Module;
 use App\Http\Requests\StoreModuleRequest;
 use App\Http\Requests\UpdateModuleRequest;
 use App\Http\Resources\ModuleResource;
+use App\Models\File;
 use App\Models\Formation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ModuleController extends Controller
 {
@@ -70,12 +72,29 @@ class ModuleController extends Controller
     public function update(UpdateModuleRequest $request, Module $module)
     {
         $this->authorize('update', $module);
-        $formFields =$request->validated();
-        $module->update($formFields);
-        return response()->json([
-            'module' => new ModuleResource($module),
-            'message' => __('module updated successfully')
-            ]);
+        $validatedData = $request->validated();
+        DB::transaction(function () use ($module, $request, $validatedData) {
+            $module->update(collect($validatedData)->except(['files', 'files_to_delete'])->toArray());
+            if ($request->has('files_to_delete')) {
+                $filesToDeleteIds = $request->input('files_to_delete');
+                $files = File::whereIn('id', $filesToDeleteIds)->where('module_id', $module->id)->get();
+                foreach ($files as $file) {
+                    Storage::disk('public')->delete($file->file_path);
+                    $file->delete();
+                }
+            }
+            if ($request->hasFile('files')) {
+                foreach ($request->file('files') as $file) {
+                    $path = $file->store('files', 'public');
+                    $module->files()->create([
+                        'file_path' => $path,
+                        'file_nom' => $file->getClientOriginalName(),
+                        'size' => $file->getSize(),
+                    ]);
+                }
+            }
+        });
+        return response()->json(['message' => 'Module mis à jour avec succès.', 'module' => $module->fresh()->load('files')]);
     }
 
     /**

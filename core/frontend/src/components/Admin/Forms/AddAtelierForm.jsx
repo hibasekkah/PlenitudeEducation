@@ -27,8 +27,8 @@ import { useEffect, useState } from "react";
 import FormationApi from "../../../services/api/Formation";
 
 const formSchema = z.object({
-  type: z.string().min(2, { message: "L'intitule doit contenir au moins 2 caractères." }).max(100),
-  materiels: z.string().min(1, { message: "Les objectifs sont obligatoires." }),
+  type: z.string().min(2, { message: "Le type doit contenir au moins 2 caractères." }).max(100),
+  materiels: z.string().min(1, { message: "Les materiels sont obligatoires." }),
   lieu: z.string().min(1, { message: "Le lieu est obligatoire." }),
   observations: z.string().optional(),
   formation_id: z.coerce 
@@ -129,29 +129,21 @@ export default function AddAtelierForm({ onFormSubmit, initialData }) {
           <FormItem><FormLabel>observations</FormLabel><FormControl><Textarea placeholder="observations" className="resize-none" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormField control={form.control} name="duree" render={({ field }) => (
-          <FormItem><FormLabel>Durée</FormLabel><FormControl><Input type="number" placeholder="Durée" {...field} /></FormControl><FormMessage /></FormItem>
+          <FormItem><FormLabel>Durée (heurs)</FormLabel><FormControl><Input type="number" placeholder="Durée" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormField control={form.control} name="lieu" render={({ field }) => (
           <FormItem><FormLabel>lieu</FormLabel><FormControl><Input placeholder="lieu" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormField control={form.control} name="formation_id" render={({ field }) => (
-            <FormItem>
-              <FormLabel>Formation</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Choisir la formation" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {formationsdata.map((formation)=><SelectItem key={formation.id} value={String(formation.id)}>{formation.intitule}</SelectItem>)
-                  }
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormItem>
+            <FormLabel>Formation</FormLabel>
+            <Select onValueChange={field.onChange} defaultValue={String(field.value)}>
+              <FormControl><SelectTrigger><SelectValue placeholder="Choisir la formation" /></SelectTrigger></FormControl>
+              <SelectContent>{formationsdata.map((formation) => <SelectItem key={formation.id} value={String(formation.id)}>{formation.intitule}</SelectItem>)}</SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )} />
         <Button className={'mt-4'} type="submit" disabled={isSubmitting}>
           {isSubmitting && <Loader className={'mr-2 h-4 w-4 animate-spin'} />}
           {isUpdate ? 'Mettre à jour' : 'Créer'}

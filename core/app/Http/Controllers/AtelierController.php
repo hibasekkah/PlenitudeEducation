@@ -65,7 +65,6 @@ class AtelierController extends Controller
     public function destroy(Atelier $atelier)
     {
         $this->authorize('delete', $atelier);
-        $this->authorize('delete', $atelier);
         $atelier->delete();
         return response()->json([
             'atelier' => $atelier,

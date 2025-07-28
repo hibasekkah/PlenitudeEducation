@@ -1,6 +1,17 @@
 import { useAuth } from '@/provider/authProvider';
 import { Navigate } from 'react-router-dom';
 
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
+
 export default function Profile(){
 
     const {user } = useAuth();
@@ -9,7 +20,15 @@ export default function Profile(){
     }
 
     return <>
-        <div className="my-6 w-full overflow-y-auto">
+
+        <Card className="w-full max-w-sm">
+            <CardHeader>
+                <CardTitle>Profile</CardTitle>
+                <CardDescription>informations personnelles</CardDescription>
+                <CardAction>Editer Profile</CardAction>
+            </CardHeader>
+            <CardContent>
+                <div className="my-6 w-full overflow-y-auto">
             <table className="w-full">
                 <tbody>
                 <tr className="even:bg-muted m-0 border-t p-0">
@@ -47,6 +66,14 @@ export default function Profile(){
                 </tbody>
             </table>
             </div>
+            </CardContent>
+            <CardFooter className="flex-col gap-2">
+                <p>changer</p>
+            </CardFooter>
+        </Card>
+        
+
+        
     </>
 
 }

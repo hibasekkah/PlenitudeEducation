@@ -20,6 +20,8 @@ import { ManageEntreprise } from "../components/Admin/pages/ManageEntreprise";
 import { ManageFormation } from "../components/Admin/pages/ManageFormation";
 import { ManageModule } from "../components/Admin/pages/ManageModule";
 import { ManageAtelier } from "../components/Admin/pages/ManageAtelier";
+import { ManageSeance } from "../components/Admin/pages/ManageSeance";
+import { ManageSession } from "../components/Admin/pages/ManageSession";
 
 export const LOGIN_ROUTE = '/login'
 export const ABOUT_ROUTE = '/about'
@@ -27,7 +29,6 @@ export const CONTACT_ROUTE = '/contact'
 export const LOGOUT_ROUTE = '/logout'
 
 const UserDashboard = () => <div>dashbord</div>;
-const UserProfile = () => <div>Profil de l'Utilisateur</div>;
 const Logout = () => <div>Page de Déconnexion</div>;
 
 
@@ -93,6 +94,14 @@ const router = createBrowserRouter([
           {
             path: "atelier",
             element: <ManageAtelier />,
+          },
+          {
+            path: "Session",
+            element: <ManageSession />,
+          },
+          {
+            path: "seance",
+            element: <ManageSeance />,
           },
         ],
       },

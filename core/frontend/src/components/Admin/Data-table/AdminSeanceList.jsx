@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { DataTable } from "../../data-table/DataTable";
 import {Button} from "@/components/ui/Button";
+import { ArrowUpDown, DownloadIcon } from "lucide-react";
 import {toast} from "sonner";
 import { MoreHorizontal } from "lucide-react"
 import { DataTableColumnHeader } from "../../data-table/DataTableColumnHeader";
@@ -36,16 +37,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import AddModuleForm from "../Forms/AddModuleForm";
-import AtelierApi from "../../../services/api/Atelier";
-import AddAtelierForm from "../Forms/AddAtelierForm";
 
 
-export default function AdminAtelierList(){
+export default function AdminSeanceList(){
   const [data,setData] = useState([]);
   useEffect(() => {
     (async () => {
       try {
-        const response = await AtelierApi.all();
+        const response = await ModuleApi.all();
         console.log(response.data);
         setData(response.data.data);
       } catch (error) {
@@ -65,13 +64,13 @@ export default function AdminAtelierList(){
     displayName : "ID",
   },
   {
-    accessorKey: "type",
+    accessorKey: "titre",
     header: ({ column }) => {
       return (
-        <DataTableColumnHeader column={column} title="Type" />
+        <DataTableColumnHeader column={column} title="Titre" />
       )
     },
-    displayName : "Type",
+    displayName : "Titre",
   },
   {
     accessorKey: "duree",
@@ -83,31 +82,13 @@ export default function AdminAtelierList(){
     displayName : "Durée",
   },
   {
-    accessorKey: "materiels",
+    accessorKey: "categorie",
     header: ({ column }) => {
       return (
-        <DataTableColumnHeader column={column} title="Matériels" />
+        <DataTableColumnHeader column={column} title="Catégorie" />
       )
     },
-    displayName : "Matériels",
-  },
-  {
-    accessorKey: "observations",
-    header: ({ column }) => {
-      return (
-        <DataTableColumnHeader column={column} title="Observations" />
-      )
-    },
-    displayName : "Observations",
-  },
-  {
-    accessorKey: "lieu",
-    header: ({ column }) => {
-      return (
-        <DataTableColumnHeader column={column} title="Lieu" />
-      )
-    },
-    displayName : "Lieu",
+    displayName : "Catégorie",
   },
   {
     accessorKey: "formation_id",
@@ -125,6 +106,34 @@ export default function AdminAtelierList(){
       );
     },
     displayName : "Formation",
+  },
+  {
+    accessorKey: "files", 
+    header: "Fichiers",   
+    cell: ({ row }) => {
+      const files = row.original.files;
+      if (!files || files.length === 0) {
+        return <span>Aucun fichier</span>;
+      }
+      return (
+        <div className="flex flex-col space-y-2">
+          {files.map((file) => (
+            <a
+              key={file.id}
+              href={`${import.meta.env.VITE_BACKEND_URL}/storage/${file.file_path}`}
+              download={file.file_nom || 'document'} 
+              className="flex items-center text-blue-600 hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <DownloadIcon className="h-4 w-4 mr-2" />
+              {file.file_nom || 'Télécharger'} 
+            </a>
+          ))}
+        </div>
+      );
+    },
+    
   },
   {
     id: "actions",
@@ -155,9 +164,9 @@ export default function AdminAtelierList(){
 
                   <div className="flex-grow overflow-y-auto"> 
                     <ScrollArea className="h-full pr-4"> 
-                      <AddAtelierForm 
+                      <AddModuleForm 
                         initialData={row.original} 
-                        onFormSubmit={(formValues) => AtelierApi.update(row.original.id, formValues)}
+                        onFormSubmit={(formValues) => ModuleApi.update(row.original.id, formValues)}
                       />
                     </ScrollArea>
                   </div>
@@ -179,12 +188,12 @@ export default function AdminAtelierList(){
                     <AlertDialogAction onClick={async()=>{
                       try{
                         const deletingLoader = toast.loading('suppression en cours !!')
-                        const response = await AtelierApi.delete(id);
+                        const response = await ModuleApi.delete(id);
                         toast.dismiss(deletingLoader);
-                        setData(data.filter((Atelier)=>Atelier.id !== id));
-                        toast.success("Atelier supprimée avec succès !");}
+                        setData(data.filter((Module)=>Module.id !== id));
+                        toast.success("Module supprimée avec succès !");}
                         catch(error){
-                          toast.error("Erreur lors de la suppression de l'atelier.");
+                          toast.error("Erreur lors de la suppression du module.");
                           console.error(error);
                         }
                       }}>Continue</AlertDialogAction>
@@ -197,6 +206,8 @@ export default function AdminAtelierList(){
     },
   },
 ]
+
+
   return <>
       <DataTable columns={AdminModuleColumns} data={data}/>
     </>

@@ -69,7 +69,7 @@ class FormationController extends Controller
         }
         $aletiers = $formation->ateliers;
         foreach($aletiers as $aletier){
-            $aletiers->delete();
+            $aletier->delete();
         }
         $formation->delete();
         return response()->json([

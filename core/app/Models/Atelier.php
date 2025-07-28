@@ -11,14 +11,14 @@ class Atelier extends Model
 
     protected $fillable = [
         'type',
-        'Materiels',
-        'Observations',
+        'materiels',
+        'observations',
         'lieu',
         'duree',
         'formation_id',
     ];
 
-    public function formations(){
+    public function formation(){
         return $this->belongsTo(Formation::class);
     }
 

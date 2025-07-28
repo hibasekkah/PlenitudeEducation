@@ -11,7 +11,7 @@ const ModuleApi = {
         return await axiosUser.delete(`/api/modules/${id}`)
     },
     update: async (id,formData)=>{
-        return await axiosUser.put(`/api/modules/${id}`, formData)
+        return await axiosUser.post(`/api/modules/${id}`, formData)
     },
 }
 

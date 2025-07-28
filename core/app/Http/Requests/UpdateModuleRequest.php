@@ -23,9 +23,13 @@ class UpdateModuleRequest extends FormRequest
     {
         return [
             'titre' => 'sometimes|required|string|max:200',
-            'duree' => 'required',
+            'duree' => 'sometimes|required',
             'categorie' => 'sometimes|required|string|max:200',
             'formation_id' => 'sometimes|required',
+            'files' => 'sometimes|array',
+            'files.*' => 'sometimes|file',
+            'files_to_delete' => 'sometimes|array',
+            'files_to_delete.*' => 'sometimes|integer|exists:files,id',
         ];
     }
 }

@@ -208,7 +208,7 @@ export default function AdminFormationList(){
                         setData(data.filter((formation)=>formation.id !== id));
                         toast.success("Formation supprimée avec succès !");}
                         catch(error){
-                          toast.error("Erreur lors de la suppression de l'formation.");
+                          toast.error("Erreur lors de la suppression de la formation.");
                           console.error(error);
                         }
                       }}>Continue</AlertDialogAction>
