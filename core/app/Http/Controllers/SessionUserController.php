@@ -35,7 +35,7 @@ class SessionUserController extends Controller
 
         return response()->json([
             'session'=>$response,
-            'message'=>__('le participant et affecter')
+            'message'=>__('Le participant a été affecté avec succès à la session.')
         ]);
     }
 
@@ -56,7 +56,7 @@ class SessionUserController extends Controller
         $sessionUser->update($formfields);
         return response()->json([
             'session'=>$sessionUser,
-            'message'=>__('affectation updated successfully')
+            'message'=>__("L'affectation a été mise à jour avec succès.")
         ]);
     }
 
@@ -68,7 +68,7 @@ class SessionUserController extends Controller
         $sessionUser->delete();
         return response()->json([
             'sessionUser' => $sessionUser,
-            'message' => __('user deleted successfully from the session')
+            'message' => __("L'utilisateur a été supprimé avec succès de la session.")
             ]);
     }
 }

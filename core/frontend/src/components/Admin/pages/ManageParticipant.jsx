@@ -5,6 +5,8 @@ import AdminSessionList from "../Data-table/AdminSessionList";
 import SessionApi from "../../../services/api/Session";
 import AddSessionForm from "../Forms/AddSessionForm";
 import AdminParticipantList from "../Data-table/AdminParticipantList";
+import ParticipantInvitation from "../Forms/ParticipantInvitationSend";
+import ParticipantInvitationSend from "../Forms/ParticipantInvitationSend";
 
 
 export function ManageParticipant(){
@@ -16,17 +18,17 @@ export function ManageParticipant(){
                     <div className="grid">
                     <div className="col-span-3 lg:col-span-4">
                         <div className="h-full px-4 py-6 lg:px-8">
-                        <Tabs defaultValue="entreprise" className="h-full space-y-6">
+                        <Tabs defaultValue="participant" className="h-full space-y-6">
                             <div className="space-between flex items-center">
                             <TabsList>
-                                <TabsTrigger value="entreprise" className="relative">
+                                <TabsTrigger value="participant" className="relative">
                                 Participants
                                 </TabsTrigger>
-                                <TabsTrigger value="add_entreprise">Ajouter Participants</TabsTrigger>
+                                <TabsTrigger value="add_participant">Ajouter Participants</TabsTrigger>
                             </TabsList>
                             </div>
                             <TabsContent
-                            value="entreprise"
+                            value="participant"
                             className="border-none p-0 outline-none"
                             >
                             <div className="flex items-center justify-between">
@@ -47,9 +49,9 @@ export function ManageParticipant(){
                             </div>
                             </TabsContent>
                             <TabsContent
-                            value="add_entreprise">
+                            value="add_participant">
                             <div className="space-y-1">
-                                <AddSessionForm onFormSubmit={SessionApi.create} />
+                                <ParticipantInvitationSend />
                             </div>
                             <Separator className="my-4"/>
                             </TabsContent>

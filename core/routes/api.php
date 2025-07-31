@@ -47,6 +47,10 @@ Route::middleware('auth:api')->group(function () {
         'seances' => SeanceController::class,
     ]);
     Route::put('/user/update/{user}',[UserController::class,'update']);
+    Route::get('/user/participant',[UserController::class,'participant']);
+    Route::get('/user/rh',[UserController::class,'rh']);
+    Route::get('/user/formateur',[UserController::class,'formateur']);
+    Route::delete('/user/{user}',[UserController::class,'destroy']);
     Route::post('/module/{module}', [ModuleController::class, 'update']);
 });
 

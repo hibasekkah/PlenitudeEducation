@@ -28,7 +28,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import ModuleApi from "../../../services/api/Module";
 
 import {
   DropdownMenu,
@@ -38,7 +37,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import AddModuleForm from "../Forms/AddModuleForm";
+import AddSessionForm from "../Forms/AddSessionForm";
+import { SusSession } from "../Forms/SusSession";
+import { AnnulSession } from "../Forms/AnnulSession";
 
 
 export default function AdminSessionList(){
@@ -50,7 +51,7 @@ export default function AdminSessionList(){
         console.log(response.data);
         setData(response.data.data);
       } catch (error) {
-        console.error("Erreur lors de la récupération des formations:", error);
+        console.error("Erreur lors de la récupération des Sessions:", error);
       }
     })(); 
   }, []);
@@ -69,19 +70,19 @@ export default function AdminSessionList(){
     accessorKey: "date_debut",
     header: ({ column }) => {
       return (
-        <DataTableColumnHeader column={column} title="la date de début" />
+        <DataTableColumnHeader column={column} title="Date de début" />
       )
     },
-    displayName : "date de début",
+    displayName : "Date de début",
   },
   {
     accessorKey: "date_fin",
     header: ({ column }) => {
       return (
-        <DataTableColumnHeader column={column} title="la date de fin" />
+        <DataTableColumnHeader column={column} title="Date de fin" />
       )
     },
-    displayName : "date de fin",
+    displayName : "Date de fin",
   },
   {
     accessorKey: "observations",
@@ -139,19 +140,19 @@ export default function AdminSessionList(){
     accessorKey: "raison_sus",
     header: ({ column }) => {
       return (
-        <DataTableColumnHeader column={column} title="raison_sus" />
+        <DataTableColumnHeader column={column} title="Raison suspension" />
       )
     },
-    displayName : "raison_sus",
+    displayName : "Raison suspension",
   },
   {
     accessorKey: "raison_annulation",
     header: ({ column }) => {
       return (
-        <DataTableColumnHeader column={column} title="raison_annulation" />
+        <DataTableColumnHeader column={column} title="Raison annulation" />
       )
     },
-    displayName : "raison_annulation",
+    displayName : "Raison annulation",
   },
   {
     id: "actions",
@@ -180,9 +181,9 @@ export default function AdminSessionList(){
                     <SheetTitle>Mettre à jour</SheetTitle>
                   </SheetHeader>
 
-                  <div className="flex-grow overflow-y-auto"> 
+                  <div className="flex-grow overflow-y-auto m-1"> 
                     <ScrollArea className="h-full pr-4"> 
-                      <AddModuleForm 
+                      <AddSessionForm 
                         initialData={row.original} 
                         onFormSubmit={(formValues) => SessionApi.update(row.original.id, formValues)}
                       />
@@ -190,8 +191,10 @@ export default function AdminSessionList(){
                   </div>
                 </SheetContent>
               </Sheet>
+
+
               <AlertDialog>
-                <AlertDialogTrigger>
+                <AlertDialogTrigger asChild>
                   <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
                     supprimer
                   </DropdownMenuItem>
@@ -207,7 +210,7 @@ export default function AdminSessionList(){
                         const deletingLoader = toast.loading('suppression en cours !!')
                         const response = await SessionApi.delete(id);
                         toast.dismiss(deletingLoader);
-                        setData(data.filter((Module)=>Module.id !== id));
+                        setData(data.filter((Session)=>Session.id !== id));
                         toast.success("Session supprimée avec succès !");}
                         catch(error){
                           toast.error("Erreur lors de la suppression du Session.");
@@ -217,9 +220,64 @@ export default function AdminSessionList(){
                     </AlertDialogFooter>
                 </AlertDialogContent>
                 </AlertDialog>
-                <DropdownMenuItem>suspendre</DropdownMenuItem>
-                <DropdownMenuItem>reactiver</DropdownMenuItem>
-                <DropdownMenuItem>annuler</DropdownMenuItem>
+
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
+                      suspendre
+                    </DropdownMenuItem>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                      <AlertDialogHeader>
+                      <AlertDialogTitle>Indiquer la raison</AlertDialogTitle>
+                      </AlertDialogHeader>
+                      <SusSession/>
+                      <AlertDialogCancel>annuler</AlertDialogCancel>
+                  </AlertDialogContent>
+                  </AlertDialog>
+
+                  <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
+                      annuler
+                    </DropdownMenuItem>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                      <AlertDialogHeader>
+                      <AlertDialogTitle>Indiquer la raison</AlertDialogTitle>
+                      </AlertDialogHeader>
+                      <AnnulSession/>
+                      <AlertDialogCancel>annuler</AlertDialogCancel>
+                  </AlertDialogContent>
+                  </AlertDialog>
+                  
+                <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
+                    re activer
+                  </DropdownMenuItem>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                    <AlertDialogHeader>
+                    <AlertDialogTitle>Êtes-vous certain(e) de vouloir continuer ?</AlertDialogTitle>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                    <AlertDialogCancel>Annuler</AlertDialogCancel>
+                    <AlertDialogAction onClick={async()=>{
+                      try{
+                        const deletingLoader = toast.loading('reactivation en cours !!')
+                        const response = await SessionApi.reactiver(id);
+                        toast.dismiss(deletingLoader);
+                        setData(data.filter((Session)=>Session.id !== id));
+                        toast.success("reactiver avec succès !");}
+                        catch(error){
+                          toast.error("Erreur lors de la reactivation du session.");
+                          console.error(error);
+                        }
+                      }}>Continue</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+                </AlertDialog>
           </DropdownMenuContent>
         </DropdownMenu>
       )

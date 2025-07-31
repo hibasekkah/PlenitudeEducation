@@ -26,7 +26,7 @@ class SeanceController extends Controller
         $seance = Seance::create($formfields);
         $response  = new SeanceResource($seance);
         return response()->json([
-            'message'=>__('seance created successfully'),
+            'message'=>__('La séance a été créée avec succès.'),
             'seance'=>$response
         ]);
     }
@@ -48,7 +48,7 @@ class SeanceController extends Controller
         $seance->update($formfields);
         $response  = new SeanceResource($seance);
         return response()->json([
-            'message' => __('seance updated successfully'),
+            'message' => __('La séance a été mise à jour avec succès.'),
             'seance' => $response
         ]);
     }
@@ -60,7 +60,7 @@ class SeanceController extends Controller
     {
         $seance->delete();
         return response()->json([
-            'message' => __('seance deleted successfully'),
+            'message' => __('La séance a été supprimée avec succès.'),
             'seance' => $seance
         ]);
     }

@@ -205,7 +205,7 @@ export default function AdminEntrepriseList(){
               </SheetDescription>
             </SheetHeader>
 
-            <div className="flex-grow overflow-y-auto"> 
+            <div className="flex-grow overflow-y-auto m-1"> 
               <ScrollArea className="h-full pr-4"> 
                 <AddEntrepriseForm 
                   initialData={row.original} 

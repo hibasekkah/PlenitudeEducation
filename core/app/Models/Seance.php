@@ -32,6 +32,6 @@ class Seance extends Model
     }
 
     public function formateur(){
-        return $this->belongsTo(Formateur::class);
+        return $this->belongsTo(User::class);
     }
 }

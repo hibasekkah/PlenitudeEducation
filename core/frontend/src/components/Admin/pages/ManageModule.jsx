@@ -14,17 +14,17 @@ export function ManageModule(){
                     <div className="grid">
                     <div className="col-span-3 lg:col-span-4">
                         <div className="h-full px-4 py-6 lg:px-8">
-                        <Tabs defaultValue="entreprise" className="h-full space-y-6">
+                        <Tabs defaultValue="module" className="h-full space-y-6">
                             <div className="space-between flex items-center">
                             <TabsList>
-                                <TabsTrigger value="entreprise" className="relative">
+                                <TabsTrigger value="module" className="relative">
                                 Modules
                                 </TabsTrigger>
-                                <TabsTrigger value="add_entreprise">Crée Module</TabsTrigger>
+                                <TabsTrigger value="add_module">Crée Module</TabsTrigger>
                             </TabsList>
                             </div>
                             <TabsContent
-                            value="entreprise"
+                            value="module"
                             className="border-none p-0 outline-none"
                             >
                             <div className="flex items-center justify-between">
@@ -45,7 +45,7 @@ export function ManageModule(){
                             </div>
                             </TabsContent>
                             <TabsContent
-                            value="add_entreprise">
+                            value="add_module">
                             <div className="space-y-1">
                                 <AddModuleForm onFormSubmit={ModuleApi.create} /> 
                             </div>

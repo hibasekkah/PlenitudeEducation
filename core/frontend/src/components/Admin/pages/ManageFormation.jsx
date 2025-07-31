@@ -14,17 +14,17 @@ export function ManageFormation(){
                     <div className="grid">
                     <div className="col-span-3 lg:col-span-4">
                         <div className="h-full px-4 py-6 lg:px-8">
-                        <Tabs defaultValue="entreprise" className="h-full space-y-6">
+                        <Tabs defaultValue="formation" className="h-full space-y-6">
                             <div className="space-between flex items-center">
                             <TabsList>
-                                <TabsTrigger value="entreprise" className="relative">
+                                <TabsTrigger value="formation" className="relative">
                                 Formations
                                 </TabsTrigger>
-                                <TabsTrigger value="add_entreprise">Crée formation</TabsTrigger>
+                                <TabsTrigger value="add_formation">Crée formation</TabsTrigger>
                             </TabsList>
                             </div>
                             <TabsContent
-                            value="entreprise"
+                            value="formation"
                             className="border-none p-0 outline-none"
                             >
                             <div className="flex items-center justify-between">
@@ -45,7 +45,7 @@ export function ManageFormation(){
                             </div>
                             </TabsContent>
                             <TabsContent
-                            value="add_entreprise">
+                            value="add_formation">
                             <div className="space-y-1">
                                 <AddFormationForm onFormSubmit={FormationApi.create} /> 
                             </div>

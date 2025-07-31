@@ -31,7 +31,7 @@ class FormationController extends Controller
         $response = new FormationResource($formation);
         return response()->json([
             'formation' => $response,
-            'message' => __('formation created successfully')
+            'message' => __('La formation a été créée avec succès.')
             ]);
     }
 
@@ -53,7 +53,7 @@ class FormationController extends Controller
         $formation->update($request->validated());
         return response()->json([
             'entreprise' => new FormationResource($formation),
-            'message' => __('formation updated successfully')
+            'message' => __('La formation a été mise à jour avec succès.')
             ]);
     }
 
@@ -74,7 +74,7 @@ class FormationController extends Controller
         $formation->delete();
         return response()->json([
             'formation' => $formation,
-            'message' => __('formation deleted successfully')
+            'message' => __('La formation a été supprimée avec succès.')
             ]); 
     }
 }

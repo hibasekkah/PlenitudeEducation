@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import ProfileApi from "../../../services/api/Profile";
 import { toast } from "sonner";
 import { Loader } from "lucide-react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const formSchema = z.object({
@@ -20,6 +20,7 @@ const formSchema = z.object({
   });
 
 export function ChangePassword() {
+    const navigate = useNavigate();
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -41,7 +42,9 @@ export function ChangePassword() {
         try {
             const response = await ProfileApi.password(formData);
             toast.success(response.data.message || "Mot de passe mis à jour avec succès !");  
-            //<Navigate to="/admin/dashboard" replace />          
+            setTimeout(() => {
+                navigate('/login');
+            }, 2000);          
         } catch (error) {
             console.error("Échec de la soumission du formulaire:", error.response || error);
             if (error.response?.status === 422 && error.response.data.errors) {

@@ -4,9 +4,14 @@ import {ScrollArea,ScrollBar} from "@/components/ui/scroll-area.jsx";
 import AdminSessionList from "../Data-table/AdminSessionList";
 import SessionApi from "../../../services/api/Session";
 import AddSessionForm from "../Forms/AddSessionForm";
+import { useCallback } from "react";
 
 
 export function ManageSession(){
+    const handleCreateSubmit = useCallback(async (values) => {
+        console.log("handleCreateSubmit a été appelé !");
+        return SessionApi.create(values);
+    }, []);
     return <>
         <div className="relative overflow-x-auto">
             <div className="hidden md:block">
@@ -15,17 +20,17 @@ export function ManageSession(){
                     <div className="grid">
                     <div className="col-span-3 lg:col-span-4">
                         <div className="h-full px-4 py-6 lg:px-8">
-                        <Tabs defaultValue="entreprise" className="h-full space-y-6">
+                        <Tabs defaultValue="session" className="h-full space-y-6">
                             <div className="space-between flex items-center">
                             <TabsList>
-                                <TabsTrigger value="entreprise" className="relative">
+                                <TabsTrigger value="session" className="relative">
                                 Sessions
                                 </TabsTrigger>
-                                <TabsTrigger value="add_entreprise">Crée Sessions</TabsTrigger>
+                                <TabsTrigger value="add_session">Crée Sessions</TabsTrigger>
                             </TabsList>
                             </div>
                             <TabsContent
-                            value="entreprise"
+                            value="session"
                             className="border-none p-0 outline-none"
                             >
                             <div className="flex items-center justify-between">
@@ -46,9 +51,9 @@ export function ManageSession(){
                             </div>
                             </TabsContent>
                             <TabsContent
-                            value="add_entreprise">
+                            value="add_session">
                             <div className="space-y-1">
-                                <AddSessionForm onFormSubmit={SessionApi.create} />
+                                <AddSessionForm onFormSubmit={handleCreateSubmit} />
                             </div>
                             <Separator className="my-4"/>
                             </TabsContent>

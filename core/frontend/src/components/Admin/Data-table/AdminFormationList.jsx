@@ -177,7 +177,7 @@ export default function AdminFormationList(){
                     </SheetDescription>
                   </SheetHeader>
 
-                  <div className="flex-grow overflow-y-auto"> 
+                  <div className="flex-grow overflow-y-auto m-1"> 
                     <ScrollArea className="h-full pr-4"> 
                       <AddFormationForm 
                         initialData={row.original} 

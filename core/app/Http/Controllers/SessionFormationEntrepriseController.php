@@ -28,7 +28,7 @@ class SessionFormationEntrepriseController extends Controller
         $response = new SessionFormationEntrepriseResource($session);
         return response()->json([
             'session'=>$response,
-            'message'=>__('sessionFormationEntreprise created successfully')
+            'message'=>__('La session a été créée avec succès.')
         ]);
     }
 
@@ -39,7 +39,7 @@ class SessionFormationEntrepriseController extends Controller
     {
          return response()->json([
             'session'=>$sessionFormationEntreprise->id,
-            'message'=>__('sessionFormationEntreprise created successfully')
+            'message'=>__('La session a été créée avec succès.')
         ]); 
     }
 
@@ -54,7 +54,7 @@ class SessionFormationEntrepriseController extends Controller
         //$response = new SessionFormationEntrepriseResource($sessionFormationEntreprise);
         return response()->json([
             'session'=>$sessionFormationEntreprise,
-            'message'=>__('sessionFormationEntreprise updated successfully')
+            'message'=>__('La session a été mise à jour avec succès.')
         ]);
     }
 
@@ -66,7 +66,7 @@ class SessionFormationEntrepriseController extends Controller
         $sessionFormationEntreprise->delete();
         return response()->json([
             'sessionFormationEntreprise' => $sessionFormationEntreprise,
-            'message' => __('sessionFormationEntreprise deleted successfully')
+            'message' => __('La session a été supprimée avec succès.')
             ]); 
     }
 
@@ -82,7 +82,7 @@ class SessionFormationEntrepriseController extends Controller
         //$response = new SessionFormationEntrepriseResource($sessionFormationEntreprise);
         return response()->json([
             'session'=>$sessionFormationEntreprise,
-            'message'=>__('sessionFormationEntreprise suspendre successfully')
+            'message'=>__('La session a été suspendue avec succès.')
         ]);
     }
 
@@ -98,7 +98,7 @@ class SessionFormationEntrepriseController extends Controller
         //$response = new SessionFormationEntrepriseResource($sessionFormationEntreprise);
         return response()->json([
             'session'=>$sessionFormationEntreprise,
-            'message'=>__('sessionFormationEntreprise annuler successfully')
+            'message'=>__('La session a été annulée avec succès.')
         ]);
     }
 
@@ -111,7 +111,7 @@ class SessionFormationEntrepriseController extends Controller
         //$response = new SessionFormationEntrepriseResource($sessionFormationEntreprise);
         return response()->json([
             'session'=>$sessionFormationEntreprise,
-            'message'=>__('sessionFormationEntreprise activer successfully')
+            'message'=>__('La session a été réactivée avec succès.')
         ]);
     }
 

@@ -90,11 +90,16 @@ class User extends Authenticatable implements JWTSubject
 
     public function entreprise()
     {
-        return $this->belongsTo(Entreprise::class, 'entrprise_id');
+        return $this->belongsTo(Entreprise::class, 'entreprise_id');
     }
 
     public function seances()
     {
         return $this->hasMany(Seance::class);
+    }
+
+    public function participants(){
+        $Participants = User::where('role','participant')->get();
+        return $Participants;
     }
 }

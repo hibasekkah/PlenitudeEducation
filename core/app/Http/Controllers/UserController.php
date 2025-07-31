@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -66,7 +65,7 @@ class UserController extends Controller
         $response = new UserResource($user);
         return response()->json([
             'user' => $response,
-            'message' => __('user updated successfully')
+            'message' => __("L'utilisateur a été mis à jour avec succès.")
             ]);
     }
 
@@ -77,8 +76,8 @@ class UserController extends Controller
     {
         $user->delete();
         return response()->json([
-            'entreprise' => $user,
-            'message' => __('user deleted successfully')
+            'user' => $user,
+            'message' => __("L'utilisateur a été supprimé avec succès.")
             ]); 
     }
 
@@ -93,9 +92,9 @@ class UserController extends Controller
         if(!Hash::check($request->current_password,$user->password)){
 
             return response()->json([
-                'message' => 'The provided password does not match your current password.',
+                'message' => 'Le mot de passe fourni ne correspond pas à votre mot de passe actuel.',
                 'errors' => [
-                    'current_password' => ['The provided password does not match your current password.']
+                    'current_password' => ['Le mot de passe fourni ne correspond pas à votre mot de passe actuel.']
                 ]
             ], 422);
         }
@@ -105,7 +104,7 @@ class UserController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Password updated successfully.',
+            'message' => 'Mot de passe mis à jour avec succès.',
         ]);
 
     }
@@ -130,8 +129,23 @@ class UserController extends Controller
         $response = new UserResource($user);
         return response()->json([
             'user' => $response,
-            'message' => __('user updated successfully')
+            'message' => __("L'utilisateur a été mis à jour avec succès.")
             ]);
 
+    }
+
+    public function participant(){
+        $Participants = User::where('role','participant')->get();
+        return UserResource::collection($Participants);
+    }
+
+    public function rh(){
+        $rh = User::where('role','rh')->get();
+        return UserResource::collection($rh);
+    }
+
+    public function formateur(){
+        $formateur = User::where('role','formateur')->get();
+        return UserResource::collection($formateur);
     }
 }

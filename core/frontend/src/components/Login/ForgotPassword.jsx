@@ -81,7 +81,7 @@ export default function ForgotPassword(){
                   )}
                 />
                 <Button disabled={form.formState.isSubmitting} type="submit">
-                  {form.formState.isSubmitting && <Loader className={"mx-2 my-2 animate-spin"}/>} {' '}se connecter</Button>
+                  {form.formState.isSubmitting && <Loader className={"mx-2 my-2 animate-spin"}/>} {' '}Valider</Button>
               </form>
             </Form>
           </CardContent>

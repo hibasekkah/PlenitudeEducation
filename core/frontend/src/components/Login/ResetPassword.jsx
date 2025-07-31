@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { axiosUser } from "../api/axios" // Assurez-vous que le chemin est correct
+import { axiosUser } from "../api/axios" 
 import { Loader } from "lucide-react"
 import {
   Card,
@@ -38,9 +38,8 @@ export default function ResetPassword() {
     const email = searchParams.get('email');
     const navigate = useNavigate();
 
-    // 4. Simplify destructuring
     const form = useForm({
-        resolver: zodResolver(formSchema), // <-- 3. Use the correct schema name
+        resolver: zodResolver(formSchema), 
         defaultValues: {
             password: "",
             password_confirmation: "",

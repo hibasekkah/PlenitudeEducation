@@ -27,6 +27,7 @@ import ForgotPassword from "../components/Login/ForgotPassword";
 import ResetPassword from "../components/Login/ResetPassword";
 import { ManageRH } from "../components/Admin/pages/ManageRH";
 import { ManageFormateur } from "../components/Admin/pages/ManageFormateur";
+import { ParticipantInvitationRegister } from "../components/Participant/ParticipantInvitationRegister";
 
 export const LOGIN_ROUTE = '/login'
 export const ABOUT_ROUTE = '/about'
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: "password-reset/:token",
         element: <ResetPassword />,
+      },
+      {
+        path: "register/invite/:token",
+        element: <ParticipantInvitationRegister />,
       },
       {
         element: <LoginRedirect />,

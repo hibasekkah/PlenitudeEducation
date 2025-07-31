@@ -162,7 +162,7 @@ export default function AdminModuleList(){
                     <SheetTitle>Mettre à jour</SheetTitle>
                   </SheetHeader>
 
-                  <div className="flex-grow overflow-y-auto"> 
+                  <div className="flex-grow overflow-y-auto m-1"> 
                     <ScrollArea className="h-full pr-4"> 
                       <AddModuleForm 
                         initialData={row.original} 

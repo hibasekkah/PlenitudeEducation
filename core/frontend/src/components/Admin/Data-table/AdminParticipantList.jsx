@@ -28,7 +28,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import ModuleApi from "../../../services/api/Module";
 
 import {
   DropdownMenu,
@@ -39,6 +38,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import AddModuleForm from "../Forms/AddModuleForm";
+import ParticipantApi from "../../../services/api/Participant";
+import { EditParticipantForm } from "../Forms/EditParticipantForm";
 
 
 export default function AdminParticipantList(){
@@ -46,16 +47,16 @@ export default function AdminParticipantList(){
   useEffect(() => {
     (async () => {
       try {
-        const response = await SessionApi.all();
+        const response = await ParticipantApi.all();
         console.log(response.data);
         setData(response.data.data);
       } catch (error) {
-        console.error("Erreur lors de la récupération des formations:", error);
+        console.error("Erreur lors de la récupération des Participants:", error);
       }
     })(); 
   }, []);
 
-  const  AdminModuleColumns = [
+  const  AdminParticipantColumns = [
   {
     accessorKey: "id",
     header: ({ column }) => {
@@ -154,11 +155,10 @@ export default function AdminParticipantList(){
                     <SheetTitle>Mettre à jour</SheetTitle>
                   </SheetHeader>
 
-                  <div className="flex-grow overflow-y-auto"> 
+                  <div className="flex-grow overflow-y-auto m-1"> 
                     <ScrollArea className="h-full pr-4"> 
-                      <AddModuleForm 
+                      <EditParticipantForm 
                         initialData={row.original} 
-                        onFormSubmit={(formValues) => SessionApi.update(row.original.id, formValues)}
                       />
                     </ScrollArea>
                   </div>
@@ -179,21 +179,18 @@ export default function AdminParticipantList(){
                     <AlertDialogAction onClick={async()=>{
                       try{
                         const deletingLoader = toast.loading('suppression en cours !!')
-                        const response = await SessionApi.delete(id);
+                        const response = await ParticipantApi.delete(id);
                         toast.dismiss(deletingLoader);
-                        setData(data.filter((Module)=>Module.id !== id));
-                        toast.success("Session supprimée avec succès !");}
+                        setData(data.filter((Participant)=>Participant.id !== id));
+                        toast.success("Participant supprimée avec succès !");}
                         catch(error){
-                          toast.error("Erreur lors de la suppression du Session.");
+                          toast.error("Erreur lors de la suppression du Participant.");
                           console.error(error);
                         }
                       }}>Continue</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
                 </AlertDialog>
-                <DropdownMenuItem>suspendre</DropdownMenuItem>
-                <DropdownMenuItem>reactiver</DropdownMenuItem>
-                <DropdownMenuItem>annuler</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
@@ -203,7 +200,7 @@ export default function AdminParticipantList(){
 
 
   return <>
-      <DataTable columns={AdminModuleColumns} data={data}/>
+      <DataTable columns={AdminParticipantColumns} data={data}/>
     </>
 }
 

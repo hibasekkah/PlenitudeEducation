@@ -22,12 +22,12 @@ class StoreModuleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'titre' => 'required|string|max:200',
+            'titre' => 'required|string|max:200|unique:modules,titre',
             'duree' => 'required',
             'categorie' => 'required|string|max:200',
             'formation_id' => 'required',
             'files'=>'sometimes|array',
-            'files.*' => 'required|file|mimes:pdf,jpg,png,zip,doc,docx',
+            'files.*' => 'required|file',
             ];
     }
 }

@@ -23,6 +23,7 @@ const formSchema = z.object({
   entreprise_id: z.coerce.number().int().positive("Veuillez sélectionner une entreprise."),
 });
 
+
 export default function SessionForm({ onFormSubmit, initialData = null }) {
   const isUpdate = !!initialData;
 
@@ -63,6 +64,7 @@ export default function SessionForm({ onFormSubmit, initialData = null }) {
 
 
   const onSubmit = async (values) => {
+    console.log("Étape 3 : onSubmit est appelé DANS le formulaire avec les valeurs :", values);
     const loaderMsg = isUpdate ? "Mise à jour en cours..." : "Ajout en cours...";
     const loader = toast.loading(loaderMsg);
 
@@ -116,7 +118,7 @@ export default function SessionForm({ onFormSubmit, initialData = null }) {
           <FormItem><FormLabel>Date de Fin</FormLabel><FormControl><Input type="date" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormField control={form.control} name="observations" render={({ field }) => (
-          <FormItem><FormLabel>Observations</FormLabel><FormControl><Textarea placeholder="observations" className="resize-none" {...field} /></FormControl><FormMessage /></FormItem>
+          <FormItem><FormLabel>Observations</FormLabel><FormControl><Textarea placeholder="Observations" className="resize-none" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormField control={form.control} name="formation_id" render={({ field }) => (
           <FormItem>

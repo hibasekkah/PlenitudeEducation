@@ -1,11 +1,10 @@
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
 import {Separator} from "@/components/ui/separator.jsx";
 import {ScrollArea,ScrollBar} from "@/components/ui/scroll-area.jsx";
-import AdminSessionList from "../Data-table/AdminSessionList";
 import SessionApi from "../../../services/api/Session";
 import AddSessionForm from "../Forms/AddSessionForm";
-import AdminParticipantList from "../Data-table/AdminParticipantList";
 import AdminFormateurList from "../Data-table/AdminFormateurList";
+import FormateurInvitationSend from "../Forms/FormateurInvitationSend";
 
 
 export function ManageFormateur(){
@@ -17,17 +16,17 @@ export function ManageFormateur(){
                     <div className="grid">
                     <div className="col-span-3 lg:col-span-4">
                         <div className="h-full px-4 py-6 lg:px-8">
-                        <Tabs defaultValue="entreprise" className="h-full space-y-6">
+                        <Tabs defaultValue="formateur" className="h-full space-y-6">
                             <div className="space-between flex items-center">
                             <TabsList>
-                                <TabsTrigger value="entreprise" className="relative">
+                                <TabsTrigger value="formateur" className="relative">
                                 Formateurs
                                 </TabsTrigger>
-                                <TabsTrigger value="add_entreprise">Ajouter Formateurs</TabsTrigger>
+                                <TabsTrigger value="add_formateur">Ajouter Formateurs</TabsTrigger>
                             </TabsList>
                             </div>
                             <TabsContent
-                            value="entreprise"
+                            value="formateur"
                             className="border-none p-0 outline-none"
                             >
                             <div className="flex items-center justify-between">
@@ -48,9 +47,9 @@ export function ManageFormateur(){
                             </div>
                             </TabsContent>
                             <TabsContent
-                            value="add_entreprise">
+                            value="add_formateur">
                             <div className="space-y-1">
-                                <AddSessionForm onFormSubmit={SessionApi.create} />
+                                <FormateurInvitationSend />
                             </div>
                             <Separator className="my-4"/>
                             </TabsContent>

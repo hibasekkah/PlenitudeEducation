@@ -32,7 +32,7 @@ class AtelierController extends Controller
         $response = new AtelierResource($atelier);
         return response()->json([
             'atelier' => $response,
-            'message' => __('atelier created successfully')
+            'message' => __('Atelier créé avec succès')
             ]);
     }
 
@@ -55,7 +55,7 @@ class AtelierController extends Controller
         $atelier->update($formFields);
         return response()->json([
             'atelier' => new AtelierResource($atelier),
-            'message' => __('atelier updated successfully')
+            'message' => __('Atelier mis à jour avec succès')
             ]);
     }
 
@@ -68,7 +68,7 @@ class AtelierController extends Controller
         $atelier->delete();
         return response()->json([
             'atelier' => $atelier,
-            'message' => __('atelier deleted successfully')
+            'message' => __('Atelier supprimé avec succès')
             ]); 
     }
 }

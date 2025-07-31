@@ -4,6 +4,7 @@ import {ScrollArea,ScrollBar} from "@/components/ui/scroll-area.jsx";
 import AtelierApi from "../../../services/api/Atelier";
 import AdminAtelierList from "../Data-table/AdminAtelierList";
 import AddAtelierForm from "../Forms/AddAtelierForm";
+import AdminSeanceList from "../Data-table/AdminSeanceList";
 
 export function ManageSeance(){
     return <>
@@ -14,17 +15,17 @@ export function ManageSeance(){
                     <div className="grid">
                     <div className="col-span-3 lg:col-span-4">
                         <div className="h-full px-4 py-6 lg:px-8">
-                        <Tabs defaultValue="entreprise" className="h-full space-y-6">
+                        <Tabs defaultValue="seance" className="h-full space-y-6">
                             <div className="space-between flex items-center">
                             <TabsList>
-                                <TabsTrigger value="entreprise" className="relative">
+                                <TabsTrigger value="seance" className="relative">
                                 Seances
                                 </TabsTrigger>
-                                <TabsTrigger value="add_entreprise">Crée Seances</TabsTrigger>
+                                <TabsTrigger value="add_seance">Crée Seances</TabsTrigger>
                             </TabsList>
                             </div>
                             <TabsContent
-                            value="entreprise"
+                            value="seance"
                             className="border-none p-0 outline-none"
                             >
                             <div className="flex items-center justify-between">
@@ -32,7 +33,7 @@ export function ManageSeance(){
                                 <h2 className="text-2xl font-semibold tracking-tight">
                                     Seances
                                 </h2>
-                                 {/* <AdminAtelierList/> */}
+                                 <AdminSeanceList/>
                                 </div>
                             </div>
                             <Separator className="my-4"/>
@@ -45,7 +46,7 @@ export function ManageSeance(){
                             </div>
                             </TabsContent>
                             <TabsContent
-                            value="add_entreprise">
+                            value="add_seance">
                             <div className="space-y-1">
                                 {/* <AddAtelierForm onFormSubmit={AtelierApi.create} />  */}
                             </div>

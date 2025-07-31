@@ -7,7 +7,6 @@ use App\Http\Requests\StoreModuleRequest;
 use App\Http\Requests\UpdateModuleRequest;
 use App\Http\Resources\ModuleResource;
 use App\Models\File;
-use App\Models\Formation;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -51,7 +50,7 @@ class ModuleController extends Controller
 
         $response = new ModuleResource($module);
         return response()->json([
-            'message'=>__('module created successfully'),
+            'message'=>__('Le module a été créé avec succès.'),
             'module'=>$response,
         ]);
     }
@@ -103,10 +102,15 @@ class ModuleController extends Controller
     public function destroy(Module $module)
     {
         $this->authorize('delete', $module);
+        $files = $module->files;
+        foreach($files as $file){
+            Storage::disk('public')->delete($file->file_path);
+            $file->delete();
+        }
         $module->delete();
         return response()->json([
             'module' => $module,
-            'message' => __('module deleted successfully')
+            'message' => __('Le module a été supprimé avec succès.')
             ]); 
     }
 }

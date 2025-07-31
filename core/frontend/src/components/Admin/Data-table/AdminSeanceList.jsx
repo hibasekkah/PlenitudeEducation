@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { DataTable } from "../../data-table/DataTable";
 import {Button} from "@/components/ui/Button";
-import { ArrowUpDown, DownloadIcon } from "lucide-react";
+import { DownloadIcon } from "lucide-react";
 import {toast} from "sonner";
 import { MoreHorizontal } from "lucide-react"
 import { DataTableColumnHeader } from "../../data-table/DataTableColumnHeader";
@@ -64,37 +64,91 @@ export default function AdminSeanceList(){
     displayName : "ID",
   },
   {
-    accessorKey: "titre",
+    accessorKey: "date",
     header: ({ column }) => {
       return (
-        <DataTableColumnHeader column={column} title="Titre" />
+        <DataTableColumnHeader column={column} title="Date" />
       )
     },
-    displayName : "Titre",
+    displayName : "Date",
   },
   {
-    accessorKey: "duree",
+    accessorKey: "heure_debut",
     header: ({ column }) => {
       return (
-        <DataTableColumnHeader column={column} title="Durée" />
+        <DataTableColumnHeader column={column} title="Debut" />
       )
     },
-    displayName : "Durée",
+    displayName : "Debut",
   },
   {
-    accessorKey: "categorie",
+    accessorKey: "heure_fin",
     header: ({ column }) => {
       return (
-        <DataTableColumnHeader column={column} title="Catégorie" />
+        <DataTableColumnHeader column={column} title="Fin" />
       )
     },
-    displayName : "Catégorie",
+    displayName : "Fin",
   },
   {
-    accessorKey: "formation_id",
+    accessorKey: "etat",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Etat" />
+      )
+    },
+    displayName : "Etat",
+  },
+  {
+    accessorKey: "Observations",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Observations" />
+      )
+    },
+    displayName : "Observations",
+  },
+  {
+    accessorKey: "Session_id",
     header: ({ column }) => {
       return (
         <DataTableColumnHeader column={column} title="Formation" />
+      )
+    },
+    displayName : "Formation",
+  },
+  {
+    accessorKey: "Session_id",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Entreprise" />
+      )
+    },
+    displayName : "Entreprise",
+  },
+  {
+    accessorKey: "module_id",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Module" />
+      )
+    },
+    displayName : "Module",
+  },
+  {
+    accessorKey: "atelier_id",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Atelier" />
+      )
+    },
+    displayName : "Atelier",
+  },
+  {
+    accessorKey: "formateur_id",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Formateur" />
       )
     },
     cell: ({ row }) => {
@@ -105,35 +159,7 @@ export default function AdminSeanceList(){
         </div>
       );
     },
-    displayName : "Formation",
-  },
-  {
-    accessorKey: "files", 
-    header: "Fichiers",   
-    cell: ({ row }) => {
-      const files = row.original.files;
-      if (!files || files.length === 0) {
-        return <span>Aucun fichier</span>;
-      }
-      return (
-        <div className="flex flex-col space-y-2">
-          {files.map((file) => (
-            <a
-              key={file.id}
-              href={`${import.meta.env.VITE_BACKEND_URL}/storage/${file.file_path}`}
-              download={file.file_nom || 'document'} 
-              className="flex items-center text-blue-600 hover:underline"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <DownloadIcon className="h-4 w-4 mr-2" />
-              {file.file_nom || 'Télécharger'} 
-            </a>
-          ))}
-        </div>
-      );
-    },
-    
+    displayName : "Formateur",
   },
   {
     id: "actions",
@@ -162,7 +188,7 @@ export default function AdminSeanceList(){
                     <SheetTitle>Mettre à jour</SheetTitle>
                   </SheetHeader>
 
-                  <div className="flex-grow overflow-y-auto"> 
+                  <div className="flex-grow overflow-y-auto m-1"> 
                     <ScrollArea className="h-full pr-4"> 
                       <AddModuleForm 
                         initialData={row.original} 

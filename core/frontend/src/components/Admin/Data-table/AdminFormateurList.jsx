@@ -39,6 +39,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import AddModuleForm from "../Forms/AddModuleForm";
+import FormateurApi from "../../../services/api/Formateur";
+import { EditFormateurForm } from "../Forms/EditFormateurForm";
 
 
 export default function AdminFormateurList(){
@@ -46,7 +48,7 @@ export default function AdminFormateurList(){
   useEffect(() => {
     (async () => {
       try {
-        const response = await SessionApi.all();
+        const response = await FormateurApi.all();
         console.log(response.data);
         setData(response.data.data);
       } catch (error) {
@@ -137,11 +139,10 @@ export default function AdminFormateurList(){
                     <SheetTitle>Mettre à jour</SheetTitle>
                   </SheetHeader>
 
-                  <div className="flex-grow overflow-y-auto"> 
+                  <div className="flex-grow overflow-y-auto m-1"> 
                     <ScrollArea className="h-full pr-4"> 
-                      <AddModuleForm 
+                      <EditFormateurForm 
                         initialData={row.original} 
-                        onFormSubmit={(formValues) => SessionApi.update(row.original.id, formValues)}
                       />
                     </ScrollArea>
                   </div>
@@ -162,21 +163,18 @@ export default function AdminFormateurList(){
                     <AlertDialogAction onClick={async()=>{
                       try{
                         const deletingLoader = toast.loading('suppression en cours !!')
-                        const response = await SessionApi.delete(id);
+                        const response = await FormateurApi.delete(id);
                         toast.dismiss(deletingLoader);
-                        setData(data.filter((Module)=>Module.id !== id));
-                        toast.success("Session supprimée avec succès !");}
+                        setData(data.filter((Formateur)=>Formateur.id !== id));
+                        toast.success("Formateur supprimée avec succès !");}
                         catch(error){
-                          toast.error("Erreur lors de la suppression du Session.");
+                          toast.error("Erreur lors de la suppression du Formateur.");
                           console.error(error);
                         }
                       }}>Continue</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
                 </AlertDialog>
-                <DropdownMenuItem>suspendre</DropdownMenuItem>
-                <DropdownMenuItem>reactiver</DropdownMenuItem>
-                <DropdownMenuItem>annuler</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

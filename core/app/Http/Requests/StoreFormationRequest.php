@@ -22,7 +22,7 @@ class StoreFormationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'intitule' => 'required',
+            'intitule' => 'required|unique:formations,intitule',
             'objectifs' => 'required',
             'duree' => 'required',
             'niveau' => 'required',

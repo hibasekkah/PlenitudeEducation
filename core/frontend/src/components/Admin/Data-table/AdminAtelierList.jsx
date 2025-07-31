@@ -141,7 +141,7 @@ export default function AdminAtelierList(){
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             
-              <Sheet>
+              <Sheet className='m-2'>
                 <SheetTrigger asChild>
                   <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
                     editer
@@ -153,7 +153,7 @@ export default function AdminAtelierList(){
                     <SheetTitle>Mettre à jour</SheetTitle>
                   </SheetHeader>
 
-                  <div className="flex-grow overflow-y-auto"> 
+                  <div className="flex-grow overflow-y-auto m-1"> 
                     <ScrollArea className="h-full pr-4"> 
                       <AddAtelierForm 
                         initialData={row.original} 

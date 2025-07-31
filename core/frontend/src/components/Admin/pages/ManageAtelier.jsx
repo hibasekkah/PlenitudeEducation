@@ -14,17 +14,17 @@ export function ManageAtelier(){
                     <div className="grid">
                     <div className="col-span-3 lg:col-span-4">
                         <div className="h-full px-4 py-6 lg:px-8">
-                        <Tabs defaultValue="entreprise" className="h-full space-y-6">
+                        <Tabs defaultValue="atelier" className="h-full space-y-6">
                             <div className="space-between flex items-center">
                             <TabsList>
-                                <TabsTrigger value="entreprise" className="relative">
+                                <TabsTrigger value="atelier" className="relative">
                                 Ateliers
                                 </TabsTrigger>
-                                <TabsTrigger value="add_entreprise">Crée Ateliers</TabsTrigger>
+                                <TabsTrigger value="add_atelier">Crée Ateliers</TabsTrigger>
                             </TabsList>
                             </div>
                             <TabsContent
-                            value="entreprise"
+                            value="atelier"
                             className="border-none p-0 outline-none"
                             >
                             <div className="flex items-center justify-between">
@@ -45,7 +45,7 @@ export function ManageAtelier(){
                             </div>
                             </TabsContent>
                             <TabsContent
-                            value="add_entreprise">
+                            value="add_atelier">
                             <div className="space-y-1">
                                 <AddAtelierForm onFormSubmit={AtelierApi.create} /> 
                             </div>

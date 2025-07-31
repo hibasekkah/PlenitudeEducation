@@ -16,7 +16,7 @@ class EntrepriseController extends Controller
      */
     public function index()
     {
-        //$this->authorize('viewAny', Entreprise::class);
+        $this->authorize('viewAny', Entreprise::class);
         return EntrepriseResource::collection(Entreprise::all());
     }
 
@@ -31,7 +31,7 @@ class EntrepriseController extends Controller
         $response = new EntrepriseResource($entreprise);
         return response()->json([
             'entreprise' => $response,
-            'message' => __('entreprise created successfully')
+            'message' => __("L'entreprise a été créée avec succès.")
             ]);
     }
 
@@ -54,7 +54,7 @@ class EntrepriseController extends Controller
         $entreprise->update($formFields);
         return response()->json([
             'entreprise' => new EntrepriseResource($entreprise),
-            'message' => __('entreprise updated successfully')
+            'message' => __("L'entreprise a été mise à jour avec succès.")
             ]);
     }
 
@@ -64,10 +64,14 @@ class EntrepriseController extends Controller
     public function destroy(Entreprise $entreprise)
     {
         $this->authorize('delete', $entreprise);
+        $employes = $entreprise->employees;
+        foreach($employes as $employee){
+            $employee->delete();
+        }
         $entreprise->delete();
         return response()->json([
             'entreprise' => $entreprise,
-            'message' => __('entreprise deleted successfully')
+            'message' => __("L'entreprise a été supprimée avec succès.")
             ]); 
     }
 }

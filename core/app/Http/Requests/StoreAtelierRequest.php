@@ -22,7 +22,7 @@ class StoreAtelierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => 'required',
+            'type' => 'required|unique:ateliers,type',
             'materiels' => 'required',
             'observations' =>'sometimes',
             'lieu' => 'required',
