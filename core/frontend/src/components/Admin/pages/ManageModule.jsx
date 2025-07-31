@@ -1,8 +1,6 @@
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
 import {Separator} from "@/components/ui/separator.jsx";
 import {ScrollArea,ScrollBar} from "@/components/ui/scroll-area.jsx";
-import FormationApi from "../../../services/api/Formation";
-import AddFormationForm from "../Forms/AddFormationForm";
 import AdminModuleList from "../Data-table/AdminModuleList";
 import ModuleApi from "../../../services/api/Module";
 import AddModuleForm from "../Forms/AddModuleForm";

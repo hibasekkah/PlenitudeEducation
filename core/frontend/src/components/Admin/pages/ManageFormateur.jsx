@@ -4,9 +4,11 @@ import {ScrollArea,ScrollBar} from "@/components/ui/scroll-area.jsx";
 import AdminSessionList from "../Data-table/AdminSessionList";
 import SessionApi from "../../../services/api/Session";
 import AddSessionForm from "../Forms/AddSessionForm";
+import AdminParticipantList from "../Data-table/AdminParticipantList";
+import AdminFormateurList from "../Data-table/AdminFormateurList";
 
 
-export function ManageSession(){
+export function ManageFormateur(){
     return <>
         <div className="relative overflow-x-auto">
             <div className="hidden md:block">
@@ -19,9 +21,9 @@ export function ManageSession(){
                             <div className="space-between flex items-center">
                             <TabsList>
                                 <TabsTrigger value="entreprise" className="relative">
-                                Sessions
+                                Formateurs
                                 </TabsTrigger>
-                                <TabsTrigger value="add_entreprise">Crée Sessions</TabsTrigger>
+                                <TabsTrigger value="add_entreprise">Ajouter Formateurs</TabsTrigger>
                             </TabsList>
                             </div>
                             <TabsContent
@@ -31,9 +33,9 @@ export function ManageSession(){
                             <div className="flex items-center justify-between">
                                 <div className="space-y-1 w-full">
                                 <h2 className="text-2xl font-semibold tracking-tight">
-                                    Sessions
+                                    Formateurs
                                 </h2>
-                                 <AdminSessionList/>
+                                 <AdminFormateurList/>
                                 </div>
                             </div>
                             <Separator className="my-4"/>

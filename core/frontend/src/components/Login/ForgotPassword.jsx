@@ -24,44 +24,31 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Link } from "react-router-dom"
-
+import { toast } from "sonner"
 
 
 const formSchema = z.object({
   email: z.string().email().min(2).max(50),
-  password: z.string().min(8).max(50),
 })
 
-export default function UserLogin(){
-    const auth = useAuth();
+export default function ForgotPassword(){
     const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "Admin@example.com",
-      password: "AdminAdmin",
-    },
+    defaultValues:{
+      email:""
+    }
   })
  
   const onSubmit = async values => {
     console.log(values)
     try {
-      const response = await axiosUser.post('/api/login', values);
-      
-      console.log("Login successful:", response.data);
-
-      if (response.data && response.data.authorisation && response.data.authorisation.token) {
-        auth.setToken(response.data.authorisation.token,response.data.user);
-      }
+      const response = await axiosUser.post('/api/forgot-password', values);
+      toast.success(response.data.status);
+      console.log("successfully:", response.data);
 
     } catch (error) {
-      console.error("Login failed:", error);
-      form.setError('password', {
-        message:"email/mot de passe incorrect"
-      })
-      form.setError('email', {
-        message:"email/mot de passe incorrect"
-      })
+      console.error(error);
+      toast.error(error.respons);
       form.formState.isSubmitting
       if (error.response && error.response.status === 422) {
         console.log("Validation errors:", error.response.data.errors);
@@ -70,11 +57,11 @@ export default function UserLogin(){
   };
 
     return <>
-        <Card className="w-full max-w-sm m-16">
+        <Card className="w-full max-w-sm m-25">
           <CardHeader>
-            <CardTitle>Connectez-vous à votre compte</CardTitle>
+            <CardTitle>Réinitialiser votre mot de passe</CardTitle>
             <CardDescription>
-              Saisissez votre adresse e-mail ci-dessous pour accéder à votre compte
+              Saisissez votre adresse e-mail ci-dessous et nous vous enverrons un lien pour réinitialiser votre mot de passe.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -88,25 +75,6 @@ export default function UserLogin(){
                       <FormLabel>Email</FormLabel>
                       <FormControl>
                         <Input placeholder="Email" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <Link
-                        to="/forgot-password"
-                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                      >
-                        Mot de passe oublié ?
-                      </Link>
-                      <FormLabel>Mot de passe</FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="Mot de passe" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

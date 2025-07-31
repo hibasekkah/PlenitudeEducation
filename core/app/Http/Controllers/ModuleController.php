@@ -29,7 +29,7 @@ class ModuleController extends Controller
      */
     public function store(StoreModuleRequest $request)
     {
-        $this->authorize('create',Module::class);
+        $this->authorize('create', Module::class);
         $formFields = $request->validated();
         $module = DB::transaction(function () use ($request, $formFields) {
 

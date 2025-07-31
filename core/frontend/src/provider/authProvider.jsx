@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, useCallback } from "react"; 
 import { axiosUser } from "../components/api/axios";
 
 const AuthContext = createContext();
@@ -9,22 +9,36 @@ const AuthProvider = ({ children }) => {
   const [user, setUser_] = useState(
     localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
   );
-  const setToken = (newToken,userData) => {
+
+  const setToken = useCallback((newToken, userData = null) => {
     setToken_(newToken);
+    if (newToken) {
+      localStorage.setItem('token', newToken);
+    } else {
+      localStorage.removeItem('token');
+    }
+
     if (userData) {
       setUser_(userData);
       localStorage.setItem('user', JSON.stringify(userData));
     }
-  };
+  }, []);
 
+
+  const setUser = useCallback((newUserData) => {
+    setUser_(newUserData);
+    if (newUserData) {
+      localStorage.setItem('user', JSON.stringify(newUserData));
+    } else {
+      localStorage.removeItem('user');
+    }
+  }, []);
 
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-      localStorage.setItem('token',token);
     } else {
       delete axios.defaults.headers.common["Authorization"];
-      localStorage.removeItem('token');
     }
   }, [token]);
 
@@ -41,16 +55,16 @@ const AuthProvider = ({ children }) => {
       localStorage.removeItem("user");
     }
   };
-  
-  
-const contextValue = useMemo(
+
+  const contextValue = useMemo(
     () => ({
       token,
-      setToken,
-      logout,
       user,
+      setToken,
+      setUser, 
+      logout,
     }),
-    [token,user]
+    [token, user, setToken, setUser]
   );
 
   return (

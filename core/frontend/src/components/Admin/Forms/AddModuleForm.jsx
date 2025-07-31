@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Loader, Trash2 } from "lucide-react";
-import FormationApi from "../../../services/api/Formation"; // Assurez-vous que ce chemin est correct
+import FormationApi from "../../../services/api/Formation";
 
 const formSchema = z.object({
   titre: z.string().min(2, { message: "Le titre doit contenir au moins 2 caractères." }).max(100),
@@ -58,15 +58,15 @@ export default function ModuleForm({ onFormSubmit, initialData = null }) {
     const loader = toast.loading(loaderMsg);
     
     const formData = new FormData();
-
-    Object.keys(values).forEach(key => {
-        if (key !== 'files' && values[key] !== null && values[key] !== undefined && values[key] !== '') {
-            formData.append(key, values[key]);
-        }
-    });
+    if(isUpdate){
+      formData.append('_method', 'put')
+    }
+    formData.append('titre', values.titre);
+    formData.append('categorie', values.categorie);
+    formData.append('duree', values.duree);
+    formData.append('formation_id', values.formation_id);
 
     if (isUpdate) {
-        formData.append('_method', 'put');
         if (filesToDelete.length > 0) {
           filesToDelete.forEach(id => formData.append('files_to_delete[]', id));
         }
@@ -88,6 +88,7 @@ export default function ModuleForm({ onFormSubmit, initialData = null }) {
     try {
       let response;
       if (isUpdate) {
+        
         response = await onFormSubmit(initialData.id, formData);
       } else {
         response = await onFormSubmit(formData);

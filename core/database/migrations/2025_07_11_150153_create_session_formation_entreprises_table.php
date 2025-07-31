@@ -19,16 +19,16 @@ return new class extends Migration
             $table->text('raison_sus')->charset('binary')->nullable();
             $table->text('raison_annulation')->charset('binary')->nullable();
             $table->text('observations')->charset('binary')->nullable();
-            $table->unsignedBigInteger('entreprise_id')->nullable();
+            $table->unsignedBigInteger('entreprise_id');
             $table->foreign('entreprise_id')
                 ->references('id')
                 ->on('entreprises')
-                ->nullOnDelete();
-            $table->unsignedBigInteger('formation_id')->nullable();
+                ->cascadeOnDelete();
+            $table->unsignedBigInteger('formation_id');
             $table->foreign('formation_id')
                 ->references('id')
                 ->on('formations')
-                ->nullOnDelete(); 
+                ->cascadeOnDelete(); 
             $table->timestamps();
             $table->softDeletes();
         });

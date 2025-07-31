@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { DataTable } from "../../data-table/DataTable";
 import {Button} from "@/components/ui/Button";
+import { ArrowUpDown, DownloadIcon } from "lucide-react";
 import {toast} from "sonner";
 import { MoreHorizontal } from "lucide-react"
-import { format } from 'date-fns';
+import { DataTableColumnHeader } from "../../data-table/DataTableColumnHeader";
+import SessionApi from "../../../services/api/Session";
+
 
 
 import {
@@ -25,8 +28,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import FormationApi from "../../../services/api/Formation";
-import AddFormationForm from "../Forms/AddFormationForm";
+import ModuleApi from "../../../services/api/Module";
 
 import {
   DropdownMenu,
@@ -36,15 +38,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { DataTableColumnHeader } from "../../data-table/DataTableColumnHeader";
+import AddModuleForm from "../Forms/AddModuleForm";
 
 
-export default function AdminFormationList(){
+export default function AdminParticipantList(){
   const [data,setData] = useState([]);
   useEffect(() => {
     (async () => {
       try {
-        const response = await FormationApi.all();
+        const response = await SessionApi.all();
         console.log(response.data);
         setData(response.data.data);
       } catch (error) {
@@ -53,99 +55,77 @@ export default function AdminFormationList(){
     })(); 
   }, []);
 
-  const  AdminFormationColumns = [
+  const  AdminModuleColumns = [
   {
     accessorKey: "id",
     header: ({ column }) => {
-          return (
-            <DataTableColumnHeader column={column} title="ID" />
-          )
-        },
-    displayName:"ID",
-  },
-  {
-    accessorKey: "intitule",
-    header: ({ column }) => {
-          return (
-            <DataTableColumnHeader column={column} title="Intitulé" />
-          )
-        },
-    displayName:"Intitulé",
-  },
-  {
-    accessorKey: "objectifs",
-    header: ({ column }) => {
-          return (
-            <DataTableColumnHeader column={column} title="Objectifs" />
-          )
-        },
-    displayName:"Objectifs",
-    cell: ({ row }) => {
-        const objectifs = row.original.objectifs.split("\n");
-        console.log(objectifs);
-        return (
-      <div>
-        {objectifs.map((objectif, index) => (
-          <p key={index} className="text-sm">
-            - {objectif}
-          </p>
-        ))}
-      </div>
-    );
+      return (
+        <DataTableColumnHeader column={column} title="ID" />
+      )
     },
+    displayName : "ID",
   },
   {
-    accessorKey: "duree",
+    accessorKey: "nom",
     header: ({ column }) => {
-          return (
-            <DataTableColumnHeader column={column} title="Durée" />
-          )
-        },
-    displayName:"Durée",
+      return (
+        <DataTableColumnHeader column={column} title="Nom" />
+      )
+    },
+    displayName : "Nom",
   },
   {
-    accessorKey: "cout",
+    accessorKey: "prenom",
     header: ({ column }) => {
-          return (
-            <DataTableColumnHeader column={column} title="Cout" />
-          )
-        },
-    displayName:"Cout",
+      return (
+        <DataTableColumnHeader column={column} title="Prénom" />
+      )
+    },
+    displayName : "Prénom",
   },
   {
-    accessorKey: "categorie",
+    accessorKey: "email",
     header: ({ column }) => {
-          return (
-            <DataTableColumnHeader column={column} title="Catégorie" />
-          )
-        },
-    displayName:"Catégorie",
+      return (
+        <DataTableColumnHeader column={column} title="Email" />
+      )
+    },
+    displayName : "Email",
   },
   {
-    accessorKey: "niveau",
+    accessorKey: "telephone",
     header: ({ column }) => {
-          return (
-            <DataTableColumnHeader column={column} title="Niveau" />
-          )
-        },
-    displayName:"Niveau",
+      return (
+        <DataTableColumnHeader column={column} title="Téléphone" />
+      )
+    },
+    displayName : "Téléphone",
   },
   {
-    accessorKey: "created_at",
+    accessorKey: "entreprise_id",
     header: ({ column }) => {
-          return (
-            <DataTableColumnHeader column={column} title="La date de création" />
-          )
-        },
-    displayName:"La date de création",
-    cell:({row}) => {
-      const date = format(row.original.created_at,'dd/MM/yyyy HH:mm')
+      return (
+        <DataTableColumnHeader column={column} title="Entreprise" />
+      )
+    },
+    cell: ({ row }) => {
+      const {nom} = row.original.entreprise;
       return (
         <div className="flex flex-col space-y-2">
-          {date}
+          {nom}
         </div>
       );
-    }
+    },
+    displayName : "Entreprise",
+  },
+  {
+    accessorKey: "specialite_fonction",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Fonction" />
+      )
+    },
+    displayName : "Fonction",
   },
   {
     id: "actions",
@@ -161,7 +141,6 @@ export default function AdminFormationList(){
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
             
               <Sheet>
                 <SheetTrigger asChild>
@@ -170,24 +149,21 @@ export default function AdminFormationList(){
                   </DropdownMenuItem>
                 </SheetTrigger>
                 <SheetContent className="flex flex-col">
+
                   <SheetHeader>
-                    <SheetTitle>Mettre à jour la formation</SheetTitle>
-                    <SheetDescription>
-                      Modifiez les informations ci-dessous et cliquez sur "Mettre à jour" lorsque vous avez terminé.
-                    </SheetDescription>
+                    <SheetTitle>Mettre à jour</SheetTitle>
                   </SheetHeader>
 
                   <div className="flex-grow overflow-y-auto"> 
                     <ScrollArea className="h-full pr-4"> 
-                      <AddFormationForm 
+                      <AddModuleForm 
                         initialData={row.original} 
-                        onFormSubmit={(formValues) => FormationApi.update(row.original.id, formValues)}
+                        onFormSubmit={(formValues) => SessionApi.update(row.original.id, formValues)}
                       />
                     </ScrollArea>
                   </div>
                 </SheetContent>
               </Sheet>
-            
               <AlertDialog>
                 <AlertDialogTrigger>
                   <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
@@ -199,25 +175,25 @@ export default function AdminFormationList(){
                     <AlertDialogTitle>Êtes-vous certain(e) de vouloir continuer ?</AlertDialogTitle>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel>Annuler</AlertDialogCancel>
                     <AlertDialogAction onClick={async()=>{
                       try{
                         const deletingLoader = toast.loading('suppression en cours !!')
-                        const response = await FormationApi.delete(id);
+                        const response = await SessionApi.delete(id);
                         toast.dismiss(deletingLoader);
-                        setData(data.filter((formation)=>formation.id !== id));
-                        toast.success("Formation supprimée avec succès !");}
+                        setData(data.filter((Module)=>Module.id !== id));
+                        toast.success("Session supprimée avec succès !");}
                         catch(error){
-                          toast.error("Erreur lors de la suppression de la formation.");
+                          toast.error("Erreur lors de la suppression du Session.");
                           console.error(error);
                         }
                       }}>Continue</AlertDialogAction>
                     </AlertDialogFooter>
                 </AlertDialogContent>
                 </AlertDialog>
-            
-            {/* <DropdownMenuItem>modules</DropdownMenuItem>
-            <DropdownMenuItem>ateliers</DropdownMenuItem> */}
+                <DropdownMenuItem>suspendre</DropdownMenuItem>
+                <DropdownMenuItem>reactiver</DropdownMenuItem>
+                <DropdownMenuItem>annuler</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
@@ -227,7 +203,7 @@ export default function AdminFormationList(){
 
 
   return <>
-      <DataTable columns={AdminFormationColumns} data={data}/>
+      <DataTable columns={AdminModuleColumns} data={data}/>
     </>
 }
 

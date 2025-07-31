@@ -22,6 +22,11 @@ import { ManageModule } from "../components/Admin/pages/ManageModule";
 import { ManageAtelier } from "../components/Admin/pages/ManageAtelier";
 import { ManageSeance } from "../components/Admin/pages/ManageSeance";
 import { ManageSession } from "../components/Admin/pages/ManageSession";
+import { ManageParticipant } from "../components/Admin/pages/ManageParticipant";
+import ForgotPassword from "../components/Login/ForgotPassword";
+import ResetPassword from "../components/Login/ResetPassword";
+import { ManageRH } from "../components/Admin/pages/ManageRH";
+import { ManageFormateur } from "../components/Admin/pages/ManageFormateur";
 
 export const LOGIN_ROUTE = '/login'
 export const ABOUT_ROUTE = '/about'
@@ -47,6 +52,14 @@ const router = createBrowserRouter([
         element: <Contact />,
       },
       {
+        path: "forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "password-reset/:token",
+        element: <ResetPassword />,
+      },
+      {
         element: <LoginRedirect />,
         children: [
           {
@@ -57,6 +70,7 @@ const router = createBrowserRouter([
             path: "login",
             element: <Login />,
           },
+          
         ]
       },
       
@@ -84,6 +98,10 @@ const router = createBrowserRouter([
             element: <ManageEntreprise />,
           },
           {
+            path: "participant",
+            element: <ManageParticipant />,
+          },
+          {
             path: "formation",
             element: <ManageFormation />,
           },
@@ -102,6 +120,14 @@ const router = createBrowserRouter([
           {
             path: "seance",
             element: <ManageSeance />,
+          },
+          {
+            path: "rh",
+            element: <ManageRH />,
+          },
+          {
+            path: "formateur",
+            element: <ManageFormateur />,
           },
         ],
       },

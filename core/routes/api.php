@@ -46,13 +46,14 @@ Route::middleware('auth:api')->group(function () {
         'sessionUsers' => SessionUserController::class,
         'seances' => SeanceController::class,
     ]);
+    Route::put('/user/update/{user}',[UserController::class,'update']);
+    Route::post('/module/{module}', [ModuleController::class, 'update']);
 });
 
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
 Route::post('/reset-password', [NewPasswordController::class, 'store']);
-Route::put('/user/update/{user}',[UserController::class,'update']);
+
 
 Route::put('/sessionFormationEntreprise/suspendreSession/{sessionFormationEntreprise}',[SessionFormationEntrepriseController::class,'suspendreSession']);
 Route::put('/sessionFormationEntreprise/annulerSession/{sessionFormationEntreprise}',[SessionFormationEntrepriseController::class,'annulerSession']);
-Route::put('/sessionFormationEntreprise/activerSession/{sessionFormationEntreprise}',[SessionFormationEntrepriseController::class,'activerSession']);
 Route::put('/sessionFormationEntreprise/activerSession/{sessionFormationEntreprise}',[SessionFormationEntrepriseController::class,'activerSession']);

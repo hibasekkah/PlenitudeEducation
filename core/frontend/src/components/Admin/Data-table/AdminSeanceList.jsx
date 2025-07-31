@@ -26,7 +26,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import ModuleApi from "../../../services/api/Module";
+import SessionApi from "../../../services/api/Session";
 
 import {
   DropdownMenu,
@@ -44,7 +44,7 @@ export default function AdminSeanceList(){
   useEffect(() => {
     (async () => {
       try {
-        const response = await ModuleApi.all();
+        const response = await SessionApi.all();
         console.log(response.data);
         setData(response.data.data);
       } catch (error) {
@@ -166,7 +166,7 @@ export default function AdminSeanceList(){
                     <ScrollArea className="h-full pr-4"> 
                       <AddModuleForm 
                         initialData={row.original} 
-                        onFormSubmit={(formValues) => ModuleApi.update(row.original.id, formValues)}
+                        onFormSubmit={(formValues) => SessionApi.update(row.original.id, formValues)}
                       />
                     </ScrollArea>
                   </div>
@@ -188,9 +188,9 @@ export default function AdminSeanceList(){
                     <AlertDialogAction onClick={async()=>{
                       try{
                         const deletingLoader = toast.loading('suppression en cours !!')
-                        const response = await ModuleApi.delete(id);
+                        const response = await SessionApi.delete(id);
                         toast.dismiss(deletingLoader);
-                        setData(data.filter((Module)=>Module.id !== id));
+                        setData(data.filter((Session)=>Session.id !== id));
                         toast.success("Module supprimée avec succès !");}
                         catch(error){
                           toast.error("Erreur lors de la suppression du module.");

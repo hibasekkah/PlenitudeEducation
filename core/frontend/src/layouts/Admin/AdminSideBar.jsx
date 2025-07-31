@@ -1,9 +1,18 @@
 import {cn} from "@/lib/utils"
 import {Button} from "../../components/ui/button.jsx";
 import {Link} from "react-router-dom";
-
-
-import {BookText , UserIcon,ChartNoAxesCombined,Building2, BookOpen, TestTube, BookCopy, Clock  } from "lucide-react";
+import {BookText,
+  Clipboard, 
+  Users, 
+  UserIcon, 
+  ChartNoAxesCombined, 
+  Building2, 
+  BookOpen, 
+  TestTube, 
+  BookCopy, 
+  Clock,  
+  UsersRound,
+} from "lucide-react";
 
 export function AdminSideBar({className}) {
   const profile = "/admin/profile";
@@ -12,6 +21,11 @@ export function AdminSideBar({className}) {
   const atelier = "/admin/atelier";
   const seance = "/admin/seance";
   const session = "/admin/session";
+  const dashboard = "/admin/dashboard";
+  const entreprise = "/admin/entreprise";
+  const participant = "/admin/participant";
+  const formateur = "/admin/formateur";
+  const rh = "/admin/rh";
   return (
     <div className={cn("pb-12", className)}>
       <div>
@@ -20,16 +34,28 @@ export function AdminSideBar({className}) {
             Administration
           </h2>
           <div className="space-y-1">
-            <Link to="/admin/dashboard">
+            <Link to={dashboard}>
               <Button variant="ghost" className="w-full justify-start">
                 <ChartNoAxesCombined  className="mr-2"/>
                 Dashboard
               </Button>
             </Link>
-            <Link to="/admin/entreprise">
+            <Link to={entreprise}>
               <Button variant="ghost" className="w-full justify-start">
                 <Building2  className="mr-2"/>
                 Entreprises
+              </Button>
+            </Link>
+            <Link to={participant}>
+              <Button variant="ghost" className="w-full justify-start">
+                <Users  className="mr-2"/>
+                Participants
+              </Button>
+            </Link>
+            <Link to={rh}>
+              <Button variant="ghost" className="w-full justify-start">
+                <UsersRound className="mr-2"/>
+                RH
               </Button>
             </Link>
             <Link to={fromation}>
@@ -60,6 +86,12 @@ export function AdminSideBar({className}) {
               <Button variant="ghost" className="w-full justify-start">
                 <Clock  className="mr-2"/>
                 Seances
+              </Button>
+            </Link>
+             <Link to={formateur}>
+              <Button variant="ghost" className="w-full justify-start">
+                <Clipboard   className="mr-2"/>
+                Formateurs
               </Button>
             </Link>
             <Link to={profile}>
