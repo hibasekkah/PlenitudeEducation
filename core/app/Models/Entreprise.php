@@ -29,6 +29,10 @@ class Entreprise extends Model
         'priode',
         'debut_period',
         'fin_period',
+        'doc_rc',
+        'doc_status',
+        'doc_pv',
+        'CIN_gerant',
     ];
     
     protected $table = 'entreprises';  

@@ -2,10 +2,30 @@ import { useEffect, useState } from "react";
 import { DataTable } from "../../data-table/DataTable";
 import EntrepriseApi from "../../../services/api/Entreprise";
 import {Button} from "@/components/ui/Button";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, DownloadIcon } from "lucide-react";
 import {toast} from "sonner";
 import { format } from 'date-fns';
-
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { MoreHorizontal } from "lucide-react"
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -36,6 +56,7 @@ export default function AdminEntrepriseList(){
       try {
         const response = await EntrepriseApi.all();
         console.log(response.data);
+        console.log(response.data.data[0].doc_rc);
         setData(response.data.data);
       } catch (error) {
         console.error("Erreur lors de la récupération des entreprises:", error);
@@ -192,54 +213,143 @@ export default function AdminEntrepriseList(){
       const {id} = row.original;
  
       return <>
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button>Editer</Button>
-          </SheetTrigger>
-          
-          <SheetContent className="flex flex-col">
-            <SheetHeader>
-              <SheetTitle>Mettre à jour l'entreprise</SheetTitle>
-              <SheetDescription>
-                Modifiez les informations ci-dessous et cliquez sur "Mettre à jour" lorsque vous avez terminé.
-              </SheetDescription>
-            </SheetHeader>
+        <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-8 w-8 p-0">
+                      <span className="sr-only">Open menu</span>
+                      <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    
+                      <Sheet>
+                        <SheetTrigger asChild>
+                          <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
+                            editer
+                          </DropdownMenuItem>
+                        </SheetTrigger>
+                        <SheetContent className="flex flex-col">
+        
+                          <SheetHeader>
+                            <SheetTitle>Mettre à jour</SheetTitle>
+                          </SheetHeader>
+        
+                          <div className="flex-grow overflow-y-auto m-1"> 
+                            <ScrollArea className="h-full pr-4"> 
+                              <AddEntrepriseForm 
+                                initialData={row.original} 
+                                onFormSubmit={(formValues) => EntrepriseApi.update(row.original.id, formValues)}
+                              />
+                            </ScrollArea>
+                          </div>
+                        </SheetContent>
+                      </Sheet>
+                      <AlertDialog>
+                        <AlertDialogTrigger>
+                          <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
+                            supprimer
+                          </DropdownMenuItem>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                            <AlertDialogTitle>Êtes-vous certain(e) de vouloir continuer ?</AlertDialogTitle>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                            <AlertDialogCancel>Annuler</AlertDialogCancel>
+                            <AlertDialogAction onClick={async()=>{
+                              try{
+                                const deletingLoader = toast.loading('suppression en cours !!')
+                                const response = await EntrepriseApi.delete(id);
+                                toast.dismiss(deletingLoader);
+                                setData(data.filter((entreprise)=>entreprise.id !== id));
+                                toast.success("Entreprise supprimée avec succès !");}
+                                catch(error){
+                                  toast.error("Erreur lors de la suppression de l'entreprise.");
+                                  console.error(error);
+                                }
+                              }}>Continue</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                        </AlertDialog>
 
-            <div className="flex-grow overflow-y-auto m-1"> 
-              <ScrollArea className="h-full pr-4"> 
-                <AddEntrepriseForm 
-                  initialData={row.original} 
-                  onFormSubmit={(formValues) => EntrepriseApi.update(row.original.id, formValues)}
-                />
-              </ScrollArea>
-            </div>
-          </SheetContent>
-        </Sheet>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-              <Button variant={'destructive'} size={'sm'}>Delete</Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-              <AlertDialogHeader>
-              <AlertDialogTitle>Êtes-vous certain(e) de vouloir continuer ?</AlertDialogTitle>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={async()=>{
-                try{
-                  const deletingLoader = toast.loading('suppression en cours !!')
-                  const response = await EntrepriseApi.delete(id);
-                  toast.dismiss(deletingLoader);
-                  setData(data.filter((entreprise)=>entreprise.id !== id));
-                  toast.success("Entreprise supprimée avec succès !");}
-                  catch(error){
-                    toast.error("Erreur lors de la suppression de l'entreprise.");
-                    console.error(error);
-                  }
-                }}>Continue</AlertDialogAction>
-              </AlertDialogFooter>
-          </AlertDialogContent>
-          </AlertDialog>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                          <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
+                              documents
+                            </DropdownMenuItem>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                          <DialogHeader>
+                            <DialogTitle>Documents</DialogTitle>
+                            {/* <DialogDescription>
+                              Make changes to your profile here. Click save when you&apos;re
+                              done.
+                            </DialogDescription> */}
+                          </DialogHeader>
+                          <div className="grid gap-4">
+                            <div className="grid gap-3">
+                              <a
+                                //key={file.id}
+                                href={`${import.meta.env.VITE_BACKEND_URL}/storage/${data[0].doc_rc}`}
+                                download='Registre de commerce'
+                                className="flex items-center text-blue-600 hover:underline"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <DownloadIcon className="h-4 w-4 mr-2" />
+                                Registre de commerce 
+                              </a>
+                            </div>
+                            <div className="grid gap-3">
+                              <a
+                                //key={file.id}
+                                href={`${import.meta.env.VITE_BACKEND_URL}/storage/${data[0].doc_status}`}
+                                download="Statuts d'entreprise"
+                                className="flex items-center text-blue-600 hover:underline"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <DownloadIcon className="h-4 w-4 mr-2" />
+                                Statuts d'entreprise 
+                              </a>
+                            </div>
+                            <div className="grid gap-3">
+                              <a
+                                //key={file.id}
+                                href={`${import.meta.env.VITE_BACKEND_URL}/storage/${data[0].doc_pv}`}
+                                download='Procès verbal'
+                                className="flex items-center text-blue-600 hover:underline"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <DownloadIcon className="h-4 w-4 mr-2" />
+                                Procès verbal 
+                              </a>
+                            </div>
+                            <div className="grid gap-3">
+                              <a
+                                //key={file.id}
+                                href={`${import.meta.env.VITE_BACKEND_URL}/storage/${data[0].CIN_gerant}`}
+                                download='CIN Gérant'
+                                className="flex items-center text-blue-600 hover:underline"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <DownloadIcon className="h-4 w-4 mr-2" />
+                                CIN Gérant 
+                              </a>
+                            </div>
+                          </div>
+                          {/* <DialogFooter>
+                            <DialogClose asChild>
+                              <Button variant="outline">Cancel</Button>
+                            </DialogClose>
+                            <Button type="submit">Save changes</Button>
+                          </DialogFooter> */}
+                        </DialogContent>
+                    </Dialog>
+                  </DropdownMenuContent>
+                </DropdownMenu>
       </>
     },
   },

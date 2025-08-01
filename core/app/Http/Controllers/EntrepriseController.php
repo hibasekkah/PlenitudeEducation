@@ -7,6 +7,7 @@ use App\Http\Requests\StoreEntrepriseRequest;
 use App\Http\Requests\UpdateEntrepriseRequest;
 use App\Http\Resources\EntrepriseResource;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Storage;
 
 class EntrepriseController extends Controller
 {
@@ -26,13 +27,24 @@ class EntrepriseController extends Controller
     public function store(StoreEntrepriseRequest $request)
     {
         $this->authorize('create', Entreprise::class);
-        $formFields = $request->validated();
-        $entreprise = Entreprise::create($formFields);
-        $response = new EntrepriseResource($entreprise);
+        
+        $validatedData = $request->validated();
+
+        $fileFields = ['doc_rc', 'doc_status', 'doc_pv', 'CIN_gerant'];
+        
+        foreach ($fileFields as $field) {
+            if ($request->hasFile($field)) {
+                $path = $request->file($field)->store('entreprise_docs', 'public');
+                $validatedData[$field] = $path;
+            }
+        }
+
+        $entreprise = Entreprise::create($validatedData);
+        
         return response()->json([
-            'entreprise' => $response,
+            'entreprise' => new EntrepriseResource($entreprise),
             'message' => __("L'entreprise a été créée avec succès.")
-            ]);
+        ], 201);
     }
 
     /**
@@ -50,12 +62,27 @@ class EntrepriseController extends Controller
     public function update(UpdateEntrepriseRequest $request, Entreprise $entreprise)
     {
         $this->authorize('update', $entreprise);
-        $formFields =$request->validated();
-        $entreprise->update($formFields);
+        $validatedData = $request->validated();
+        
+        $updateData = collect($validatedData)->except(['doc_rc', 'doc_status', 'doc_pv', 'CIN_gerant'])->toArray();
+
+        $fileFieldsToProcess = ['doc_rc', 'doc_status', 'doc_pv', 'CIN_gerant'];
+        foreach ($fileFieldsToProcess as $field) {
+            if ($request->hasFile($field)) {
+                if ($entreprise->$field && Storage::disk('public')->exists($entreprise->$field)) {
+                    Storage::disk('public')->delete($entreprise->$field);
+                }
+                $path = $request->file($field)->store('entreprise_docs', 'public');
+                $updateData[$field] = $path;
+            }
+        }
+
+        $entreprise->update($updateData);
+        
         return response()->json([
-            'entreprise' => new EntrepriseResource($entreprise),
+            'entreprise' => new EntrepriseResource($entreprise->fresh()),
             'message' => __("L'entreprise a été mise à jour avec succès.")
-            ]);
+        ]);
     }
 
     /**
@@ -64,14 +91,16 @@ class EntrepriseController extends Controller
     public function destroy(Entreprise $entreprise)
     {
         $this->authorize('delete', $entreprise);
-        $employes = $entreprise->employees;
-        foreach($employes as $employee){
-            $employee->delete();
+        
+        $fileFields = ['doc_rc', 'doc_status', 'doc_pv', 'CIN_gerant'];
+        foreach ($fileFields as $field) {
+            if ($entreprise->$field && Storage::disk('public')->exists($entreprise->$field)) {
+                Storage::disk('public')->delete($entreprise->$field);
+            }
         }
+        
         $entreprise->delete();
-        return response()->json([
-            'entreprise' => $entreprise,
-            'message' => __("L'entreprise a été supprimée avec succès.")
-            ]); 
+        
+        return response()->json(null, 204);
     }
 }

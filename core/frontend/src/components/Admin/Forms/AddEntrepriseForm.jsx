@@ -1,40 +1,34 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { useEffect, useState } from "react";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader } from "lucide-react";
 import { toast } from "sonner";
 
+// Le formSchema reste exactement comme vous l'avez fourni
 const formSchema = z.object({
   nom: z.string().min(2, { message: "Le nom doit contenir au moins 2 caractères." }).max(100),
   secteur: z.string().min(1, { message: "Le secteur d'activité est obligatoire." }),
   email: z.string({ required_error: "L'e-mail est obligatoire." }).email({ message: "Veuillez entrer une adresse e-mail valide." }),
   adresse: z.string().min(1, { message: "L'adresse est obligatoire." }).max(255),
   telephone: z.string().min(1, { message: "Le numéro de téléphone est obligatoire." }),
-  
-  SIRET: z.string(),
-  IF: z.string(),
-  CNSS: z.string(),
-
-  priode: z.coerce.number({ invalid_type_error: "La période doit être un nombre." })
-    .int({ message: "La période doit être un nombre entier." })
-    .positive({ message: "La période doit être un nombre positif." }),
-  capital: z.coerce.number({ invalid_type_error: "Le capital doit être un nombre." }).positive(),
-  budget: z.coerce.number({ invalid_type_error: "Le budget doit être un nombre." }).positive(),
-  debut_period: z.string().min(1, { message: "La date de début est obligatoire." }),
-  fin_period: z.string().min(1, { message: "La date de fin est obligatoire." }),
+  SIRET: z.string().min(2,{ message: "Le SIRET doit contenir au moins 2 caractères." }),
+  IF: z.string().min(2,{ message: "Le IF doit contenir au moins 2 caractères." }),
+  CNSS: z.string().min(2,{ message: "Le CNSS doit contenir au moins 2 caractères." }),
+  priode: z.coerce.number().int().positive(),
+  capital: z.coerce.number().positive(),
+  budget: z.coerce.number().positive(),
+  debut_period: z.string(),
+  fin_period: z.string(),
+  doc_rc: z.any().optional(),
+  doc_status: z.any().optional(),
+  doc_pv: z.any().optional(),
+  CIN_gerant: z.any().optional(),
 });
-
 const initialValues = {
   nom: "",
   secteur: "",
@@ -51,8 +45,13 @@ const initialValues = {
   fin_period: "",
 };
 
-export default function AddEntrepriseForm({ onFormSubmit, initialData }) {
+export default function AddEntrepriseForm({ onFormSubmit, initialData = null }) {
   const isUpdate = !!initialData;
+
+  const [docRcFile, setDocRcFile] = useState(null);
+  const [docStatusFile, setDocStatusFile] = useState(null);
+  const [docPvFile, setDocPvFile] = useState(null);
+  const [cinGerantFile, setCinGerantFile] = useState(null);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -63,50 +62,55 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData }) {
   const onSubmit = async (values) => {
     const loaderMsg = isUpdate ? "Mise à jour en cours..." : "Ajout en cours...";
     const loader = toast.loading(loaderMsg);
+    const formData = new FormData();
 
+    Object.keys(values).forEach(key => {
+      if (!['doc_rc', 'doc_status', 'doc_pv', 'CIN_gerant'].includes(key) && values[key]) {
+        formData.append(key, values[key]);
+      }
+    });
+
+    if (docRcFile) formData.append('doc_rc', docRcFile);
+    if (docStatusFile) formData.append('doc_status', docStatusFile);
+    if (docPvFile) formData.append('doc_pv', docPvFile);
+    if (cinGerantFile) formData.append('CIN_gerant', cinGerantFile);
+    
     try {
-      const response = await onFormSubmit(values);
-      console.log(response.data);
-      toast.success(response.data.message || (isUpdate ? "Mise à jour réussie !" : "Ajout réussi !"));
-      
-      if (!isUpdate) {
-        reset(); 
-      }
-    } catch (error) {
-      console.error("Échec de la soumission du formulaire:", error.response || error);
-
-      if (error.response) {
-        const status = error.response.status;
-        const data = error.response.data;
-
-        if (status === 422 && data.errors) {
-          toast.error("Certains champs sont invalides. Veuillez corriger.");
-          Object.entries(data.errors).forEach(([fieldName, errorMessages]) => {
-            setError(fieldName, {
-              type: "server",
-              message: errorMessages.join(', '),
-            });
-          });
-        } else if (status === 403) {
-          toast.error(data.message || "Vous n'êtes pas autorisé à effectuer cette action.");
-        } else if (status === 404) {
-          toast.error("L'endpoint de l'API est introuvable. Vérifiez l'URL.");
-        } else if (status >= 500) {
-          toast.error("Une erreur est survenue sur le serveur. Veuillez réessayer plus tard.");
-        } else {
-          toast.error(data.message || "Une erreur inattendue est survenue.");
-        }
+      let response;
+      if (isUpdate) {
+        formData.append('_method', 'put');
+        response = await onFormSubmit(initialData.id, formData);
       } else {
-        toast.error("Impossible de contacter le serveur. Vérifiez votre connexion internet.");
+        response = await onFormSubmit(formData);
       }
+      toast.success(response.data.message);
+      if (!isUpdate) reset();
+    } catch (error) {
+        console.error("Échec:", error.response || error);
+        if (error.response?.status === 422 && error.response.data.errors) {
+            toast.error("Champs invalides.");
+            Object.entries(error.response.data.errors).forEach(([fieldName, messages]) => {
+                setError(fieldName, { type: "server", message: messages.join(', ') });
+            });
+        } else {
+            toast.error(error.response?.data?.message || "Une erreur est survenue.");
+        }
     } finally {
       toast.dismiss(loader);
+      console.log(`--- Contenu du FormData envoyé (${isUpdate ? 'UPDATE' : 'CREATE'}) ---`);
+      for (let [key, value] of formData.entries()) {
+          console.log(`${key}:`, value);
+      }
+      console.log("-----------------------------------------");
     }
   };
+
+  
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        {/* --- Tous vos FormField pour les champs de texte restent ici --- */}
         <FormField control={form.control} name="nom" render={({ field }) => (
           <FormItem><FormLabel>Nom de l'entreprise</FormLabel><FormControl><Input placeholder="Nom de l'entreprise" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
@@ -146,9 +150,34 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData }) {
         <FormField control={form.control} name="fin_period" render={({ field }) => (
           <FormItem><FormLabel>Fin de période</FormLabel><FormControl><Input type="date" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
+
+        <FormItem>
+          <FormLabel>Registre de commerce</FormLabel>
+          <FormControl>
+            <Input id="doc_rc" type="file" onChange={(e) => setDocRcFile(e.target.files[0])} />
+          </FormControl>
+        </FormItem>
+        <FormItem>
+          <FormLabel>Statuts d'entreprise</FormLabel>
+          <FormControl>
+            <Input id="doc_status" type="file" onChange={(e) => setDocStatusFile(e.target.files[0])} />
+          </FormControl>
+        </FormItem>
+        <FormItem>
+          <FormLabel>Procès verbal</FormLabel>
+          <FormControl>
+            <Input id="doc_pv" type="file" onChange={(e) => setDocPvFile(e.target.files[0])} />
+          </FormControl>
+        </FormItem>
+        <FormItem>
+          <FormLabel>CIN Gérant</FormLabel>
+          <FormControl>
+            <Input id="CIN_gerant" type="file" onChange={(e) => setCinGerantFile(e.target.files[0])} />
+          </FormControl>
+        </FormItem>
         
-        <Button className={'mt-4'} type="submit" disabled={isSubmitting}>
-          {isSubmitting && <Loader className={'mr-2 h-4 w-4 animate-spin'} />}
+        <Button className="mt-4" type="submit" disabled={isSubmitting}>
+          {isSubmitting && <Loader className="mr-2 h-4 w-4 animate-spin" />}
           {isUpdate ? 'Mettre à jour' : 'Créer'}
         </Button>
       </form>

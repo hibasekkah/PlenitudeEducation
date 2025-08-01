@@ -26,6 +26,10 @@ return new class extends Migration
             $table->string('priode');
             $table->date('debut_period');
             $table->date('fin_period');
+            $table->string('doc_rc');
+            $table->string('doc_status');
+            $table->string('doc_pv');
+            $table->string('CIN_gerant');
             $table->softDeletes();
             $table->timestamps();
         });

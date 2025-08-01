@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import { DataTable } from "../../data-table/DataTable";
 import {Button} from "@/components/ui/Button";
-import { ArrowUpDown, DownloadIcon } from "lucide-react";
 import {toast} from "sonner";
 import { MoreHorizontal } from "lucide-react"
 import { DataTableColumnHeader } from "../../data-table/DataTableColumnHeader";
-import SessionApi from "../../../services/api/Session";
 
 
 
@@ -38,7 +36,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import AddModuleForm from "../Forms/AddModuleForm";
 import FormateurApi from "../../../services/api/Formateur";
 import { EditFormateurForm } from "../Forms/EditFormateurForm";
 
@@ -175,6 +172,8 @@ export default function AdminFormateurList(){
                     </AlertDialogFooter>
                 </AlertDialogContent>
                 </AlertDialog>
+
+          
           </DropdownMenuContent>
         </DropdownMenu>
       )

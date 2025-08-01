@@ -35,6 +35,11 @@ class StoreEntrepriseRequest extends FormRequest
             'priode' => 'required',
             'debut_period' => 'required|date',
             'fin_period' => 'required|date',
+            'doc_rc' => 'required',
+            'doc_status' => 'required',
+            'doc_pv' => 'required',
+            'CIN_gerant' => 'required',
+
         ];
     }
 }
