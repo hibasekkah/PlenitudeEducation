@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class SessionFormationEntreprise extends Model
 {
@@ -29,8 +30,14 @@ class SessionFormationEntreprise extends Model
         return $this->belongsTo(Entreprise::class);
     }
 
-    public function participants()
+    // public function participants()
+    // {
+    //     return $this->belongsToMany(User::class, 'session_users');
+    // }
+
+    public function sessionUsers()
     {
-        return $this->belongsToMany(User::class, 'session_users');
+        return $this->hasMany(SessionUser::class,'session_id');
     }
+
 }

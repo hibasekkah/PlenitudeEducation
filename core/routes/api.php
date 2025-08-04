@@ -46,6 +46,8 @@ Route::middleware('auth:api')->group(function () {
         'sessionUsers' => SessionUserController::class,
         'seances' => SeanceController::class,
     ]);
+    Route::get('/sessionFormationEntreprise/user/{sessionFormationEntreprise}',[SessionFormationEntrepriseController::class,'session']);
+    Route::post('/sessionUsers/desaffecter',[SessionUserController::class,'desaffecter']);
     Route::put('/user/update/{user}',[UserController::class,'update']);
     Route::get('/user/participant',[UserController::class,'participant']);
     Route::get('/user/rh',[UserController::class,'rh']);

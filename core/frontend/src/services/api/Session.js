@@ -22,9 +22,15 @@ const SessionApi = {
     reactiver: async (id)=>{
         return await axiosUser.put(`/api/sessionFormationEntreprise/activerSession/${id}`)
     },
-    affecter: async (id)=>{
-        return await axiosUser.post(`/api/sessionUsers`)
+    affecter: async (payload)=>{
+        return await axiosUser.post(`/api/sessionUsers`,payload)
     },
+    desaffecter: async (payload)=>{
+        return await axiosUser.post(`/api/sessionUsers/desaffecter`,payload)
+    },
+    sessions: async (id)=>{
+        return await axiosUser.get(`/api/sessionFormationEntreprise/user/${id}`)
+    }
 }
 
 export default SessionApi;

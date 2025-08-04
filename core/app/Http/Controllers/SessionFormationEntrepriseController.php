@@ -6,6 +6,9 @@ use App\Models\SessionFormationEntreprise;
 use App\Http\Requests\StoreSessionFormationEntrepriseRequest;
 use App\Http\Requests\UpdateSessionFormationEntrepriseRequest;
 use App\Http\Resources\SessionFormationEntrepriseResource;
+use App\Http\Resources\SessionUserResource;
+use App\Http\Resources\UserResource;
+use App\Models\SessionUser;
 use Illuminate\Http\Request;
 
 class SessionFormationEntrepriseController extends Controller
@@ -57,6 +60,13 @@ class SessionFormationEntrepriseController extends Controller
             'session'=>$sessionFormationEntreprise,
             'message'=>__('La session a été mise à jour avec succès.')
         ]);
+    }
+
+    public function session(SessionFormationEntreprise $sessionFormationEntreprise)
+    {
+        $sessionUsers = $sessionFormationEntreprise->sessionUsers;
+        //dd($sessionUsers);
+        return SessionUserResource::collection($sessionUsers);
     }
 
     /**

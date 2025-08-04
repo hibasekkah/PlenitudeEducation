@@ -65,6 +65,7 @@ class EntrepriseController extends Controller
         $participant = User::where('entreprise_id',$entreprise->id)
                             ->where('role', 'participant')
                             ->get();
+        
         return UserResource::collection($participant);   
     }
 

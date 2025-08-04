@@ -167,7 +167,6 @@ export default function AdminSessionList(){
     id: "actions",
     cell: ({ row }) => {
       const {id} = row.original;
- 
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

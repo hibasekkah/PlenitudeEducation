@@ -2,132 +2,159 @@ import { useEffect, useState } from "react";
 import { DataTable } from "../../data-table/DataTable";
 import {Button} from "@/components/ui/Button";
 import {toast} from "sonner";
-import { MoreHorizontal } from "lucide-react"
 import { DataTableColumnHeader } from "../../data-table/DataTableColumnHeader";
-import ParticipantApi from "../../../services/api/Participant";
 import EntrepriseApi from "../../../services/api/Entreprise";
 import SessionApi from "../../../services/api/Session";
 
-
 export default function AffecterParticipantsForm({initialData}){
-  console.log(initialData.entreprise.id);
-  const [data,setData] = useState([]);
+  const [data, setData] = useState([]);
+  const [sessions, setSessions] = useState([]);
+
+  const refreshSessions = async () => {
+    try {
+      const response = await SessionApi.sessions(initialData.id);
+      console.log("Sessions:", response.data);
+      setSessions(response.data.data || []);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des sessions:", error);
+      setSessions([]);
+    }
+  };
+
   useEffect(() => {
     (async () => {
       try {
         const response = await EntrepriseApi.participant(initialData.entreprise.id);
-        console.log(response.data);
-        setData(response.data.data);
+        console.log("Participants:", response.data);
+        setData(response.data.data || []);
       } catch (error) {
         console.error("Erreur lors de la récupération des Participants:", error);
+        setData([]);
       }
     })(); 
+
+    refreshSessions();
   }, [initialData]);
 
-  const  AdminParticipantColumns = [
-  {
-    accessorKey: "id",
-    header: ({ column }) => {
-      return (
+  const isParticipantAffected = (participantId) => {
+    return sessions.some(session => session.user_id === participantId);
+  };
+
+  const AdminParticipantColumns = [
+    {
+      accessorKey: "id",
+      header: ({ column }) => (
         <DataTableColumnHeader column={column} title="ID" />
-      )
+      ),
+      displayName: "ID",
     },
-    displayName : "ID",
-  },
-  {
-    accessorKey: "nom",
-    header: ({ column }) => {
-      return (
+    {
+      accessorKey: "nom",
+      header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Nom" />
-      )
+      ),
+      displayName: "Nom",
     },
-    displayName : "Nom",
-  },
-  {
-    accessorKey: "prenom",
-    header: ({ column }) => {
-      return (
+    {
+      accessorKey: "prenom",
+      header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Prénom" />
-      )
+      ),
+      displayName: "Prénom",
     },
-    displayName : "Prénom",
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
+    {
+      accessorKey: "email",
+      header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Email" />
-      )
+      ),
+      displayName: "Email",
     },
-    displayName : "Email",
-  },
-  {
-    accessorKey: "telephone",
-    header: ({ column }) => {
-      return (
+    {
+      accessorKey: "telephone",
+      header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Téléphone" />
-      )
+      ),
+      displayName: "Téléphone",
     },
-    displayName : "Téléphone",
-  },
-  {
-    accessorKey: "entreprise_id",
-    header: ({ column }) => {
-      return (
+    {
+      accessorKey: "entreprise_id",
+      header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Entreprise" />
-      )
+      ),
+      cell: ({ row }) => {
+        const { nom } = row.original.entreprise || {};
+        return (
+          <div className="flex flex-col space-y-2">
+            {nom || 'N/A'}
+          </div>
+        );
+      },
+      displayName: "Entreprise",
     },
-    cell: ({ row }) => {
-      const {nom} = row.original.entreprise;
-      return (
-        <div className="flex flex-col space-y-2">
-          {nom}
-        </div>
-      );
-    },
-    displayName : "Entreprise",
-  },
-  {
-    accessorKey: "specialite_fonction",
-    header: ({ column }) => {
-      return (
+    {
+      accessorKey: "specialite_fonction",
+      header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Fonction" />
-      )
+      ),
+      displayName: "Fonction",
     },
-    displayName : "Fonction",
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => {
-      const {id} = row.original;
- 
-      return (
-        <>
-        <Button className='bg-emerald-600 hover:bg-emerald-700' onClick={async()=>{
-                      try{
-                        const deletingLoader = toast.loading('affectation en cours !!')
-                        const payload = {
-                          'user_id':row.original.id,
-                          'session_id':initialData.entreprise.id,
-                        }
-                        const response = await SessionApi.affecter(id);
-                        toast.dismiss(deletingLoader);
-                        setData(data.filter((Participant)=>Participant.id !== id));
-                        toast.success("Participant affecter avec succès !");}
-                        catch(error){
-                          toast.error("Erreur lors de l'affectation du Participant.");
-                          console.error(error);
-                        }
-                      }}>ajouter</Button> 
-        </>
-      )
+    {
+      id: "actions",
+      cell: ({ row }) => {
+        const { id } = row.original;
+        const isAffected = isParticipantAffected(id);
+
+        const handleAction = async () => {
+          try {
+            const loadingMessage = isAffected ? 'Désaffectation en cours...' : 'Affectation en cours...';
+            const deletingLoader = toast.loading(loadingMessage);
+            
+            const payload = {
+              'user_id': id,
+              'session_id': initialData.id,
+            };
+
+            let response;
+            if (isAffected) {
+              response = await SessionApi.desaffecter(payload); 
+            } else {
+              response = await SessionApi.affecter(payload);
+            }
+
+            toast.dismiss(deletingLoader);
+            await refreshSessions();
+            
+            const successMessage = isAffected 
+              ? "Participant désaffecté avec succès !" 
+              : "Participant affecté avec succès !";
+            toast.success(successMessage);
+
+          } catch (error) {
+            toast.dismiss();
+            const errorMessage = error?.response?.data?.message || "Une erreur est survenue";
+            toast.error(errorMessage);
+            console.error("Erreur:", error);
+          }
+        };
+
+        return (
+          <Button 
+            className={isAffected 
+              ? 'bg-red-600 hover:bg-red-700' 
+              : 'bg-emerald-600 hover:bg-emerald-700'
+            }
+            onClick={handleAction}
+          >
+            {isAffected ? 'Désaffecter' : 'Affecter'}
+          </Button>
+        );
+      },
     },
-  },
-]
+  ];
 
-
-  return <>
-      <DataTable columns={AdminParticipantColumns} data={data}/>
-    </>
+  return (
+    <div>
+      <DataTable columns={AdminParticipantColumns} data={data} />
+    </div>
+  );
 }
-

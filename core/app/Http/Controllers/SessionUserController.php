@@ -7,6 +7,8 @@ use App\Http\Requests\StoreSessionUserRequest;
 use App\Http\Requests\UpdateSessionUserRequest;
 use App\Http\Resources\SessionUserResource;
 use App\Mail\ConvocationMail;
+use App\Models\SessionFormationEntreprise;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class SessionUserController extends Controller
@@ -17,6 +19,12 @@ class SessionUserController extends Controller
     public function index()
     {
         //
+    }
+
+    public function session(SessionFormationEntreprise $session)
+    {
+        $sessionUser = SessionUser::where('session_id',$session->id)->get();
+        return SessionUserResource::collection($sessionUser);
     }
 
     /**
@@ -70,5 +78,23 @@ class SessionUserController extends Controller
             'sessionUser' => $sessionUser,
             'message' => __("L'utilisateur a été supprimé avec succès de la session.")
             ]);
+    }
+
+    public function desaffecter(Request $request)
+    {
+        $sessionUser = SessionUser::where('session_id',$request->session_id)
+                                    ->where('user_id',$request->user_id)
+                                    ->first();
+        if (!$sessionUser) {
+        return response()->json([
+            'message' => 'Aucune affectation trouvée pour ce participant dans cette session.'
+        ], 404);
+        }
+        
+        $sessionUser->delete(); 
+                            
+        return response()->json([
+            'message' => __("L'utilisateur a été supprimé avec succès de la session.")
+        ]);
     }
 }
