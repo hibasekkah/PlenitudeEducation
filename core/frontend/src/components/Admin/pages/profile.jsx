@@ -29,6 +29,7 @@ export default function profile() {
     if(!user){
         return <Navigate to="/login" replace />;
     }
+    console.log(user)
     
   return (
     <div className="flex w-full max-w-sm flex-col gap-6 m-5">

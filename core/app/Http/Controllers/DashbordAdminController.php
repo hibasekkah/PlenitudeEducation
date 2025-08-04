@@ -36,10 +36,19 @@ class DashbordAdminController extends Controller
 
         $participantsParFormation = Formation::query()
             ->select('formations.intitule', DB::raw('COUNT(DISTINCT session_users.user_id) as total_participants'))
-            ->join('session_formation_entreprises', 'formations.id', '=', 'session_formation_entreprises.formation_id')
-            ->join('session_users', 'session_formation_entreprises.id', '=', 'session_users.session_id')
+            ->leftjoin('session_formation_entreprises', 'formations.id', '=', 'session_formation_entreprises.formation_id')
+            ->leftjoin('session_users', 'session_formation_entreprises.id', '=', 'session_users.session_id')
             ->groupBy('formations.id', 'formations.intitule')
             ->orderBy('total_participants', 'desc')
+            ->limit(5)
+            ->get();
+
+        $entreprisesParFormation = Formation::query()
+            ->select('formations.intitule', DB::raw('COUNT(DISTINCT session_formation_entreprises.entreprise_id) as total_entreprises'))
+            ->leftjoin('session_formation_entreprises', 'formations.id', '=', 'session_formation_entreprises.formation_id')
+            ->leftjoin('entreprises', 'session_formation_entreprises.entreprise_id', '=', 'entreprises.id')
+            ->groupBy('formations.id', 'formations.intitule')
+            ->orderBy('total_entreprises', 'desc')
             ->limit(5)
             ->get();
 
@@ -99,6 +108,7 @@ class DashbordAdminController extends Controller
             'charts' => [
                 'inscriptions_par_mois' => $inscriptionsParMois,
                 'participantsParFormation' => $participantsParFormation,
+                'entreprisesParFormation' => $entreprisesParFormation,
                 'formationsPopulaires' => $formationsPopulaires,
                 'chiffre' => $chiffre,
             ]

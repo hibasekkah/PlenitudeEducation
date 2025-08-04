@@ -23,7 +23,7 @@ class StoreSessionUserRequest extends FormRequest
     {
         return [
             'user_id'=>'required|unique:session_users,user_id',
-            'session_id'=>'required|unique:session_users,session_id'
+            'session_id'=>'required'
         ];
     }
 }
