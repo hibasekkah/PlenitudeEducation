@@ -28,6 +28,7 @@ import ResetPassword from "../components/Login/ResetPassword";
 import { ManageRH } from "../components/Admin/pages/ManageRH";
 import { ManageFormateur } from "../components/Admin/pages/ManageFormateur";
 import { ParticipantInvitationRegister } from "../components/Participant/ParticipantInvitationRegister";
+import { AdminDashbord } from "../components/Admin/pages/AdminDashbord";
 
 export const LOGIN_ROUTE = '/login'
 export const ABOUT_ROUTE = '/about'
@@ -88,7 +89,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: "dashboard",
-            element: <UserDashboard />,
+            element: <AdminDashbord />,
           },
           {
             path: "profile",

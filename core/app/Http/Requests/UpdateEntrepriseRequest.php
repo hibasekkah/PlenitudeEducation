@@ -37,6 +37,10 @@ class UpdateEntrepriseRequest extends FormRequest
             'priode' => 'sometimes|required',
             'debut_period' => 'sometimes|required|date',
             'fin_period' => 'sometimes|required|date',
+            'doc_rc' => 'sometimes|required|file',
+            'doc_status' => 'sometimes|required|file',
+            'doc_pv' => 'sometimes|required|file',
+            'CIN_gerant' => 'sometimes|required|file',
         ];
     }
 }

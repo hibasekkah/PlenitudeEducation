@@ -14,6 +14,18 @@ class SeanceResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+        'id' => $this->id,
+        'date' => $this->date,
+        'etat' => $this->etat,
+        'heure_debut' => $this->heure_debut,
+        'heure_fin' => $this->heure_fin,
+        'session_id' => new SessionFormationEntrepriseResource($this->session) ,
+        'formateur_id' => $this->formateur,
+        'module' => $this->module,
+        'atelier' => $this->atelier,
+        //'entreprise_id' => $this->session->entreprise,
+        //'formation_id' => $this->session->formation,
+    ];
     }
 }

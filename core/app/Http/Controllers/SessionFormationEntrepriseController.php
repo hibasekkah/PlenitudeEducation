@@ -23,6 +23,7 @@ class SessionFormationEntrepriseController extends Controller
      */
     public function store(StoreSessionFormationEntrepriseRequest $request)
     {
+        
         $formfields = $request->validated();
         $session = SessionFormationEntreprise::create($formfields);
         $response = new SessionFormationEntrepriseResource($session);
@@ -72,14 +73,11 @@ class SessionFormationEntrepriseController extends Controller
 
     public function suspendreSession(Request $request, SessionFormationEntreprise $sessionFormationEntreprise)
     {
-        //dd($request);
         $formfields = $request->validate([
             'raison_sus'=>'required'
         ]);
-        //dd($sessionFormationEntreprise->update($formfields));
         $formfields['etat']='suspendue';
         $sessionFormationEntreprise->update($formfields);
-        //$response = new SessionFormationEntrepriseResource($sessionFormationEntreprise);
         return response()->json([
             'session'=>$sessionFormationEntreprise,
             'message'=>__('La session a été suspendue avec succès.')
@@ -88,27 +86,21 @@ class SessionFormationEntrepriseController extends Controller
 
     public function annulerSession(Request $request, SessionFormationEntreprise $sessionFormationEntreprise)
     {
-        //dd($request);
         $formfields = $request->validate([
             'raison_annulation'=>'required'
         ]);
-        //dd($sessionFormationEntreprise->update($formfields));
         $formfields['etat']='annuler';
         $sessionFormationEntreprise->update($formfields);
-        //$response = new SessionFormationEntrepriseResource($sessionFormationEntreprise);
         return response()->json([
             'session'=>$sessionFormationEntreprise,
             'message'=>__('La session a été annulée avec succès.')
         ]);
     }
 
-    public function activerSession(Request $request, SessionFormationEntreprise $sessionFormationEntreprise)
+    public function activerSession(SessionFormationEntreprise $sessionFormationEntreprise)
     {
-
-        //dd($sessionFormationEntreprise->update($formfields));
         $formfields['etat']='active';
         $sessionFormationEntreprise->update($formfields);
-        //$response = new SessionFormationEntrepriseResource($sessionFormationEntreprise);
         return response()->json([
             'session'=>$sessionFormationEntreprise,
             'message'=>__('La session a été réactivée avec succès.')

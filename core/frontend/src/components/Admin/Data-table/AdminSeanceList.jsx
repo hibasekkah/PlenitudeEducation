@@ -37,6 +37,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import AddModuleForm from "../Forms/AddModuleForm";
+import SeanceApi from "../../../services/api/Seance";
+import AddSeanceForm from "../Forms/AddSeanceForm";
 
 
 export default function AdminSeanceList(){
@@ -44,7 +46,7 @@ export default function AdminSeanceList(){
   useEffect(() => {
     (async () => {
       try {
-        const response = await SessionApi.all();
+        const response = await SeanceApi.all();
         console.log(response.data);
         setData(response.data.data);
       } catch (error) {
@@ -109,38 +111,63 @@ export default function AdminSeanceList(){
     displayName : "Observations",
   },
   {
-    accessorKey: "Session_id",
-    header: ({ column }) => {
-      return (
-        <DataTableColumnHeader column={column} title="Formation" />
-      )
+    id: "session_id",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Session ID" />,
+    cell: ({ row }) => { 
+      const id = row.original.session_id?.id;
+      return id ? <div>{id}</div> : <span>N/A</span>;
     },
-    displayName : "Formation",
+    displayName: "Session ID",
   },
   {
-    accessorKey: "Session_id",
-    header: ({ column }) => {
-      return (
-        <DataTableColumnHeader column={column} title="Entreprise" />
-      )
+    id: "formation",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Formation" />,
+    cell: ({ row }) => {
+      const intitule = row.original.session_id?.formation?.intitule;
+      return intitule ? <div>{intitule}</div> : <span>N/A</span>;
     },
-    displayName : "Entreprise",
+    displayName: "Formation",
   },
   {
-    accessorKey: "module_id",
+    id: "entreprise",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Entreprise" />,
+    cell: ({ row }) => { 
+      const nom = row.original.session_id?.entreprise?.nom;
+      return nom ? <div>{nom}</div> : <span>N/A</span>;
+    },
+    displayName: "Entreprise",
+  },
+  {
+    accessorKey: "module",
     header: ({ column }) => {
       return (
         <DataTableColumnHeader column={column} title="Module" />
       )
     },
+    cell: ({ row }) => {
+      const titre = row.original.module?.titre;
+      return (
+        titre ? <div className="flex flex-col space-y-2">
+          {titre}
+        </div>:<div className="flex flex-col space-y-2"></div>
+      );
+    },
     displayName : "Module",
   },
   {
-    accessorKey: "atelier_id",
+    accessorKey: "atelier",
     header: ({ column }) => {
       return (
         <DataTableColumnHeader column={column} title="Atelier" />
       )
+    },
+    cell: ({ row }) => {
+      const type = row.original.atelier?.type;
+      return ( type? 
+        <div className="flex flex-col space-y-2">
+          {type}
+        </div> :<div className="flex flex-col space-y-2"></div>
+      );
     },
     displayName : "Atelier",
   },
@@ -152,10 +179,10 @@ export default function AdminSeanceList(){
       )
     },
     cell: ({ row }) => {
-      const {intitule} = row.original.formation;
+      const {nom,prenom} = row.original.formateur_id;
       return (
         <div className="flex flex-col space-y-2">
-          {intitule}
+          {nom +' ' + prenom}
         </div>
       );
     },
@@ -190,9 +217,9 @@ export default function AdminSeanceList(){
 
                   <div className="flex-grow overflow-y-auto m-1"> 
                     <ScrollArea className="h-full pr-4"> 
-                      <AddModuleForm 
+                      <AddSeanceForm 
                         initialData={row.original} 
-                        onFormSubmit={(formValues) => SessionApi.update(row.original.id, formValues)}
+                        onFormSubmit={(formValues) => SeanceApi.update(row.original.id, formValues)}
                       />
                     </ScrollArea>
                   </div>
@@ -214,12 +241,12 @@ export default function AdminSeanceList(){
                     <AlertDialogAction onClick={async()=>{
                       try{
                         const deletingLoader = toast.loading('suppression en cours !!')
-                        const response = await SessionApi.delete(id);
+                        const response = await SeanceApi.delete(id);
                         toast.dismiss(deletingLoader);
-                        setData(data.filter((Session)=>Session.id !== id));
+                        setData(data.filter((Seance)=>Seance.id !== id));
                         toast.success("Module supprimée avec succès !");}
                         catch(error){
-                          toast.error("Erreur lors de la suppression du module.");
+                          toast.error("Erreur lors de la suppression du seance.");
                           console.error(error);
                         }
                       }}>Continue</AlertDialogAction>

@@ -291,7 +291,7 @@ export default function AdminEntrepriseList(){
                               <a
                                 //key={file.id}
                                 href={`${import.meta.env.VITE_BACKEND_URL}/storage/${data[0].doc_rc}`}
-                                download='Registre de commerce'
+                                download ='Registre de commerce'
                                 className="flex items-center text-blue-600 hover:underline"
                                 target="_blank"
                                 rel="noopener noreferrer"

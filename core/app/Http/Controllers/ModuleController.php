@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateModuleRequest;
 use App\Http\Resources\ModuleResource;
 use App\Models\File;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -68,10 +69,19 @@ class ModuleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateModuleRequest $request, Module $module)
+    public function update(Request $request, Module $module)
     {
         $this->authorize('update', $module);
-        $validatedData = $request->validated();
+        $validatedData = $request->validate([
+            'titre' => 'sometimes|required|string|max:200',
+            'duree' => 'sometimes|required',
+            'categorie' => 'sometimes|required|string|max:200',
+            'formation_id' => 'sometimes|required',
+            'files' => 'sometimes|array',
+            'files.*' => 'sometimes|file',
+            'files_to_delete' => 'sometimes|array',
+            'files_to_delete.*' => 'sometimes|integer|exists:files,id',
+        ]);
         DB::transaction(function () use ($module, $request, $validatedData) {
             $module->update(collect($validatedData)->except(['files', 'files_to_delete'])->toArray());
             if ($request->has('files_to_delete')) {

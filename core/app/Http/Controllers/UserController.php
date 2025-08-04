@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\Entreprise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -19,6 +20,15 @@ class UserController extends Controller
     {
         //
     }
+
+    // public function participants(Entreprise $entreprise)
+    // {
+    //     $this->authorize('view', $entreprise);
+    //     $participant = User::where('entreprise_id',$entreprise->id)
+    //                         ->where('role', 'participant')
+    //                         ->get();
+    //     return new UserResource($participant);   
+    // }
 
     /**
      * Store a newly created resource in storage.

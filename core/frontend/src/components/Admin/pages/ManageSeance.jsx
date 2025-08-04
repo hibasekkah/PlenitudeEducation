@@ -1,10 +1,9 @@
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
 import {Separator} from "@/components/ui/separator.jsx";
 import {ScrollArea,ScrollBar} from "@/components/ui/scroll-area.jsx";
-import AtelierApi from "../../../services/api/Atelier";
-import AdminAtelierList from "../Data-table/AdminAtelierList";
-import AddAtelierForm from "../Forms/AddAtelierForm";
+import SeanceApi from "../../../services/api/Seance";
 import AdminSeanceList from "../Data-table/AdminSeanceList";
+import AddSeanceForm from "../Forms/AddSeanceForm";
 
 export function ManageSeance(){
     return <>
@@ -48,7 +47,7 @@ export function ManageSeance(){
                             <TabsContent
                             value="add_seance">
                             <div className="space-y-1">
-                                {/* <AddAtelierForm onFormSubmit={AtelierApi.create} />  */}
+                                <AddSeanceForm onFormSubmit={SeanceApi.create} /> 
                             </div>
                             <Separator className="my-4"/>
                             </TabsContent>

@@ -1,59 +1,46 @@
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
-import { useAuth } from '@/provider/authProvider';
-import ProfileApi from "../../../services/api/Profile";
 import { toast } from "sonner";
-import { useState } from "react";
 import { Loader } from "lucide-react";
 
-
-
 const formSchema = z.object({
-  raison_annulation: z.string().min(2, "La raison est trop court."),
+  raison_annulation: z.string().min(2, "La raison doit contenir au moins 2 caractères."),
 });
 
-export function AnnulSession() {
-
+// 1. Receive props as an object: { initialData, onFormSubmit }
+export function AnnulSession({ initialData, onFormSubmit, closeDialog }) {
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            raison_annulation:"",
+            raison_annulation: "",
         },
     });
-    const { setError } = form;
+    const { setError, formState: { isSubmitting } } = form;
 
     const onSubmit = async (values) => {
-        const loader = toast.loading("Mise à jour en cours...");
-        
-        const payload = {
-            raison_annulation:values.raison_annulation,
-        }
+        const loader = toast.loading("Annulation en cours...");
         
         try {
-            const response = await SessionApi.sus(payload);
+            // 2. Call the onFormSubmit prop with the correct ID and the form values
+            const response = await onFormSubmit(initialData.id, values);
             
-            toast.success(response.data.message || "Profil mis à jour avec succès !");
+            toast.success(response.data.message || "Session annulée avec succès !");
+
+            // 3. Call the function to close the dialog
+            if (closeDialog) {
+              closeDialog();
+            }
 
         } catch (error) {
             console.error("Échec de la soumission du formulaire:", error.response || error);
             if (error.response?.status === 422 && error.response.data.errors) {
-                toast.error("Certains champs sont invalides.",error.message);
-                Object.entries(error.response.data.errors).forEach(([fieldName, errorMessages]) => {
-                    setError(fieldName, { type: "server", message: errorMessages.join(', ') });
+                toast.error("Données invalides.");
+                Object.entries(error.response.data.errors).forEach(([fieldName, messages]) => {
+                    setError(fieldName, { type: "server", message: messages.join(', ') });
                 });
             } else {
                 toast.error(error.response?.data?.message || "Une erreur est survenue.");
@@ -64,14 +51,26 @@ export function AnnulSession() {
     };
 
     return (
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                        <FormField control={form.control} name="raison_annulation" render={({ field }) => (<FormItem><FormLabel>raison_annulation</FormLabel><FormControl><Input placeholder="raison_annulation" {...field} /></FormControl><FormMessage /></FormItem>)} />
-                            <Button type="submit" disabled={form.formState.isSubmitting}>
-                                {form.formState.isSubmitting && <Loader className="mr-2 h-4 w-full animate-spin" />}
-                                Sauvegarder
-                            </Button>
-                    </form>
-                </Form>
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField
+                    control={form.control}
+                    name="raison_annulation"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Raison de l'annulation</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Indiquez la raison..." {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <Button type="submit" disabled={isSubmitting}>
+                    {isSubmitting && <Loader className="mr-2 h-4 w-4 animate-spin" />}
+                    Confirmer l'Annulation
+                </Button>
+            </form>
+        </Form>
     );
 }

@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
 import { DataTable } from "../../data-table/DataTable";
 import {Button} from "@/components/ui/Button";
-import { ArrowUpDown, DownloadIcon } from "lucide-react";
 import {toast} from "sonner";
 import { MoreHorizontal } from "lucide-react"
 import { DataTableColumnHeader } from "../../data-table/DataTableColumnHeader";
 import SessionApi from "../../../services/api/Session";
-
-
-
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -40,9 +46,12 @@ import {
 import AddSessionForm from "../Forms/AddSessionForm";
 import { SusSession } from "../Forms/SusSession";
 import { AnnulSession } from "../Forms/AnnulSession";
+import AffecterParticipantsForm from "../Forms/AffecterParticipantsForm";
 
 
 export default function AdminSessionList(){
+  const [isAnnulDialogOpen, setIsAnnulDialogOpen] = useState(false);
+
   const [data,setData] = useState([]);
   useEffect(() => {
     (async () => {
@@ -221,36 +230,47 @@ export default function AdminSessionList(){
                 </AlertDialogContent>
                 </AlertDialog>
 
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                      suspendre
-                    </DropdownMenuItem>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                      <AlertDialogHeader>
-                      <AlertDialogTitle>Indiquer la raison</AlertDialogTitle>
-                      </AlertDialogHeader>
-                      <SusSession/>
-                      <AlertDialogCancel>annuler</AlertDialogCancel>
-                  </AlertDialogContent>
-                  </AlertDialog>
+                  <Dialog>
+                        <DialogTrigger asChild>
+                          <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
+                            suspendre
+                          </DropdownMenuItem>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                          <DialogHeader>
+                            <DialogTitle>Suspendre</DialogTitle>
+                            <DialogDescription>
+                              Indiquer la raison
+                            </DialogDescription>
+                          </DialogHeader>
+                          <SusSession
+                            initialData={row.original} 
+                            onFormSubmit={(id, values) => SessionApi.sus(id, values)} 
+                          />
+                        </DialogContent>
+                    </Dialog>
 
-                  <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                      annuler
-                    </DropdownMenuItem>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                      <AlertDialogHeader>
-                      <AlertDialogTitle>Indiquer la raison</AlertDialogTitle>
-                      </AlertDialogHeader>
-                      <AnnulSession/>
-                      <AlertDialogCancel>annuler</AlertDialogCancel>
-                  </AlertDialogContent>
-                  </AlertDialog>
-                  
+                    <Dialog open={isAnnulDialogOpen} onOpenChange={setIsAnnulDialogOpen}>
+                        <DialogTrigger asChild>
+                          <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
+                            annuler
+                          </DropdownMenuItem>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                          <DialogHeader>
+                            <DialogTitle>Annuler la session</DialogTitle>
+                            <DialogDescription>
+                              Indiquer la raison
+                            </DialogDescription>
+                          </DialogHeader>
+                          <AnnulSession
+                              initialData={row.original} 
+                              onFormSubmit={(id, values) => SessionApi.annuler(id, values)} 
+                              closeDialog={() => setIsAnnulDialogOpen(false)}
+                            />
+                        </DialogContent>
+                    </Dialog>
+
                 <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
@@ -278,14 +298,29 @@ export default function AdminSessionList(){
                     </AlertDialogFooter>
                 </AlertDialogContent>
                 </AlertDialog>
+
+                <Dialog>
+                        <DialogTrigger asChild>
+                          <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
+                            participants
+                          </DropdownMenuItem>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[90vw]">
+                          <DialogHeader>
+                            <DialogTitle>Ajouter des participants</DialogTitle>
+                            <DialogDescription>
+                              {/* ajou les participants */}
+                            </DialogDescription>
+                          </DialogHeader>
+                          <AffecterParticipantsForm initialData={row.original}/>
+                        </DialogContent>
+                    </Dialog>
           </DropdownMenuContent>
         </DropdownMenu>
       )
     },
   },
 ]
-
-
   return <>
       <DataTable columns={AdminModuleColumns} data={data}/>
     </>

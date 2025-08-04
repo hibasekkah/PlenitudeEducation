@@ -11,7 +11,19 @@ const SessionApi = {
         return await axiosUser.delete(`/api/sessionFormationEntreprise/${id}`)
     },
     update: async (id,formData)=>{
-        return await axiosUser.post(`/api/sessionFormationEntreprise/${id}`, formData)
+        return await axiosUser.put(`/api/sessionFormationEntreprise/${id}`, formData)
+    },
+    sus: async (id,formData)=>{
+        return await axiosUser.put(`/api/sessionFormationEntreprise/suspendreSession/${id}`, formData)
+    },
+    annuler: async (id,formData)=>{
+        return await axiosUser.put(`/api/sessionFormationEntreprise/annulerSession/${id}`, formData)
+    },
+    reactiver: async (id)=>{
+        return await axiosUser.put(`/api/sessionFormationEntreprise/activerSession/${id}`)
+    },
+    affecter: async (id)=>{
+        return await axiosUser.post(`/api/sessionUsers`)
     },
 }
 

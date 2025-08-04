@@ -59,7 +59,7 @@ export default function ModuleForm({ onFormSubmit, initialData = null }) {
     
     const formData = new FormData();
     if(isUpdate){
-      formData.append('_method', 'put')
+      formData.append('_method', 'PUT')
     }
     formData.append('titre', values.titre);
     formData.append('categorie', values.categorie);

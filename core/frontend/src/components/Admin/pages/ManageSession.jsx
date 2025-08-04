@@ -8,10 +8,6 @@ import { useCallback } from "react";
 
 
 export function ManageSession(){
-    const handleCreateSubmit = useCallback(async (values) => {
-        console.log("handleCreateSubmit a été appelé !");
-        return SessionApi.create(values);
-    }, []);
     return <>
         <div className="relative overflow-x-auto">
             <div className="hidden md:block">
@@ -53,7 +49,7 @@ export function ManageSession(){
                             <TabsContent
                             value="add_session">
                             <div className="space-y-1">
-                                <AddSessionForm onFormSubmit={handleCreateSubmit} />
+                                <AddSessionForm onFormSubmit={SessionApi.create} />
                             </div>
                             <Separator className="my-4"/>
                             </TabsContent>

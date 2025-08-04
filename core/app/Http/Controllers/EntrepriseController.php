@@ -6,6 +6,8 @@ use App\Models\Entreprise;
 use App\Http\Requests\StoreEntrepriseRequest;
 use App\Http\Requests\UpdateEntrepriseRequest;
 use App\Http\Resources\EntrepriseResource;
+use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Storage;
 
@@ -56,6 +58,16 @@ class EntrepriseController extends Controller
         return new EntrepriseResource($entreprise);   
     }
 
+
+    public function participants(Entreprise $entreprise)
+    {
+        //$this->authorize('view', $entreprise);
+        $participant = User::where('entreprise_id',$entreprise->id)
+                            ->where('role', 'participant')
+                            ->get();
+        return UserResource::collection($participant);   
+    }
+
     /**
      * Update the specified resource in storage.
      */
@@ -63,7 +75,8 @@ class EntrepriseController extends Controller
     {
         $this->authorize('update', $entreprise);
         $validatedData = $request->validated();
-        
+        logger('Contenu de $validatedData', $validatedData);
+
         $updateData = collect($validatedData)->except(['doc_rc', 'doc_status', 'doc_pv', 'CIN_gerant'])->toArray();
 
         $fileFieldsToProcess = ['doc_rc', 'doc_status', 'doc_pv', 'CIN_gerant'];
@@ -77,7 +90,8 @@ class EntrepriseController extends Controller
             }
         }
 
-        $entreprise->update($updateData);
+        $updated =$entreprise->update($updateData);
+        logger('Update status:', ['success' => $updated]);
         
         return response()->json([
             'entreprise' => new EntrepriseResource($entreprise->fresh()),
