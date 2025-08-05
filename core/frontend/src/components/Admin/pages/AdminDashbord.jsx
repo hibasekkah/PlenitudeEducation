@@ -19,15 +19,8 @@ import StatistiqueApi from "../../../services/api/Statistique"
 import { ChartLegend, ChartLegendContent } from "@/components/ui/chart"
 
 export const description = "An interactive bar chart"
-
-const chartData = [
-    { data: "formation", desktop: 2 },
-    { data: "formation", desktop: 9},
-  ]
-
-
-
-chartData.push({ data: "formation", desktop: 2, desktop: 2});
+import { Separator } from "@/components/ui/separator"
+import { FormationsRecherche } from "./FormationsRecherche"
 
 const chartConfig = {
   views: {
@@ -49,8 +42,6 @@ export function AdminDashbord() {
   const [chartDatas,setChartData] = useState({})
   const [chartDatap,setChartDatap] = useState({});
 
-
-  
   console.log(chartDatas);
   useEffect(() => {
     (async () => {
@@ -80,160 +71,94 @@ export function AdminDashbord() {
 
 
   return (<>
-  <div className="center "><h1 className="m-5 center">Statistiques</h1></div>
-  
+  <div className="text-center"><h1 className="m-5 caret-blue-800 font-bold text-3xl mb-5">Statistiques</h1></div>
+  <Separator className="my-4"/>
   <div className="flex flex-row items-stretch justify-around mt-5">
-    
-    {/* <Card className="py-0">
-      <CardHeader className="flex flex-col items-stretch border-b !p-0 sm:flex-row">
-        <div className="flex flex-1 flex-col justify-center gap-1 px-6 pt-4 pb-3 sm:!py-0 h-20">
-          <CardTitle>Statistiques globales</CardTitle>
-          <CardDescription>
-          </CardDescription>
-        </div>
-      </CardHeader>
-      <CardContent className="px-2 sm:p-6 flex justify-around"> */}
           <Card className="w-full max-w-2xs">
             <CardHeader>
-              <CardTitle>nombre des formations</CardTitle>
+              <CardTitle className="text-center">Nombre des formations</CardTitle>
             </CardHeader>
-            <CardContent>
-              <p>{satistiques?.kpis?.totalFormations}</p>
+            <CardContent className="text-center">
+              <div className="center"><p>{satistiques?.kpis?.totalFormations}</p></div>
             </CardContent>
           </Card>
 
           <Card className="w-full max-w-2xs">
             <CardHeader>
-              <CardTitle>nombre des entreprises</CardTitle>
+              <CardTitle className="text-center">Nombre des entreprises</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="text-center">
               <p>{satistiques?.kpis?.total_clients}</p>
             </CardContent>
           </Card>
 
           <Card className="w-full max-w-2xs">
             <CardHeader>
-              <CardTitle>nombre des participants</CardTitle>
+              <CardTitle className="text-center">Nombre des participants</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="text-center">
               <p>{satistiques?.kpis?.total_participants}</p>
             </CardContent>
           </Card>
       {/* </CardContent>
     </Card> */}
     </div>
-    <div className="mt-4">
-    <ChartContainer config={chartConfig} className="min-h-[200px] w-2xl mt-4">
-      <BarChart accessibilityLayer data={chartDatas}>
-        <CartesianGrid vertical={false} />
-        <XAxis
-          dataKey="intitule"
-          tickLine={false}
-          tickMargin={10}
-          axisLine={false}
-          //tickFormatter={(value) => value.slice(0, 3)}
-        />
-        <ChartTooltip content={<ChartTooltipContent />} />
-        <Bar dataKey="total_entreprises" fill="var(--color-desktop)" radius={4} />
-        <ChartLegend content={<ChartLegendContent />} />
-      </BarChart>
-    </ChartContainer>
-    </div>
+        <div className="flex flex-row items-center m-4">
+          <Card className="w-3xl m-1">
+                <CardHeader>
+                  <CardTitle>Nombre des participants par formations</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="">
+                    <ChartContainer config={chartConfig} className="min-h-[200px] 2xl">
+                      <BarChart accessibilityLayer data={chartDatas}>
+                        <CartesianGrid vertical={false} />
+                        <XAxis
+                          dataKey="intitule"
+                          tickLine={false}
+                          tickMargin={10}
+                          axisLine={false}
+                        />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Bar dataKey="total_entreprises" fill="var(--color-desktop)" radius={4} />
+                        <ChartLegend content={<ChartLegendContent />} />
+                      </BarChart>
+                    </ChartContainer>
+                    </div>
+                </CardContent>
+              </Card>
 
-    <div className="mt-4">
-    <ChartContainer config={chartConfig} className="min-h-[200px] w-2xl mt-4">
-      <BarChart accessibilityLayer data={chartDatap}>
-        <CartesianGrid vertical={false} />
-        <XAxis
-          dataKey="intitule"
-          tickLine={false}
-          tickMargin={10}
-          axisLine={false}
-          //tickFormatter={(value) => value.slice(0, 3)}
-        />
-        <ChartTooltip content={<ChartTooltipContent />} />
-        <Bar dataKey="total_participants" fill="var(--color-desktop)" radius={4} />
-        <ChartLegend content={<ChartLegendContent />} />
-      </BarChart>
-    </ChartContainer>
-    </div>
-    {/* <Card className="py-0">
-      <CardHeader className="flex flex-col items-stretch border-b !p-0 sm:flex-row">
-        <div className="flex flex-1 flex-col justify-center gap-1 px-6 pt-4 pb-3 sm:!py-0">
-          <CardTitle>Statistiques globales</CardTitle>
-          <CardDescription>
-            
-          </CardDescription>
-        </div>
-        <div className="flex">
-          {["desktop", "mobile"].map((key) => {
-            const chart = key
-            return (
-              <button
-                key={chart}
-                data-active={activeChart === chart}
-                className="data-[active=true]:bg-muted/50 relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left even:border-l sm:border-t-0 sm:border-l sm:px-8 sm:py-6"
-                onClick={() => setActiveChart(chart)}
-              >
-                <span className="text-muted-foreground text-xs">
-                  {chartConfig[chart].label}
-                </span>
-                <span className="text-lg leading-none font-bold sm:text-3xl">
-                  {total[key].toLocaleString()}
-                </span>
-              </button>
-            )
-          })}
-        </div>
-      </CardHeader>
-      <CardContent className="px-2 sm:p-6">
-        <ChartContainer
-          config={chartConfig}
-          className="aspect-auto h-[250px] w-full"
-        >
-          <BarChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              left: 12,
-              right: 12,
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="date"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              minTickGap={32}
-              tickFormatter={(value) => {
-                const date = new Date(value)
-                return date.toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                })
-              }}
-            />
-            <ChartTooltip
-              content={
-                <ChartTooltipContent
-                  className="w-[150px]"
-                  nameKey="views"
-                  labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })
-                  }}
-                />
-              }
-            />
-            <Bar dataKey={activeChart} fill={`var(--color-${activeChart})`} />
-          </BarChart>
-        </ChartContainer>
-      </CardContent>
-    </Card> */}
+
+              <Card className="w-3xl m-1">
+                <CardHeader>
+                  <CardTitle>Nombre des entreprise par formations</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="">
+                    <ChartContainer config={chartConfig} className="min-h-[200px] 2xl">
+                      <BarChart accessibilityLayer data={chartDatap}>
+                        <CartesianGrid vertical={false} />
+                        <XAxis
+                          dataKey="intitule"
+                          tickLine={false}
+                          tickMargin={10}
+                          axisLine={false}
+                        />
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Bar dataKey="total_participants" fill="var(--color-desktop)" radius={4} />
+                        <ChartLegend content={<ChartLegendContent />} />
+                      </BarChart>
+                    </ChartContainer>
+                    </div>
+                </CardContent>
+              </Card>
+              </div>
+      <Separator className="my-4"/>
+      <div className="text-center"><h1 className="m-5 caret-blue-800 font-bold text-3xl mb-5">Formations</h1></div>
+      <Separator className="my-4"/>
+      <div className=" flex flex-col justify-center text-center"><FormationsRecherche /></div>
+
+    
     </>
   )
 }

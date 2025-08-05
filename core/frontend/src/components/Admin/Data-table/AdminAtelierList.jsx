@@ -25,7 +25,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import ModuleApi from "../../../services/api/Module";
 
 import {
   DropdownMenu,
@@ -35,7 +34,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import AddModuleForm from "../Forms/AddModuleForm";
 import AtelierApi from "../../../services/api/Atelier";
 import AddAtelierForm from "../Forms/AddAtelierForm";
 

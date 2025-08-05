@@ -8,16 +8,15 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     */ 
+     */
     public function up(): void
     {
-        Schema::create('files', function (Blueprint $table) {
+        Schema::create('file_entreprises', function (Blueprint $table) {
             $table->id();
             $table->string('file_path');
             $table->string('file_nom');
-            $table->text('description')->nullable()->charset('binary');
             $table->unsignedBigInteger('size')->nullable();
-            $table->foreignId('module_id')->constrained('modules')->onDelete('cascade');
+            $table->foreignId('entreprise_id')->constrained('entreprises')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('files');
+        Schema::dropIfExists('file_entreprises');
     }
 };

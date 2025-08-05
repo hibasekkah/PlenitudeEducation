@@ -58,11 +58,11 @@ export default function ModuleForm({ onFormSubmit, initialData = null }) {
     const loader = toast.loading(loaderMsg);
     
     const formData = new FormData();
-    if(isUpdate){
-      formData.append('_method', 'PUT')
-    }
+    
+    // Note: _method sera ajouté dans ModuleApi.update() pour Laravel
+    
     formData.append('titre', values.titre);
-    formData.append('categorie', values.categorie);
+    formData.append('categorie', values.categorie || '');
     formData.append('duree', values.duree);
     formData.append('formation_id', values.formation_id);
 
@@ -80,16 +80,22 @@ export default function ModuleForm({ onFormSubmit, initialData = null }) {
     }
     
     console.log(`--- Contenu du FormData envoyé (${isUpdate ? 'UPDATE' : 'CREATE'}) ---`);
-    for (let [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
+    console.log('Type of formData:', formData.constructor.name);
+    console.log('Is FormData?', formData instanceof FormData);
+    
+    if (formData instanceof FormData) {
+      for (let [key, value] of formData.entries()) {
+          console.log(`${key}:`, value);
+      }
+    } else {
+      console.log('FormData object:', formData);
     }
     console.log("-----------------------------------------");
 
     try {
       let response;
       if (isUpdate) {
-        
-        response = await onFormSubmit(initialData.id, formData);
+        response = await onFormSubmit(formData);
       } else {
         response = await onFormSubmit(formData);
       }
@@ -120,15 +126,52 @@ export default function ModuleForm({ onFormSubmit, initialData = null }) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField control={form.control} name="titre" render={({ field }) => (<FormItem><FormLabel>Titre</FormLabel><FormControl><Input placeholder="Titre" {...field} /></FormControl><FormMessage /></FormItem>)} />
-        <FormField control={form.control} name="duree" render={({ field }) => (<FormItem><FormLabel>Durée (heures)</FormLabel><FormControl><Input type="number" placeholder="Durée" {...field} /></FormControl><FormMessage /></FormItem>)} />
-        <FormField control={form.control} name="categorie" render={({ field }) => (<FormItem><FormLabel>Catégorie</FormLabel><FormControl><Input placeholder="Catégorie" {...field} /></FormControl><FormMessage /></FormItem>)} />
+        <FormField control={form.control} name="titre" render={({ field }) => (
+          <FormItem>
+            <FormLabel>Titre</FormLabel>
+            <FormControl>
+              <Input placeholder="Titre" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )} />
+        
+        <FormField control={form.control} name="duree" render={({ field }) => (
+          <FormItem>
+            <FormLabel>Durée (heures)</FormLabel>
+            <FormControl>
+              <Input type="number" placeholder="Durée" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )} />
+        
+        <FormField control={form.control} name="categorie" render={({ field }) => (
+          <FormItem>
+            <FormLabel>Catégorie</FormLabel>
+            <FormControl>
+              <Input placeholder="Catégorie" {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )} />
+        
         <FormField control={form.control} name="formation_id" render={({ field }) => (
           <FormItem>
             <FormLabel>Formation</FormLabel>
             <Select onValueChange={field.onChange} defaultValue={String(field.value)}>
-              <FormControl><SelectTrigger><SelectValue placeholder="Choisir la formation" /></SelectTrigger></FormControl>
-              <SelectContent>{formationsdata.map((formation) => <SelectItem key={formation.id} value={String(formation.id)}>{formation.intitule}</SelectItem>)}</SelectContent>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Choisir la formation" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {formationsdata.map((formation) => (
+                  <SelectItem key={formation.id} value={String(formation.id)}>
+                    {formation.intitule}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
             <FormMessage />
           </FormItem>
@@ -139,18 +182,37 @@ export default function ModuleForm({ onFormSubmit, initialData = null }) {
             <FormLabel>Fichiers Actuels</FormLabel>
             {existingFiles.map(file => (
               <div key={file.id} className="flex items-center justify-between text-sm p-2 bg-muted rounded-md">
-                <a href={`${import.meta.env.VITE_BACKEND_URL}/storage/${file.file_path}`} target="_blank" rel="noopener noreferrer" className="truncate pr-4">{file.file_nom}</a>
-                <Button type="button" variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleMarkForDeletion(file.id)}>
+                <a 
+                  href={`${import.meta.env.VITE_BACKEND_URL}/storage/${file.file_path}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="truncate pr-4"
+                >
+                  {file.file_nom}
+                </a>
+                <Button 
+                  type="button" 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-6 w-6" 
+                  onClick={() => handleMarkForDeletion(file.id)}
+                >
                   <Trash2 className="h-4 w-4 text-red-500" />
                 </Button>
               </div>
             ))}
           </div>
         )}
+        
         <FormItem>
           <FormLabel>{isUpdate ? 'Ajouter de nouveaux fichiers' : 'Fichiers'}</FormLabel>
           <FormControl>
-            <Input id="module_files" type="file" multiple onChange={(e) => setNewFilesToUpload(Array.from(e.target.files))} />
+            <Input 
+              id="module_files" 
+              type="file" 
+              multiple 
+              onChange={(e) => setNewFilesToUpload(Array.from(e.target.files))} 
+            />
           </FormControl>
         </FormItem>
 

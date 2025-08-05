@@ -33,6 +33,7 @@ class EntrepriseController extends Controller
         $validatedData = $request->validated();
 
         $fileFields = ['doc_rc', 'doc_status', 'doc_pv', 'CIN_gerant'];
+        $EntrepriseData = collect($validatedData)->except('files')->toArray();
         
         foreach ($fileFields as $field) {
             if ($request->hasFile($field)) {
@@ -61,7 +62,7 @@ class EntrepriseController extends Controller
 
     public function participants(Entreprise $entreprise)
     {
-        //$this->authorize('view', $entreprise);
+        $this->authorize('view', $entreprise);
         $participant = User::where('entreprise_id',$entreprise->id)
                             ->where('role', 'participant')
                             ->get();

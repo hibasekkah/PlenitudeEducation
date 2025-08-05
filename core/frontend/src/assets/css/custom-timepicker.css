@@ -1,0 +1,5 @@
+/* ./custom-timepicker.css */
+.react-time-picker__wrapper {
+  border: none !important;
+  background-color: transparent !important;
+}

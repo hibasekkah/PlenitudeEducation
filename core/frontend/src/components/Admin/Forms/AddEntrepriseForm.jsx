@@ -133,7 +133,7 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData = null }) 
       let response;
       if (isUpdate) {
         formData.append('_method', 'put');
-        response = await onFormSubmit(initialData.id, formData);
+        response = await onFormSubmit(formData);
       } else {
         response = await onFormSubmit(formData);
       }

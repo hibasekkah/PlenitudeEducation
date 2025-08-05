@@ -35,7 +35,7 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/user/password',[UserController::class,'updatePassword']);
     Route::put('/user/photo',[UserController::class,'updatePhoto']);
     Route::get('/dashbord/admin',[DashbordAdminController::class,'getStatistics']);
-    Route::get('/admin/formation/{formation}',[DashbordAdminController::class,'getFStatistics']);
+    Route::get('/dashbord/admin/formation/{formation}',[DashbordAdminController::class,'getFStatistics']);
     Route::apiResources([
         'entreprises' => EntrepriseController::class,
         'formations' => FormationController::class,

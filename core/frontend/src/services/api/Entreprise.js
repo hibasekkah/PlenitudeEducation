@@ -13,8 +13,7 @@ const EntrepriseApi = {
     },
     update: async (id, formData) => {
         try {
-            // OPTION 1 : Si votre backend Laravel accepte POST avec _method=PUT (recommandé)
-            return await axiosUser.post(`/api/entreprise/${id}`, formData, {
+            return await axiosUser.put(`/api/entreprises/${id}`, formData, {
                 headers: {
                     'Accept': 'application/json',
                 }
@@ -28,7 +27,6 @@ const EntrepriseApi = {
         return await axiosUser.get(`/api/entreprise/participants/${id}`);
     },
 
-    // OPTION 2 : Si vous voulez utiliser la méthode PUT (alternative)
     updateWithPut: async (id, formData) => {
         try {
             return await axiosUser.put(`/api/entreprises/${id}`, formData, {

@@ -110,8 +110,9 @@ export default function AdminSessionList(){
       )
     },
     cell: ({ row }) => {
-      const {intitule} = row.original.formation;
+      const {intitule} = row.original?.formation;
       return (
+        intitule? <div className="flex flex-col space-y-2"></div>:
         <div className="flex flex-col space-y-2">
           {intitule}
         </div>
@@ -127,8 +128,9 @@ export default function AdminSessionList(){
       )
     },
     cell: ({ row }) => {
-      const {nom} = row.original.entreprise;
+      const {nom} = row.original?.entreprise;
       return (
+        nom? <div className="flex flex-col space-y-2"></div>:
         <div className="flex flex-col space-y-2">
           {nom}
         </div>
