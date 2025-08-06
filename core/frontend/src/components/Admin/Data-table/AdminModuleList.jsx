@@ -117,19 +117,30 @@ export default function AdminModuleList(){
       }
       return (
         <div className="flex flex-col space-y-2">
-          {files.map((file) => (
-            <a
-              key={file.id}
-              href={`${import.meta.env.VITE_BACKEND_URL}/storage/${file.file_path}`}
-              download={file.file_nom || 'document'} 
-              className="flex items-center text-blue-600 hover:underline"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <DownloadIcon className="h-4 w-4 mr-2" />
-              {file.file_nom || 'Télécharger'} 
-            </a>
-          ))}
+          <div className="space-y-2">
+            {files.map((file) => (
+              <div key={file.id} className="flex items-center justify-between bg-gray-50 p-2 rounded border">
+                <div className="flex items-center space-x-2">
+                  <a
+                    //key={file.id}
+                    href={`${import.meta.env.VITE_BACKEND_URL}/storage/${file.file_path}`}
+                    download={file.file_nom || 'document'}
+                    className="flex items-center  text-sm font-medium hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                  <DownloadIcon className="h-4 w-4 mr-2 text-blue-700" />
+                    {file.file_nom || 'Télécharger'}
+                  </a>
+                  {file.size && (
+                  <span className="text-xs text-gray-500">
+                  {/* ({formatFileSize(file.size)}) */}
+                  </span>
+                    )}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       );
     },

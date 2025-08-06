@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { DataTable } from "../../data-table/DataTable";
 import EntrepriseApi from "../../../services/api/Entreprise";
 import {Button} from "@/components/ui/Button";
-import { ArrowUpDown, DownloadIcon } from "lucide-react";
+import { ArrowUpDown, DownloadIcon, FileText } from "lucide-react";
 import {toast} from "sonner";
 import { format } from 'date-fns';
 import {
@@ -191,23 +191,6 @@ export default function AdminEntrepriseList(){
     displayName:"Date de fin",
   },
   {
-    accessorKey: "created_at",
-    header: ({ column }) => {
-      return (
-        <DataTableColumnHeader column={column} title="La date de création" />
-      )
-    },
-    displayName:"La date de création",
-    cell:({row}) => {
-      const date = format(row.original.created_at,'dd/MM/yyyy HH:mm')
-      return (
-        <div className="flex flex-col space-y-2">
-          {date}
-        </div>
-      );
-    }
-  },
-  {
     id: "actions",
     cell: ({ row }) => {
       const {id} = row.original;
@@ -281,71 +264,111 @@ export default function AdminEntrepriseList(){
                         <DialogContent className="sm:max-w-[425px]">
                           <DialogHeader>
                             <DialogTitle>Documents</DialogTitle>
-                            {/* <DialogDescription>
-                              Make changes to your profile here. Click save when you&apos;re
-                              done.
-                            </DialogDescription> */}
+                            
                           </DialogHeader>
                           <div className="grid gap-4">
-                            <div className="grid gap-3">
-                              <a
-                                //key={file.id}
-                                href={`${import.meta.env.VITE_BACKEND_URL}/storage/${data[0].doc_rc}`}
-                                download ='Registre de commerce'
-                                className="flex items-center text-blue-600 hover:underline"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                <DownloadIcon className="h-4 w-4 mr-2" />
-                                Registre de commerce 
-                              </a>
+                            <div className="grid">
+                              <div className="flex items-center justify-between bg-gray-50 p-2 rounded border">
+                                  <div className="flex items-center space-x-2">
+                                    <a
+                                      //key={file.id}
+                                      href={`${import.meta.env.VITE_BACKEND_URL}/storage/${data[0].doc_rc}`}
+                                      download="Registre de commerce"
+                                      className="flex items-center text-sm font-medium hover:underline"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <DownloadIcon className="h-4 w-4 mr-2 text-blue-700" />
+                                       Registre de commerce 
+                                    </a>
+                                    <span className="text-xs text-gray-500">
+                                        {/* ({formatFileSize(file.size)}) */}
+                                      </span></div>
+                                  </div>
                             </div>
                             <div className="grid gap-3">
-                              <a
-                                //key={file.id}
-                                href={`${import.meta.env.VITE_BACKEND_URL}/storage/${data[0].doc_status}`}
-                                download="Statuts d'entreprise"
-                                className="flex items-center text-blue-600 hover:underline"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                <DownloadIcon className="h-4 w-4 mr-2" />
-                                Statuts d'entreprise 
-                              </a>
+                              <div className="flex items-center justify-between bg-gray-50 p-2 rounded border">
+                                  <div className="flex items-center space-x-2">
+                                    <a
+                                      //key={file.id}
+                                      href={`${import.meta.env.VITE_BACKEND_URL}/storage/${data[0].doc_status}`}
+                                      download="Statuts d'entreprise"
+                                      className="flex items-center text-sm font-medium hover:underline"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <DownloadIcon className="h-4 w-4 mr-2 text-blue-700" />
+                                       Statuts d'entreprise 
+                                    </a>
+                                    <span className="text-xs text-gray-500">
+                                        {/* ({formatFileSize(file.size)}) */}
+                                      </span></div>
+                                  </div>
                             </div>
                             <div className="grid gap-3">
-                              <a
-                                //key={file.id}
-                                href={`${import.meta.env.VITE_BACKEND_URL}/storage/${data[0].doc_pv}`}
-                                download='Procès verbal'
-                                className="flex items-center text-blue-600 hover:underline"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                <DownloadIcon className="h-4 w-4 mr-2" />
-                                Procès verbal 
-                              </a>
+                              <div className="flex items-center justify-between bg-gray-50 p-2 rounded border">
+                                  <div className="flex items-center space-x-2">
+                                    <a
+                                      //key={file.id}
+                                      href={`${import.meta.env.VITE_BACKEND_URL}/storage/${data[0].doc_pv}`}
+                                      download='Procès verbal'
+                                      className="flex items-center text-sm font-medium hover:underline"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <DownloadIcon className="h-4 w-4 mr-2 text-blue-700" />
+                                       Procès verbal 
+                                    </a>
+                                    <span className="text-xs text-gray-500">
+                                        {/* ({formatFileSize(file.size)}) */}
+                                      </span></div>
+                                  </div>
                             </div>
                             <div className="grid gap-3">
-                              <a
-                                //key={file.id}
-                                href={`${import.meta.env.VITE_BACKEND_URL}/storage/${data[0].CIN_gerant}`}
-                                download='CIN Gérant'
-                                className="flex items-center text-blue-600 hover:underline"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                <DownloadIcon className="h-4 w-4 mr-2" />
-                                CIN Gérant 
-                              </a>
+                              <div className="flex items-center justify-between bg-gray-50 p-2 rounded border">
+                                  <div className="flex items-center space-x-2">
+                                    <a
+                                      //key={file.id}
+                                      href={`${import.meta.env.VITE_BACKEND_URL}/storage/${data[0].CIN_gerant}`}
+                                      download='CIN Gérant'
+                                      className="flex items-center  text-sm font-medium hover:underline"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <DownloadIcon className="h-4 w-4 mr-2 text-blue-700" />
+                                      CIN Gérant 
+                                    </a>
+                                    <span className="text-xs text-gray-500">
+                                        {/* ({formatFileSize(file.size)}) */}
+                                      </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                              {data[0].files.map((file) => (
+                                <div key={file.id} className="flex items-center justify-between bg-gray-50 p-2 rounded border">
+                                  <div className="flex items-center space-x-2">
+                                    <a
+                                    //key={file.id}
+                                    href={`${import.meta.env.VITE_BACKEND_URL}/storage/${file.file_path}`}
+                                    download={file.file_nom}
+                                    className="flex items-center  text-sm font-medium hover:underline"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    <DownloadIcon className="h-4 w-4 mr-2 text-blue-700" />
+                                    {file.file_nom} 
+                                  </a>
+                                    {file.size && (
+                                      <span className="text-xs text-gray-500">
+                                        {/* ({formatFileSize(file.size)}) */}
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
                             </div>
                           </div>
-                          {/* <DialogFooter>
-                            <DialogClose asChild>
-                              <Button variant="outline">Cancel</Button>
-                            </DialogClose>
-                            <Button type="submit">Save changes</Button>
-                          </DialogFooter> */}
                         </DialogContent>
                     </Dialog>
                   </DropdownMenuContent>

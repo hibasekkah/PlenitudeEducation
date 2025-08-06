@@ -6,7 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader } from "lucide-react";
+import { Loader, X, FileText, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 const formSchema = z.object({
@@ -27,6 +27,7 @@ const formSchema = z.object({
   doc_status: z.any().optional(),
   doc_pv: z.any().optional(),
   CIN_gerant: z.any().optional(),
+  files: z.any().optional(),
 });
 
 const initialValues = {
@@ -52,6 +53,10 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData = null }) 
   const [docStatusFile, setDocStatusFile] = useState(null);
   const [docPvFile, setDocPvFile] = useState(null);
   const [cinGerantFile, setCinGerantFile] = useState(null);
+  
+  const [additionalFiles, setAdditionalFiles] = useState([]);
+  const [existingFiles, setExistingFiles] = useState([]);
+  const [filesToDelete, setFilesToDelete] = useState([]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -83,18 +88,24 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData = null }) 
       setDocPvFile(null);
       setCinGerantFile(null);
       
+      setExistingFiles(initialData.files || []);
+      setAdditionalFiles([]);
+      setFilesToDelete([]);
+      
       setTimeout(() => {
         const fileInputs = document.querySelectorAll('input[type="file"]');
         fileInputs.forEach(input => input.value = '');
       }, 100);
       
     } else {
-      // Mode création : réinitialiser avec les valeurs par défaut
       reset(initialValues);
       setDocRcFile(null);
       setDocStatusFile(null);
       setDocPvFile(null);
       setCinGerantFile(null);
+      setAdditionalFiles([]);
+      setExistingFiles([]);
+      setFilesToDelete([]);
     }
   }, [initialData, reset]);
 
@@ -105,25 +116,32 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData = null }) 
     const loader = toast.loading(loaderMsg);
     const formData = new FormData();
 
-    // ✅ SOLUTION 2 : Filtrer les valeurs vides/null/undefined
     Object.keys(values).forEach(key => {
-      if (!['doc_rc', 'doc_status', 'doc_pv', 'CIN_gerant'].includes(key)) {
+      if (!['doc_rc', 'doc_status', 'doc_pv', 'CIN_gerant', 'files'].includes(key)) {
         const value = values[key];
-        // Ne pas envoyer les valeurs vides, null ou undefined
         if (value !== "" && value !== null && value !== undefined) {
           formData.append(key, value);
         }
       }
     });
 
-    // Ajouter les fichiers seulement s'ils sont sélectionnés
     if (docRcFile) formData.append('doc_rc', docRcFile);
     if (docStatusFile) formData.append('doc_status', docStatusFile);
     if (docPvFile) formData.append('doc_pv', docPvFile);
     if (cinGerantFile) formData.append('CIN_gerant', cinGerantFile);
     
-    // Debug : afficher le contenu du FormData
+    additionalFiles.forEach((file, index) => {
+      formData.append(`files[${index}]`, file);
+    });
+    
+    if (filesToDelete.length > 0) {
+      filesToDelete.forEach((fileId, index) => {
+        formData.append(`files_to_delete[${index}]`, parseInt(fileId));
+      });
+    }
+    
     console.log(`--- Contenu du FormData envoyé (${isUpdate ? 'UPDATE' : 'CREATE'}) ---`);
+    console.log("Fichiers à supprimer (IDs):", filesToDelete.map(id => parseInt(id)));
     for (let [key, value] of formData.entries()) {
         console.log(`${key}:`, value);
     }
@@ -140,15 +158,16 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData = null }) 
       
       toast.success(response.data.message);
       
-      // ✅ SOLUTION 3 : Réinitialiser seulement en mode création
       if (!isUpdate) {
         reset(initialValues);
         setDocRcFile(null);
         setDocStatusFile(null);
         setDocPvFile(null);
         setCinGerantFile(null);
+        setAdditionalFiles([]);
+        setExistingFiles([]);
+        setFilesToDelete([]);
         
-        // Réinitialiser les inputs de fichiers
         const fileInputs = document.querySelectorAll('input[type="file"]');
         fileInputs.forEach(input => input.value = '');
       }
@@ -165,22 +184,44 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData = null }) 
         }
     } finally {
       toast.dismiss(loader);
-      console.log(`--- Contenu du FormData envoyé (${isUpdate ? 'UPDATE' : 'CREATE'}) ---`);
-    for (let [key, value] of formData.entries()) {
-        console.log(`${key}:`, value);
-    }
-    console.log("-----------------------------------------");
-    
     }
   };
 
-  // ✅ SOLUTION 4 : Fonction helper pour gérer les changements de fichiers
   const handleFileChange = (setter) => (e) => {
     const file = e.target.files[0];
     setter(file || null);
-    console.log("Fichier sélectionné:", file?.name || "Aucun");
+    console.log("Fichier sélectionné:", file?.file_nom || "Aucun");
   };
-  
+
+  const handleMultipleFilesChange = (e) => {
+    const files = Array.from(e.target.files);
+    setAdditionalFiles(prev => [...prev, ...files]);
+    e.target.value = ''; 
+    console.log("Fichiers ajoutés:", files.map(f => f.file_nom));
+  };
+
+  const removeAdditionalFile = (index) => {
+    setAdditionalFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const markFileForDeletion = (fileId) => {
+    if (!fileId || isNaN(fileId)) {
+      toast.error("ID de fichier invalide");
+      return;
+    }
+    
+    setFilesToDelete(prev => [...prev, parseInt(fileId)]);
+    setExistingFiles(prev => prev.filter(file => file.id !== fileId));
+    toast.info("Fichier marqué pour suppression");
+  };
+
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  };
 
   return (
     <Form {...form}>
@@ -238,7 +279,6 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData = null }) 
           <FormItem><FormLabel>Fin de période</FormLabel><FormControl><Input type="date" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
 
-        {/* ✅ SOLUTION 5 : Améliorer les champs de fichiers avec indication des fichiers actuels */}
         <FormItem>
           <FormLabel htmlFor="doc_rc">Registre de commerce</FormLabel>
           <FormControl>
@@ -306,6 +346,96 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData = null }) 
             </p>
           )}
         </FormItem>
+
+        <div className="space-y-4 border-t pt-4">
+          <div>
+            <FormLabel htmlFor="additional_files">Fichiers supplémentaires</FormLabel>
+            <FormControl>
+              <Input 
+                id="additional_files" 
+                type="file" 
+                multiple
+                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt,.xls,.xlsx"
+                onChange={handleMultipleFilesChange}
+                className="mt-2"
+              />
+            </FormControl>
+            <p className="text-xs text-gray-500 mt-1">
+              Vous pouvez sélectionner plusieurs fichiers à la fois
+            </p>
+          </div>
+
+          {isUpdate && existingFiles.length > 0 && (
+            <div>
+              <h4 className="font-medium text-sm mb-2">Fichiers actuels:</h4>
+              <div className="space-y-2">
+                {existingFiles.map((file) => (
+                  <div key={file.id} className="flex items-center justify-between bg-gray-50 p-2 rounded border">
+                    <div className="flex items-center space-x-2">
+                      <FileText className="h-4 w-4 text-blue-500" />
+                      <span className="text-sm font-medium">{file.file_nom}</span>
+                      {file.size && (
+                        <span className="text-xs text-gray-500">
+                          ({formatFileSize(file.size)})
+                        </span>
+                      )}
+                    </div>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => markFileForDeletion(file.id)}
+                      className="h-8 w-8 p-0"
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {additionalFiles.length > 0 && (
+            <div>
+              <h4 className="font-medium text-sm mb-2">
+                {isUpdate ? "Nouveaux fichiers à ajouter:" : "Fichiers sélectionnés:"}
+              </h4>
+              <div className="space-y-2">
+                {additionalFiles.map((file, index) => (
+                  <div key={index} className="flex items-center justify-between bg-green-50 p-2 rounded border border-green-200">
+                    <div className="flex items-center space-x-2">
+                      <FileText className="h-4 w-4 text-green-600" />
+                      <span className="text-sm font-medium">{file.name}</span>
+                      <span className="text-xs text-gray-500">
+                        ({formatFileSize(file.size)})
+                      </span>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => removeAdditionalFile(index)}
+                      className="h-8 w-8 p-0 hover:bg-red-100"
+                    >
+                      <X className="h-3 w-3" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {filesToDelete.length > 0 && (
+            <div>
+              <h4 className="font-medium text-sm mb-2 text-red-600">
+                Fichiers à supprimer ({filesToDelete.length}):
+              </h4>
+              <p className="text-xs text-red-500">
+                Ces fichiers seront supprimés lors de la soumission du formulaire
+              </p>
+            </div>
+          )}
+        </div>
         
         <Button className="mt-4" type="submit" disabled={isSubmitting}>
           {isSubmitting && <Loader className="mr-2 h-4 w-4 animate-spin" />}

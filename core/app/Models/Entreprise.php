@@ -44,4 +44,9 @@ class Entreprise extends Model
     public function sessions(){
         return $this->hasMany(SessionFormationEntreprise::class);
     }
+
+    public function files(){
+        return $this->hasMany(FileEntreprise::class);
+    }
+
 }

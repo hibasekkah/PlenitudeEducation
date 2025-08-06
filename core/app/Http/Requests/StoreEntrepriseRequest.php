@@ -39,6 +39,8 @@ class StoreEntrepriseRequest extends FormRequest
             'doc_status' => 'required',
             'doc_pv' => 'required',
             'CIN_gerant' => 'required',
+            'files'=>'sometimes|array',
+            'files.*' => 'required|file',
 
         ];
     }

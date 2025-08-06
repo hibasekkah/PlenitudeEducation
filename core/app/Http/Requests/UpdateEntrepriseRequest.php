@@ -22,7 +22,7 @@ class UpdateEntrepriseRequest extends FormRequest
      */
     public function rules(): array
     {
-        $entrepriseId = $this->route('entreprise');
+        $entrepriseId = $this->route('entreprise')->id;
         return [
             'nom' => 'sometimes|required|max:50',
             'secteur' => 'sometimes|required',
@@ -41,6 +41,22 @@ class UpdateEntrepriseRequest extends FormRequest
             'doc_status' => 'sometimes|required|file',
             'doc_pv' => 'sometimes|required|file',
             'CIN_gerant' => 'sometimes|required|file',
+            'files' => 'sometimes|array',
+            'files.*' => 'sometimes|file',
+            'files_to_delete' => 'sometimes|array',
+            'files_to_delete.*' => [
+            'sometimes',
+            'integer',
+            function ($attribute, $value, $fail) use ($entrepriseId) {
+                $fileExists = \App\Models\FileEntreprise::where('id', $value)
+                    ->where('entreprise_id', $entrepriseId)
+                    ->exists();
+                
+                if (!$fileExists) {
+                    $fail("Le fichier avec l'ID {$value} n'existe pas ou n'appartient pas à cette entreprise.");
+                }
+            }
+        ],
         ];
     }
 }

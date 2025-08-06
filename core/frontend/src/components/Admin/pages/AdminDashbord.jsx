@@ -21,6 +21,7 @@ import { ChartLegend, ChartLegendContent } from "@/components/ui/chart"
 export const description = "An interactive bar chart"
 import { Separator } from "@/components/ui/separator"
 import { FormationsRecherche } from "./FormationsRecherche"
+import { EntrepriseRecherche } from "./EntrepriseRecherche"
 
 const chartConfig = {
   views: {
@@ -157,6 +158,11 @@ export function AdminDashbord() {
       <div className="text-center"><h1 className="m-5 caret-blue-800 font-bold text-3xl mb-5">Formations</h1></div>
       <Separator className="my-4"/>
       <div className=" flex flex-col justify-center text-center"><FormationsRecherche /></div>
+
+      <Separator className="my-4"/>
+      <div className="text-center"><h1 className="m-5 caret-blue-800 font-bold text-3xl mb-5">Entreprises</h1></div>
+      <Separator className="my-4"/>
+      <div className=" flex flex-col justify-center text-center"><EntrepriseRecherche /></div>
 
     
     </>

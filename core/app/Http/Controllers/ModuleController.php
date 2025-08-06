@@ -45,7 +45,7 @@ class ModuleController extends Controller
                     ]);
                 }
             }
-
+  
             return $module;
         });
 

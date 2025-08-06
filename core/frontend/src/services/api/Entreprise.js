@@ -12,16 +12,12 @@ const EntrepriseApi = {
         return await axiosUser.delete(`/api/entreprises/${id}`)
     },
     update: async (id, formData) => {
-        try {
-            return await axiosUser.put(`/api/entreprises/${id}`, formData, {
-                headers: {
-                    'Accept': 'application/json',
-                }
-            });
-        } catch (error) {
-            console.error('Erreur lors de la mise à jour:', error);
-            throw error;
-        }
+        return await axiosUser.post(`/api/entreprises/${id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Accept': 'application/json',
+            }
+        });
     },
     participant: async (id) => {
         return await axiosUser.get(`/api/entreprise/participants/${id}`);

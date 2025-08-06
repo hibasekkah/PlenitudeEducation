@@ -9,6 +9,7 @@ use App\Http\Resources\EntrepriseResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class EntrepriseController extends Controller
@@ -30,19 +31,35 @@ class EntrepriseController extends Controller
     {
         $this->authorize('create', Entreprise::class);
         
-        $validatedData = $request->validated();
-
-        $fileFields = ['doc_rc', 'doc_status', 'doc_pv', 'CIN_gerant'];
-        $EntrepriseData = collect($validatedData)->except('files')->toArray();
+        $formFields = $request->validated();
         
-        foreach ($fileFields as $field) {
-            if ($request->hasFile($field)) {
-                $path = $request->file($field)->store('entreprise_docs', 'public');
-                $validatedData[$field] = $path;
-            }
-        }
+        $entreprise = DB::transaction(function () use ($request, $formFields) {
 
-        $entreprise = Entreprise::create($validatedData);
+            $entrepriseData = collect($formFields)->except('files')->toArray();
+
+            $fileFields = ['doc_rc', 'doc_status', 'doc_pv', 'CIN_gerant'];
+        
+            foreach ($fileFields as $field) {
+                if ($request->hasFile($field)) {
+                    $path = $request->file($field)->store('entreprise_docs', 'public');
+                    $entrepriseData[$field] = $path;
+                }
+            }
+            $entreprise = Entreprise::create($entrepriseData);
+            if ($request->hasFile('files')) {
+                foreach ($request->file('files') as $file) {
+                    $path = $file->store('entreprise_docs', 'public');
+                    $entreprise->files()->create([
+                        'file_path' => $path,
+                        'file_nom' => $file->getClientOriginalName(),
+                        'size' => $file->getSize(),
+                    ]);
+                }
+            }
+  
+            return $entreprise;
+        });
+
         
         return response()->json([
             'entreprise' => new EntrepriseResource($entreprise),
@@ -79,21 +96,57 @@ class EntrepriseController extends Controller
         $validatedData = $request->validated();
         logger('Contenu de $validatedData', $validatedData);
 
-        $updateData = collect($validatedData)->except(['doc_rc', 'doc_status', 'doc_pv', 'CIN_gerant'])->toArray();
+        $entreprise = DB::transaction(function () use ($request, $validatedData, $entreprise) {
+            
+            $updateData = collect($validatedData)->except([
+                'doc_rc', 'doc_status', 'doc_pv', 'CIN_gerant', 'files', 'files_to_delete'
+            ])->toArray();
 
-        $fileFieldsToProcess = ['doc_rc', 'doc_status', 'doc_pv', 'CIN_gerant'];
-        foreach ($fileFieldsToProcess as $field) {
-            if ($request->hasFile($field)) {
-                if ($entreprise->$field && Storage::disk('public')->exists($entreprise->$field)) {
-                    Storage::disk('public')->delete($entreprise->$field);
+            $fileFieldsToProcess = ['doc_rc', 'doc_status', 'doc_pv', 'CIN_gerant'];
+            foreach ($fileFieldsToProcess as $field) {
+                if ($request->hasFile($field)) {
+                    if ($entreprise->$field && Storage::disk('public')->exists($entreprise->$field)) {
+                        Storage::disk('public')->delete($entreprise->$field);
+                    }
+                    $path = $request->file($field)->store('entreprise_docs', 'public');
+                    $updateData[$field] = $path;
                 }
-                $path = $request->file($field)->store('entreprise_docs', 'public');
-                $updateData[$field] = $path;
             }
-        }
 
-        $updated =$entreprise->update($updateData);
-        logger('Update status:', ['success' => $updated]);
+            $updated = $entreprise->update($updateData);
+            logger('Update status:', ['success' => $updated]);
+
+            if ($request->has('files_to_delete') && is_array($request->files_to_delete)) {
+                foreach ($request->files_to_delete as $fileId) {
+                    $fileToDelete = $entreprise->files()->find($fileId);
+                    if ($fileToDelete) {
+                        if (Storage::disk('public')->exists($fileToDelete->file_path)) {
+                            Storage::disk('public')->delete($fileToDelete->file_path);
+                        }
+                        $fileToDelete->delete();
+                        logger('Fichier supprimé:', ['id' => $fileId, 'path' => $fileToDelete->file_path]);
+                    }
+                }
+            }
+
+            if ($request->hasFile('files')) {
+                foreach ($request->file('files') as $file) {
+                    $path = $file->store('entreprise_docs', 'public');
+                    $entreprise->files()->create([
+                        'file_path' => $path,
+                        'file_nom' => $file->getClientOriginalName(),
+                        'size' => $file->getSize(),
+                    ]);
+                    logger('Nouveau fichier ajouté:', [
+                        'name' => $file->getClientOriginalName(),
+                        'path' => $path,
+                        'size' => $file->getSize()
+                    ]);
+                }
+            }
+
+            return $entreprise;
+        });
         
         return response()->json([
             'entreprise' => new EntrepriseResource($entreprise->fresh()),
