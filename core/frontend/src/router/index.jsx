@@ -13,7 +13,6 @@ import RhDashbordLayout from "../layouts/RH/RhDashbordLayout";
 import ParticipantDashbordLayout from "../layouts/Participant/ParticipantDashbordLayout";
 import AdminProfile from "../components/Admin/pages/profile";
 import RhProfile from "../layouts/RH/Rhprofile";
-import ParticipantProfile from "../layouts/Participant/Participantprofile";
 import FormateurProfile from "../layouts/Formateur/Formateurprofile";
 import Layout from "../layouts/layout";
 import { ManageEntreprise } from "../components/Admin/pages/ManageEntreprise";
@@ -29,6 +28,7 @@ import { ManageRH } from "../components/Admin/pages/ManageRH";
 import { ManageFormateur } from "../components/Admin/pages/ManageFormateur";
 import { ParticipantInvitationRegister } from "../components/Participant/ParticipantInvitationRegister";
 import { AdminDashbord } from "../components/Admin/pages/AdminDashbord";
+import ProfileParticipant from "../components/Participant/ProfileParticipant";
 
 export const LOGIN_ROUTE = '/login'
 export const ABOUT_ROUTE = '/about'
@@ -147,7 +147,7 @@ const router = createBrowserRouter([
           },
           {
             path: "profile",
-            element: <ParticipantProfile />,
+            element: <ProfileParticipant />,
           },
           {
             path: "logout",

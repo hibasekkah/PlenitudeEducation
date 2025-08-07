@@ -49,4 +49,9 @@ class Entreprise extends Model
         return $this->hasMany(FileEntreprise::class);
     }
 
+    public function participants()
+    {
+        return $this->hasMany(User::class, 'entrprise_id')->where('role', 'participant');
+    }
+
 }

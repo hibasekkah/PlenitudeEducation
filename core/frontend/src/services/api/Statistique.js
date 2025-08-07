@@ -7,6 +7,9 @@ const StatistiqueApi = {
     formation: async (id)=>{
         return await axiosUser.get(`/api/dashbord/admin/formation/${id}`)
     },
+    entreprise: async (id)=>{
+        return await axiosUser.get(`/api/dashbord/admin/entreprise/${id}`)
+    },
 }
 
 export default StatistiqueApi;

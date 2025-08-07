@@ -44,17 +44,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { useEffect, useState } from "react"
-import FormationApi from "../../../services/api/Formation";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart"
+
 import StatistiqueApi from "../../../services/api/Statistique"
-import { ChartLegend, ChartLegendContent } from "@/components/ui/chart"
+import EntrepriseApi from "../../../services/api/Entreprise"
 
 const FormSchema = z.object({
-  formation: z.coerce.number().int({
+  entreprise: z.coerce.number().int({
     required_error: "Please select a fomation.",
   }),
 })
@@ -64,27 +59,28 @@ export function EntrepriseRecherche() {
     resolver: zodResolver(FormSchema),
   })
 
-  const [formationsdata, setFormationsdata] = useState([]);
+  const [entreprisesdata, setEntreprisesdata] = useState([]);
   const [satistiques,setSatistiques] = useState([]);
 
   useEffect(() => {
-    const fetchFormations = async () => {
+    const fetchEntreprises = async () => {
       try {
-        const response = await FormationApi.all();
-        setFormationsdata(response.data.data);
-      } catch (error) { console.error("Failed to fetch formations:", error); }
+        const response = await EntrepriseApi.all();
+        setEntreprisesdata(response.data.data);
+      } catch (error) { console.error("Failed to fetch entreprises:", error); }
     };
-    fetchFormations();
+    fetchEntreprises();
   }, []);
 
   useEffect(() => {
-    console.log("L'état 'formation' a été mis à jour :", formationsdata);
-  }, [formationsdata]);
+    console.log("L'état 'entreprise' a été mis à jour :", entreprisesdata);
+  }, [entreprisesdata]);
 
   const onSubmit = async (data) => {
 
     try{
-      const response = await StatistiqueApi.formation(data.formation);
+      console.log(data);
+      const response = await StatistiqueApi.entreprise(data.entreprise);
       console.log(response)
       setSatistiques(response.data);
 
@@ -99,7 +95,7 @@ export function EntrepriseRecherche() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex flex-row">
         <FormField
           control={form.control}
-          name="formation"
+          name="entreprise"
           render={({ field }) => (
             <FormItem className="flex flex-row items-center">
               <Popover>
@@ -114,10 +110,10 @@ export function EntrepriseRecherche() {
                       )}
                     >
                       {field.value
-                        ? formationsdata.find(
-                            (formationdata) => formationdata.id === field.value
-                          ).intitule
-                        : "Choisir Formation"}
+                        ? entreprisesdata.find(
+                            (entreprisedata) => entreprisedata.id === field.value
+                          ).nom
+                        : "Choisir Entreprise"}
                       <ChevronsUpDown className="opacity-50" />
                     </Button>
                   </FormControl>
@@ -125,25 +121,25 @@ export function EntrepriseRecherche() {
                 <PopoverContent className="w-[200px] p-0">
                   <Command>
                     <CommandInput
-                      placeholder="Rechercher Formation..."
+                      placeholder="Rechercher Entreprise..."
                       className="h-9"
                     />
                     <CommandList>
                       <CommandEmpty>Pas Resultat.</CommandEmpty>
                       <CommandGroup>
-                        {formationsdata.map((formationdata) => (
+                        {entreprisesdata.map((entreprisedata) => (
                           <CommandItem
-                            value={formationdata.id}
-                            key={formationdata.id}
+                            value={entreprisedata.id}
+                            key={entreprisedata.id}
                             onSelect={() => {
-                              form.setValue("formation", formationdata.id)
+                              form.setValue("entreprise", entreprisedata.id)
                             }}
                           >
-                            {formationdata.intitule}
+                            {entreprisedata.nom}
                             <Check
                               className={cn(
                                 "ml-auto",
-                                formationdata.intitule === field.value
+                                entreprisedata.nom === field.value
                                   ? "opacity-100"
                                   : "opacity-0"
                               )}
@@ -167,19 +163,19 @@ export function EntrepriseRecherche() {
     <div className="flex flex-row items-stretch justify-around m-5 w-full">
           <Card className="w-full max-w-2xs">
             <CardHeader>
-              <CardTitle className="text-center">Nombre des modules</CardTitle>
+              <CardTitle className="text-center">Nombre des participants</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <div className="center"><p>{satistiques?.kpis?.totalModules}</p></div>
+              <div className="center"><p>{satistiques?.kpis?.total_participants}</p></div>
             </CardContent>
           </Card>
 
           <Card className="w-full max-w-2xs">
             <CardHeader>
-              <CardTitle className="text-center">Nombre des ateliers</CardTitle>
+              <CardTitle className="text-center">Nombre des formations</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p>{satistiques?.kpis?.totalAteliers}</p>
+              <p>{satistiques?.kpis?.formations_uniques_suivies}</p>
             </CardContent>
           </Card>
 
@@ -189,12 +185,10 @@ export function EntrepriseRecherche() {
             </CardHeader>
             <CardContent className="text-center">
               <HoverCard>
-                <HoverCardTrigger><Button variant="ghost">{satistiques?.kpis?.sessions}</Button></HoverCardTrigger>
+                <HoverCardTrigger><Button variant="ghost">{satistiques?.kpis?.total_sessions}</Button></HoverCardTrigger>
                 <HoverCardContent>
-                  <p> Sessions terminées : {satistiques?.kpis?.sessionsTerminees}</p>
-                  <p> Sessions Planifiées : {satistiques?.kpis?.sessionsAVenir}</p>
-                  <p> Sessions Annuler : {satistiques?.kpis?.sessionsAnnulees}</p> 
-
+                  <p> Sessions terminées : {satistiques?.kpis?.sessions_terminees}</p>
+                  <p> Sessions Planifiées : {satistiques?.kpis?.sessions_a_venir}</p>
                 </HoverCardContent>
               </HoverCard>
             </CardContent>

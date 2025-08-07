@@ -33,7 +33,7 @@ export function AdminSideBar({className}) {
           <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
             Administration
           </h2>
-          <div className="space-y-1">
+          <div className="space-y-1"> 
             <Link to={dashboard}>
               <Button variant="ghost" className="w-full justify-start">
                 <ChartNoAxesCombined  className="mr-2"/>
