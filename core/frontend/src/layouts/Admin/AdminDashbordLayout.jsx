@@ -41,7 +41,7 @@ const AdminDashbordLayout = () => {
         </div>
       </div>
     </header>
-    <main className={'mx-auto px-10 space-y-4 py-4'}>
+    <main className={'mx-auto'}>
       <div className="flex">
         <div className={'w-full md:w-2/12 border mr-2 rounded-l bg-card'}>
           <AdminSideBar/>

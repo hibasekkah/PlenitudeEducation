@@ -15,10 +15,18 @@ const formSchema = z.object({
   email: z.string({ required_error: "L'e-mail est obligatoire." }).email({ message: "Veuillez entrer une adresse e-mail valide." }),
   adresse: z.string().min(1, { message: "L'adresse est obligatoire." }).max(255),
   telephone: z.string().min(1, { message: "Le numéro de téléphone est obligatoire." }),
-  SIRET: z.string().min(2,{ message: "Le SIRET doit contenir au moins 2 caractères." }),
+  ICE: z.string().min(2,{ message: "Le ICE doit contenir au moins 2 caractères." }),
   IF: z.string().min(2,{ message: "Le IF doit contenir au moins 2 caractères." }),
   CNSS: z.string().min(2,{ message: "Le CNSS doit contenir au moins 2 caractères." }),
+  numero_patente: z.string().min(2,{ message: "Le numero de patente doit contenir au moins 2 caractères." }),
   priode: z.coerce.number().int().positive(),
+  nombre_personnels: z.coerce.number().int().positive(),
+  nombre_cadres: z.coerce.number().int().positive(),
+  nombre_employees: z.coerce.number().int().positive(),
+  nombre_ouvriers: z.coerce.number().int().positive(),
+  nom_gerant: z.string().min(2, { message: "Le nom doit contenir au moins 2 caractères." }),
+  numero_cin_gerant: z.string().min(2,{ message: "Le CIN doit contenir au moins 2 caractères." }),
+  adresse_gerant: z.string().min(1, { message: "L'adresse est obligatoire." }),
   capital: z.coerce.number().positive(),
   budget: z.coerce.number().positive(),
   debut_period: z.string().min(1, { message: "La date de début est obligatoire." }),
@@ -33,7 +41,7 @@ const formSchema = z.object({
 const initialValues = {
   nom: "",
   secteur: "",
-  SIRET: "",
+  ICE: "",
   IF: "",
   CNSS: "",
   telephone: "",
@@ -44,6 +52,14 @@ const initialValues = {
   budget: "",
   debut_period: "",
   fin_period: "",
+  numero_patente:"",
+  nombre_personnels:"",
+  nombre_cadres:"",
+  nombre_employees:"",
+  nombre_ouvriers:"",
+  nom_gerant:"",
+  numero_cin_gerant:"",
+  adresse_gerant:"",
 };
 
 export default function AddEntrepriseForm({ onFormSubmit, initialData = null }) {
@@ -75,6 +91,11 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData = null }) 
         priode: initialData.priode ? String(initialData.priode) : "",
         capital: initialData.capital ? String(initialData.capital) : "",
         budget: initialData.budget ? String(initialData.budget) : "",
+        priode: initialData.priode ? String(initialData.priode) : "",
+        nombre_personnels: initialData.nombre_personnels ? String(initialData.nombre_personnels) : "",
+        nombre_cadres: initialData.nombre_cadres ? String(initialData.nombre_cadres) : "",
+        nombre_employees: initialData.nombre_employees ? String(initialData.nombre_employees) : "",
+        nombre_ouvriers: initialData.nombre_ouvriers ? String(initialData.nombre_ouvriers) : "",
         debut_period: initialData.debut_period || "",
         fin_period: initialData.fin_period || "",
       };
@@ -243,8 +264,8 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData = null }) 
           <FormItem><FormLabel>Téléphone</FormLabel><FormControl><Input placeholder="Téléphone" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         
-        <FormField control={form.control} name="SIRET" render={({ field }) => (
-          <FormItem><FormLabel>SIRET</FormLabel><FormControl><Input placeholder="SIRET" {...field} /></FormControl><FormMessage /></FormItem>
+        <FormField control={form.control} name="ICE" render={({ field }) => (
+          <FormItem><FormLabel>ICE</FormLabel><FormControl><Input placeholder="ICE" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         
         <FormField control={form.control} name="IF" render={({ field }) => (
@@ -261,6 +282,38 @@ export default function AddEntrepriseForm({ onFormSubmit, initialData = null }) 
         
         <FormField control={form.control} name="capital" render={({ field }) => (
           <FormItem><FormLabel>Capital</FormLabel><FormControl><Input type="number" placeholder="Capital" min="0" step="0.01" {...field} /></FormControl><FormMessage /></FormItem>
+        )} />
+
+        <FormField control={form.control} name="numero_patente" render={({ field }) => (
+          <FormItem><FormLabel>Numéro de patente</FormLabel><FormControl><Input placeholder="Numéro de patente" {...field} /></FormControl><FormMessage /></FormItem>
+        )} />
+
+        <FormField control={form.control} name="nombre_personnels" render={({ field }) => (
+          <FormItem><FormLabel>Nombre de personnels</FormLabel><FormControl><Input type="number" placeholder="Nombre de personnels" min="0" step="0.01" {...field} /></FormControl><FormMessage /></FormItem>
+        )} />
+
+        <FormField control={form.control} name="nombre_cadres" render={({ field }) => (
+          <FormItem><FormLabel>Nombre des cadres</FormLabel><FormControl><Input type="number" placeholder="Nombre des cadres" min="0" step="0.01" {...field} /></FormControl><FormMessage /></FormItem>
+        )} />
+
+        <FormField control={form.control} name="nombre_employees" render={({ field }) => (
+          <FormItem><FormLabel>Nombre des employées</FormLabel><FormControl><Input type="number" placeholder="Nombre des employées" min="0" step="0.01" {...field} /></FormControl><FormMessage /></FormItem>
+        )} />
+
+        <FormField control={form.control} name="nombre_ouvriers" render={({ field }) => (
+          <FormItem><FormLabel>Nombre des ouvriers</FormLabel><FormControl><Input type="number" placeholder="Nombre des ouvriers" min="0" step="0.01" {...field} /></FormControl><FormMessage /></FormItem>
+        )} />
+
+        <FormField control={form.control} name="nom_gerant" render={({ field }) => (
+          <FormItem><FormLabel>Nom complet de gerant</FormLabel><FormControl><Input placeholder="Nom complet de gerant" {...field} /></FormControl><FormMessage /></FormItem>
+        )} />
+
+        <FormField control={form.control} name="numero_cin_gerant" render={({ field }) => (
+          <FormItem><FormLabel>Numéro cin de gerant</FormLabel><FormControl><Input placeholder="numero cin de gerant" {...field} /></FormControl><FormMessage /></FormItem>
+        )} />
+
+        <FormField control={form.control} name="adresse_gerant" render={({ field }) => (
+          <FormItem><FormLabel>Adresse du gerant</FormLabel><FormControl><Textarea placeholder="Adresse du gerant" className="resize-none" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         
         <FormField control={form.control} name="budget" render={({ field }) => (

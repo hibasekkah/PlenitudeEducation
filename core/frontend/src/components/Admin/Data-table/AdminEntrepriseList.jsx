@@ -111,13 +111,13 @@ export default function AdminEntrepriseList(){
     displayName:"Téléphone",
   },
   {
-    accessorKey: "SIRET",
+    accessorKey: "ICE",
     header: ({ column }) => {
       return (
-        <DataTableColumnHeader column={column} title="SIRET" />
+        <DataTableColumnHeader column={column} title="ICE" />
       )
     },
-    displayName:"SIRET",
+    displayName:"ICE",
   },
   {
     accessorKey: "IF",
@@ -156,12 +156,85 @@ export default function AdminEntrepriseList(){
     displayName:"Capital",
   },
   {
+    accessorKey: "numero_patente",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Patente" />
+      )
+    },
+    displayName:"Patente",
+  },
+  {
+    accessorKey: "nombre_personnels",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="personnels" />
+      )
+    },
+    displayName:"Personnels",
+  },
+  {
+    accessorKey: "nombre_cadres",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Cadres" />
+      )
+    },
+    displayName:"Cadres",
+  },
+  {
+    accessorKey: "nombre_employees",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Employees" />
+      )
+    },
+    displayName:"Employees",
+  },
+  {
+    accessorKey: "nombre_ouvriers",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Ouvriers" />
+      )
+    },
+    displayName:"Ouvriers",
+  },
+  {
+    accessorKey: "nom_gerant",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Nom de gerant" />
+      )
+    },
+    displayName:"Nom de gerant",
+  },
+  {
+    accessorKey: "numero_cin_gerant",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="CIN de gerant" />
+      )
+    },
+    displayName:"CIN de gerant",
+  },
+  {
+    accessorKey: "adresse_gerant",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Adresse de gerant" />
+      )
+    },
+    displayName:"Adresse de gerant",
+  },
+  {
     accessorKey: "budget",
     header: ({ column }) => {
       return (
         <DataTableColumnHeader column={column} title="Budget" />
       )
     },
+    displayName:"Budget",
   },
   {
     accessorKey: "priode",
@@ -190,10 +263,11 @@ export default function AdminEntrepriseList(){
     },
     displayName:"Date de fin",
   },
+  
   {
     id: "actions",
     cell: ({ row }) => {
-      const {id} = row.original;
+      const {id, doc_pv, doc_status,doc_rc,CIN_gerant,files} = row.original;
  
       return <>
         <DropdownMenu>
@@ -272,7 +346,7 @@ export default function AdminEntrepriseList(){
                                   <div className="flex items-center space-x-2">
                                     <a
                                       //key={file.id}
-                                      href={`${import.meta.env.VITE_BACKEND_URL}/storage/${data[0].doc_rc}`}
+                                      href={`${import.meta.env.VITE_BACKEND_URL}/storage/${doc_rc}`}
                                       download="Registre de commerce"
                                       className="flex items-center text-sm font-medium hover:underline"
                                       target="_blank"
@@ -291,7 +365,7 @@ export default function AdminEntrepriseList(){
                                   <div className="flex items-center space-x-2">
                                     <a
                                       //key={file.id}
-                                      href={`${import.meta.env.VITE_BACKEND_URL}/storage/${data[0].doc_status}`}
+                                      href={`${import.meta.env.VITE_BACKEND_URL}/storage/${doc_status}`}
                                       download="Statuts d'entreprise"
                                       className="flex items-center text-sm font-medium hover:underline"
                                       target="_blank"
@@ -310,7 +384,7 @@ export default function AdminEntrepriseList(){
                                   <div className="flex items-center space-x-2">
                                     <a
                                       //key={file.id}
-                                      href={`${import.meta.env.VITE_BACKEND_URL}/storage/${data[0].doc_pv}`}
+                                      href={`${import.meta.env.VITE_BACKEND_URL}/storage/${doc_pv}`}
                                       download='Procès verbal'
                                       className="flex items-center text-sm font-medium hover:underline"
                                       target="_blank"
@@ -329,7 +403,7 @@ export default function AdminEntrepriseList(){
                                   <div className="flex items-center space-x-2">
                                     <a
                                       //key={file.id}
-                                      href={`${import.meta.env.VITE_BACKEND_URL}/storage/${data[0].CIN_gerant}`}
+                                      href={`${import.meta.env.VITE_BACKEND_URL}/storage/${CIN_gerant}`}
                                       download='CIN Gérant'
                                       className="flex items-center  text-sm font-medium hover:underline"
                                       target="_blank"
@@ -345,11 +419,11 @@ export default function AdminEntrepriseList(){
                                 </div>
                             </div>
                             <div className="space-y-2">
-                              {data[0].files.map((file) => (
+                              {files.map((file) => (
                                 <div key={file.id} className="flex items-center justify-between bg-gray-50 p-2 rounded border">
                                   <div className="flex items-center space-x-2">
                                     <a
-                                    //key={file.id}
+                                    key={file.id}
                                     href={`${import.meta.env.VITE_BACKEND_URL}/storage/${file.file_path}`}
                                     download={file.file_nom}
                                     className="flex items-center  text-sm font-medium hover:underline"

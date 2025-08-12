@@ -127,9 +127,6 @@ class DashbordAdminController extends Controller
             }
         ]);
 
-
-            
-
         return response()->json([
             'kpis' => [
                 'total_participants' => $entreprise->total_participants,

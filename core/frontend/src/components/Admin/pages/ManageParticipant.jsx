@@ -1,12 +1,8 @@
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
 import {Separator} from "@/components/ui/separator.jsx";
 import {ScrollArea,ScrollBar} from "@/components/ui/scroll-area.jsx";
-import AdminSessionList from "../Data-table/AdminSessionList";
-import SessionApi from "../../../services/api/Session";
-import AddSessionForm from "../Forms/AddSessionForm";
 import AdminParticipantList from "../Data-table/AdminParticipantList";
-import ParticipantInvitation from "../Forms/ParticipantInvitationSend";
-import ParticipantInvitationSend from "../Forms/ParticipantInvitationSend";
+import { AddParticipantFrom } from "../Forms/AddParticipantFrom";
 
 
 export function ManageParticipant(){
@@ -51,7 +47,7 @@ export function ManageParticipant(){
                             <TabsContent
                             value="add_participant">
                             <div className="space-y-1">
-                                <ParticipantInvitationSend />
+                                <AddParticipantFrom />
                             </div>
                             <Separator className="my-4"/>
                             </TabsContent>

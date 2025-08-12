@@ -5,17 +5,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 import { Loader } from "lucide-react";
-import InvitationApi from "../../services/api/Invitation";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import ParticipantApi from "../../../services/api/Participant";
+import EntrepriseApi from "../../../services/api/Entreprise";
+import RHApi from "../../../services/api/RH";
 
 const formSchema = z.object({
   nom: z.string().min(2, "Le nom est trop court.").max(100),
@@ -24,24 +20,38 @@ const formSchema = z.object({
   telephone: z.string(),
   photo_profile: z.any().optional(),
   password:z.string().min(8),
+  email: z.string().email(),
+  entreprise_id: z.coerce.number().int(),
+  role: z.string(),
 });
 
-export function ParticipantInvitationRegister() {
+export function AddRHFrom() {
     const [file, setFile] = useState(null);
-    const { token } = useParams();
     const formData = new FormData();
-    const navigate = useNavigate();
 
+    const [entreprisesdata, setEntreprisesdata] = useState([]);
+    useEffect(() => {
+        const fetchEntreprises = async () => {
+        try {
+            const response = await EntrepriseApi.all();
+            setEntreprisesdata(response.data.data);
+        } catch (error) { console.error("Échec lors du chargement des entreprises", error); }
+        };
+        fetchEntreprises();
+    }, []);
 
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
             nom: "",
             prenom: "",
+            email: "",
             telephone: "",
             specialite_fonction: "",
             photo_profile:"",
             password:"",
+            role:"rh",
+            entreprise_id:"",
         },
     });
     const { setError } = form;
@@ -55,18 +65,17 @@ export function ParticipantInvitationRegister() {
         formData.append('telephone', values.telephone);
         formData.append('specialite_fonction', values.specialite_fonction);
         formData.append('password', values.password);
-        formData.append('token',token)
+        formData.append('email',values.email)
+        formData.append('role',values.role)
+        formData.append('entreprise_id',values.entreprise_id)
         
         if (file) {
             formData.append('photo_profile', file);
         }
         
         try {
-            const response = await InvitationApi.register(formData);
-            toast.success(response.data.message || "Le compte a était creer avec succès !");
-            setTimeout(() => {
-                navigate('/login');
-            }, 2000);
+            const response = await RHApi.create(formData);
+            toast.success(response.data.message || "Le participant a était creer avec succès !");
             
         } catch (error) {
             console.error("Échec de la soumission du formulaire:", error.response || error);
@@ -84,23 +93,25 @@ export function ParticipantInvitationRegister() {
     };
 
     return (
-        <div className="flex justify-center items-center m-11 w-full">
-            <Card className="w-full max-w-sm">
-                <CardHeader>
-                    <CardTitle>Cree votre compte</CardTitle>
-                    <CardDescription>
-                        remplire les champs suivants
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                         <FormField control={form.control} name="nom" render={({ field }) => (<FormItem><FormLabel>Nom</FormLabel><FormControl><Input placeholder="Nom" {...field} /></FormControl><FormMessage /></FormItem>)} />
                         <FormField control={form.control} name="prenom" render={({ field }) => (<FormItem><FormLabel>Prénom</FormLabel><FormControl><Input placeholder="Prénom" {...field} /></FormControl><FormMessage /></FormItem>)} />
+                        <FormField control={form.control} name="email" render={({ field }) => (<FormItem><FormLabel>Email</FormLabel><FormControl><Input type="email" placeholder="Email" {...field} /></FormControl><FormMessage /></FormItem>)}/>                        
                         <FormField control={form.control} name="telephone" render={({ field }) => (<FormItem><FormLabel>Téléphone</FormLabel><FormControl><Input placeholder="Téléphone" {...field} /></FormControl><FormMessage/></FormItem>)} />
-                        <FormField control={form.control} name="specialite_fonction" render={({ field }) => (<FormItem><FormLabel>Fonction/Spécialité</FormLabel><FormControl><Input placeholder="Fonction/Spécialité" {...field} /></FormControl><FormMessage/></FormItem>)} />
+                        <FormField control={form.control} name="role" render={({ field }) => (<FormItem><FormLabel>Role</FormLabel><FormControl><Input placeholder="Role" {...field} disabled/></FormControl><FormMessage /></FormItem>)} />
+                        <FormField control={form.control} name="specialite_fonction" render={({ field }) => (<FormItem><FormLabel>Fonction</FormLabel><FormControl><Input placeholder="Fonction" {...field} /></FormControl><FormMessage/></FormItem>)} />
                         <FormField control={form.control} name="password" render={({ field }) => (<FormItem><FormLabel>Mot de passe</FormLabel><FormControl><Input type="password" placeholder="*******" {...field} /></FormControl><FormMessage/></FormItem>)} />
-                        
+                        <FormField control={form.control} name="entreprise_id" render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Entreprise</FormLabel>
+                            <Select onValueChange={field.onChange} value={String(field.value)}>
+                            <FormControl><SelectTrigger><SelectValue placeholder="Choisir l'entreprise" /></SelectTrigger></FormControl>
+                            <SelectContent>{entreprisesdata.map((entreprise) => <SelectItem key={entreprise.id} value={String(entreprise.id)}>{entreprise.nom}</SelectItem>)}</SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                        )} />
                         <FormItem>
                             <FormLabel>Photo de profil</FormLabel>
                             <FormControl>
@@ -109,12 +120,9 @@ export function ParticipantInvitationRegister() {
                         </FormItem>
                             <Button type="submit" disabled={form.formState.isSubmitting}>
                                 {form.formState.isSubmitting && <Loader className="mr-2 h-4 w-4 animate-spin" />}
-                                Creer
+                                Créer
                             </Button>
                     </form>
                 </Form>
-            </CardContent>
-            </Card>
-        </div>
     );
 }

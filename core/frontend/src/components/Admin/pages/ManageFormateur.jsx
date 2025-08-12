@@ -5,6 +5,7 @@ import SessionApi from "../../../services/api/Session";
 import AddSessionForm from "../Forms/AddSessionForm";
 import AdminFormateurList from "../Data-table/AdminFormateurList";
 import FormateurInvitationSend from "../Forms/FormateurInvitationSend";
+import { AddFormateurFrom } from "../Forms/AddFormateurForm";
 
 
 export function ManageFormateur(){
@@ -49,7 +50,7 @@ export function ManageFormateur(){
                             <TabsContent
                             value="add_formateur">
                             <div className="space-y-1">
-                                <FormateurInvitationSend />
+                                <AddFormateurFrom />
                             </div>
                             <Separator className="my-4"/>
                             </TabsContent>

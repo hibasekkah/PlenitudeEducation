@@ -22,6 +22,7 @@ import { Loader } from "lucide-react";
 
 const formSchema = z.object({
     nom: z.string().min(2, "Le nom est trop court.").max(100),
+    email: z.string().email(),
     prenom: z.string().min(2, "Le prénom est trop court.").max(100),
     specialite_fonction: z.string().min(2, "La fonction est trop court.").max(100),
     telephone: z.string(),
@@ -36,6 +37,7 @@ export function EditFormateurForm({initialData = null}) {
         defaultValues: {
             nom: initialData.nom || "",
             prenom: initialData.prenom || "",
+            email: initialData.email || "",
             telephone: initialData.telephone || "",
             specialite_fonction: initialData.specialite_fonction || "",
         },
@@ -48,6 +50,7 @@ export function EditFormateurForm({initialData = null}) {
         const formData = new FormData();
         formData.append('_method', 'PUT');
         formData.append('nom', values.nom);
+        formData.append('email', values.email);
         formData.append('prenom', values.prenom);
         formData.append('telephone', values.telephone);
         formData.append('specialite_fonction', values.specialite_fonction);
@@ -79,6 +82,7 @@ export function EditFormateurForm({initialData = null}) {
     return (
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                        <FormField control={form.control} name="email" render={({ field }) => (<FormItem><FormLabel>Email</FormLabel><FormControl><Input placeholder="Email" {...field} /></FormControl><FormMessage /></FormItem>)} />
                         <FormField control={form.control} name="nom" render={({ field }) => (<FormItem><FormLabel>Nom</FormLabel><FormControl><Input placeholder="Nom" {...field} /></FormControl><FormMessage /></FormItem>)} />
                         <FormField control={form.control} name="prenom" render={({ field }) => (<FormItem><FormLabel>Prénom</FormLabel><FormControl><Input placeholder="Prénom" {...field} /></FormControl><FormMessage /></FormItem>)} />
                         <FormField control={form.control} name="telephone" render={({ field }) => (<FormItem><FormLabel>Téléphone</FormLabel><FormControl><Input placeholder="Téléphone" {...field} /></FormControl><FormMessage/></FormItem>)} />

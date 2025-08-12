@@ -4,8 +4,6 @@ namespace App\Policies;
 
 use App\Models\Formation;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class FormationPolicy
 {
@@ -30,8 +28,14 @@ class FormationPolicy
             return true;
         }
 
-        if(($user->role === 'rh' || $user->role === 'participant') && $user->sessions->formation_id === $formation->id){
-            return true;
+        if(($user->role === 'rh' || $user->role === 'participant')){
+            foreach($user->sessionsUser as $sessionUser){
+                if ($sessionUser->session->where('formation_id', $formation->id)->exists()){
+                    return true;
+                }else{
+                    continue;
+                }
+            }
         }
         return false;
     }

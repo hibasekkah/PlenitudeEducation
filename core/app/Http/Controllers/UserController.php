@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserResource;
-use App\Models\Entreprise;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -21,21 +20,11 @@ class UserController extends Controller
         //
     }
 
-    // public function participants(Entreprise $entreprise)
-    // {
-    //     $this->authorize('view', $entreprise);
-    //     $participant = User::where('entreprise_id',$entreprise->id)
-    //                         ->where('role', 'participant')
-    //                         ->get();
-    //     return new UserResource($participant);   
-    // }
-
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreUserRequest $request)
     {
-        //
     }
 
     /**
@@ -51,8 +40,8 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //dd($request->validated());
         $formFields = $request->validate([
+            'email' => 'sometimes|required',
             'nom' => 'sometimes|required',
             'prenom' => 'sometimes|required',
             'telephone' => 'sometimes|required',
@@ -70,7 +59,6 @@ class UserController extends Controller
             $path = $request->file('photo_profile')->store('profile_pictures', 'public');
             $formFields['photo_profile'] = $path;
         }
-        //dd($formFields);
         $user->update($formFields);
         $response = new UserResource($user);
         return response()->json([
@@ -158,4 +146,141 @@ class UserController extends Controller
         $formateur = User::where('role','formateur')->get();
         return UserResource::collection($formateur);
     }
+
+
+    public function storeParticipant(StoreUserRequest $request)
+    {
+        $request->validate([
+            'nom' => 'required|string',
+            'prenom' => 'required|string',            
+            'email' => 'required|email|unique:users,email',
+            'telephone' => 'required',
+            'photo_profile' => 'image|mimes:jpeg,png,jpg,gif',
+            'specialite_fonction' => 'required',
+            'password' => 'required|string|min:8',
+            'entreprise_id'=>'required|exists:entreprises,id',
+        ]);
+
+        $userData = [
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'email' => $request->email,
+            'telephone' => $request->telephone,
+            'specialite_fonction' => $request->specialite_fonction,
+            'password' => Hash::make($request->password),
+            'role' => 'participant',
+            'statut' => 'active',
+            'entreprise_id'=>$request->entreprise_id,
+        ];
+
+        if($request->hasFile('photo_profile')){
+            $path = $request->file('photo_profile')->store('profile_pictures', 'public');
+            $userData['photo_profile'] = $path;
+        }
+
+        $user = User::create($userData);
+
+        if ($user->photo_profil) {
+            $user->photo_profil_url = Storage::url($user->photo_profil);
+        }
+
+        $response = new UserResource($user);
+
+        return response()->json([
+            'message' => 'Le participant est crée avec succes !',
+            'user' => $response,
+        ]);
+    }
+
+    public function storeRH(StoreUserRequest $request)
+    {
+        $request->validate([
+            'nom' => 'required|string',
+            'prenom' => 'required|string',            
+            'email' => 'required|email|unique:users,email',
+            'telephone' => 'required',
+            'photo_profile' => 'image|mimes:jpeg,png,jpg,gif',
+            'specialite_fonction' => 'required',
+            'password' => 'required|string|min:8',
+            'entreprise_id'=>'required',
+        ]);
+
+        $userData = [
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'email' => $request->email,
+            'telephone' => $request->telephone,
+            'specialite_fonction' => $request->specialite_fonction,
+            'password' => Hash::make($request->password),
+            'role' => 'rh',
+            'statut' => 'active',
+            'entreprise_id'=>$request->entreprise_id,
+        ];
+
+        if($request->hasFile('photo_profile')){
+            $path = $request->file('photo_profile')->store('profile_pictures', 'public');
+            $userData['photo_profile'] = $path;
+        }
+
+        $user = User::create($userData);
+
+        if ($user->photo_profil) {
+            $user->photo_profil_url = Storage::url($user->photo_profil);
+        }
+
+        $response = new UserResource($user);
+
+        return response()->json([
+            'message' => 'Le rh est crée avec succes !',
+            'user' => $response,
+        ]);
+    }
+
+    public function storeFormateur(StoreUserRequest $request)
+    {
+        $request->validate([
+            'nom' => 'required|string',
+            'prenom' => 'required|string',            
+            'email' => 'required|email|unique:users,email',
+            'telephone' => 'required',
+            'photo_profile' => 'image|mimes:jpeg,png,jpg,gif',
+            'specialite_fonction' => 'required',
+            'password' => 'required|string|min:8',
+        ]);
+
+        $userData = [
+            'nom' => $request->nom,
+            'prenom' => $request->prenom,
+            'email' => $request->email,
+            'telephone' => $request->telephone,
+            'specialite_fonction' => $request->specialite_fonction,
+            'password' => Hash::make($request->password),
+            'role' => 'formateur',
+            'statut' => 'active',
+        ];
+
+        if($request->hasFile('photo_profile')){
+            $path = $request->file('photo_profile')->store('profile_pictures', 'public');
+            $userData['photo_profile'] = $path;
+        }
+
+        $user = User::create($userData);
+
+        if ($user->photo_profil) {
+            $user->photo_profil_url = Storage::url($user->photo_profil);
+        }
+        $response = new UserResource($user);
+
+        return response()->json([
+            'message' => 'Le formateur est crée avec succes !',
+            'user' => $response,
+        ]);
+
+    }
+
+
+
 }
+
+
+

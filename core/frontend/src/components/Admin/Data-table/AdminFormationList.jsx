@@ -53,6 +53,7 @@ export default function AdminFormationList(){
     })(); 
   }, []);
 
+
   const  AdminFormationColumns = [
   {
     accessorKey: "id",
@@ -71,28 +72,6 @@ export default function AdminFormationList(){
           )
         },
     displayName:"Intitulé",
-  },
-  {
-    accessorKey: "objectifs",
-    header: ({ column }) => {
-          return (
-            <DataTableColumnHeader column={column} title="Objectifs" />
-          )
-        },
-    displayName:"Objectifs",
-    cell: ({ row }) => {
-        const objectifs = row.original.objectifs.split("\n");
-        console.log(objectifs);
-        return (
-      <div>
-        {objectifs.map((objectif, index) => (
-          <p key={index} className="text-sm">
-            - {objectif}
-          </p>
-        ))}
-      </div>
-    );
-    },
   },
   {
     accessorKey: "duree",
@@ -216,8 +195,8 @@ export default function AdminFormationList(){
                 </AlertDialogContent>
                 </AlertDialog>
             
-            {/* <DropdownMenuItem>modules</DropdownMenuItem>
-            <DropdownMenuItem>ateliers</DropdownMenuItem> */}
+            
+            {/* <DropdownMenuItem>ateliers</DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
       )

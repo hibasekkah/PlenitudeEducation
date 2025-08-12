@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('entreprises', function (Blueprint $table) {
             $table->id();
-            $table->string('nom',100);
+            $table->string('nom');
             $table->string('secteur');
-            $table->string('SIRET');
+            $table->string('ICE');
             $table->string('IF');
             $table->string('CNSS');
             $table->string('telephone');
-            $table->string('email');
+            $table->string('email'); 
             $table->string('adresse');
             $table->string('capital');
             $table->string('budget');
@@ -30,6 +30,14 @@ return new class extends Migration
             $table->string('doc_status');
             $table->string('doc_pv');
             $table->string('CIN_gerant');
+            $table->string('numero_patente');
+            $table->integer('nombre_personnels');
+            $table->integer('nombre_cadres');
+            $table->integer('nombre_employees');
+            $table->integer('nombre_ouvriers');
+            $table->string('nom_gerant');
+            $table->string('numero_cin_gerant');
+            $table->string('adresse_gerant');
             $table->softDeletes();
             $table->timestamps();
         });

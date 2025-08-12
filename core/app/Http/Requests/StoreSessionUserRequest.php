@@ -22,7 +22,7 @@ class StoreSessionUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id'=>'required|unique:session_users,user_id',
+            'user_id'=>'required',
             'session_id'=>'required'
         ];
     }

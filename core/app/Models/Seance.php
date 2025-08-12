@@ -19,6 +19,10 @@ class Seance extends Model
         'atelier_id',   
     ];
 
+    protected $casts = [
+        'date' => 'date'
+    ];
+
     public function session(){
         return $this->belongsTo(SessionFormationEntreprise::class);
     }
@@ -33,5 +37,10 @@ class Seance extends Model
 
     public function formateur(){
         return $this->belongsTo(User::class);
+    }
+
+    public function pointages()
+    {
+        return $this->hasMany(Pointage::class);
     }
 }

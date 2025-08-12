@@ -36,7 +36,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import AddModuleForm from "../Forms/AddModuleForm";
 import SeanceApi from "../../../services/api/Seance";
 import AddSeanceForm from "../Forms/AddSeanceForm";
 
@@ -73,6 +72,16 @@ export default function AdminSeanceList(){
       )
     },
     displayName : "Date",
+    cell: ({ getValue }) => {
+      const rawDate = getValue();
+      if (!rawDate) return "";
+      
+      const date = new Date(rawDate);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
   },
   {
     accessorKey: "heure_debut",

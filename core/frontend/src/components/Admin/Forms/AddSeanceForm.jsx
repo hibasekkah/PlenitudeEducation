@@ -1,4 +1,3 @@
-// --- IMPORTS ---
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,26 +25,12 @@ const formSchema = z.object({
   formateur_id: z.coerce.number().int().positive("Veuillez sélectionner un formateur."),
   session_id: z.coerce.number().int().positive("Veuillez sélectionner une session."),
   
-  // Type de contenu : 'module' ou 'atelier'
   content_type: z.enum(["module", "atelier"], {
     required_error: "Veuillez choisir entre Module ou Atelier.",
   }),
   
-  // ID du contenu sélectionné
   content_id: z.coerce.number().int().positive("Veuillez sélectionner un élément."),
 });
-
-function NativeTimeInput({ field }) {
-  return (
-    <Input 
-      type="time" 
-      {...field} 
-      // Format: "14:30" (24h)
-    />
-  );
-}
-
-
 
 export default function AddSeanceForm({ onFormSubmit, initialData = null }) {
   const isUpdate = !!initialData;
@@ -53,9 +38,14 @@ export default function AddSeanceForm({ onFormSubmit, initialData = null }) {
   const getDefaultValues = () => {
     if (!initialData) {
       return {
-        date: "", heure_debut: "", heure_fin: "",
-        Observations: "", formateur_id: "", session_id: "",
-        content_type: "", content_id: "",
+        date: "", 
+        heure_debut: "", 
+        heure_fin: "",
+        Observations: "", 
+        formateur_id: "", 
+        session_id: "",
+        content_type: "", 
+        content_id: "",
       };
     }
 
@@ -63,9 +53,14 @@ export default function AddSeanceForm({ onFormSubmit, initialData = null }) {
     const content_id = initialData.module_id || initialData.atelier_id;
 
     return {
-      ...initialData,
+      date: initialData.date || "",
+      heure_debut: initialData.heure_debut || "",
+      heure_fin: initialData.heure_fin || "",
+      Observations: initialData.Observations || "",
+      formateur_id: initialData.formateur_id || "",
+      session_id: initialData.session_id || "",
       content_type,
-      content_id,
+      content_id: content_id || "",
     };
   };
 
@@ -76,13 +71,19 @@ export default function AddSeanceForm({ onFormSubmit, initialData = null }) {
 
   const { setError, formState: { isSubmitting }, reset, watch } = form;
 
-  // Observer le type de contenu sélectionné
   const contentType = watch("content_type");
 
   const [formateursdata, setFormateursdata] = useState([]);
   const [sessionsdata, setSessionsdata] = useState([]);
   const [modulesdata, setModulesdata] = useState([]);
   const [ateliersdata, setAteliersdata] = useState([]);
+
+  useEffect(() => {
+    if (initialData) {
+      const defaultValues = getDefaultValues();
+      reset(defaultValues);
+    }
+  }, [initialData, reset]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -105,12 +106,11 @@ export default function AddSeanceForm({ onFormSubmit, initialData = null }) {
     fetchData();
   }, []);
 
-  // Réinitialiser content_id quand le type change
   useEffect(() => {
-    if (contentType) {
+    if (contentType && !isUpdate) {
       form.setValue("content_id", "");
     }
-  }, [contentType, form]);
+  }, [contentType, form, isUpdate]);
 
   const onSubmit = async (values) => {
     const loaderMsg = isUpdate ? "Mise à jour en cours..." : "Ajout en cours...";
@@ -118,10 +118,16 @@ export default function AddSeanceForm({ onFormSubmit, initialData = null }) {
     
     try {
       const apiData = {
-        ...values,
-        [values.content_type === "module" ? "module_id" : "atelier_id"]: values.content_id,
-        content_type: undefined,
-        content_id: undefined,
+        date: values.date,
+        heure_debut: values.heure_debut,
+        heure_fin: values.heure_fin,
+        Observations: values.Observations,
+        formateur_id: values.formateur_id,
+        session_id: values.session_id,
+        ...(values.content_type === "module" 
+          ? { module_id: values.content_id }
+          : { atelier_id: values.content_id }
+        ),
       };
 
       const response = isUpdate 
@@ -129,7 +135,10 @@ export default function AddSeanceForm({ onFormSubmit, initialData = null }) {
         : await onFormSubmit(apiData);
         
       toast.success(response.data.message || `Séance ${isUpdate ? 'mise à jour' : 'créée'} avec succès !`);
-      if (!isUpdate) reset();
+      
+      if (!isUpdate) {
+        reset();
+      }
     } catch (error) {
       console.error("Échec:", error.response || error);
       if (error.response?.status === 422 && error.response.data.errors) {
@@ -183,7 +192,7 @@ export default function AddSeanceForm({ onFormSubmit, initialData = null }) {
         <FormField control={form.control} name="session_id" render={({ field }) => (
           <FormItem>
             <FormLabel>Session</FormLabel>
-            <Select onValueChange={field.onChange} value={String(field.value)}>
+            <Select onValueChange={field.onChange} value={String(field.value || "")}>
               <FormControl>
                 <SelectTrigger>
                   <SelectValue placeholder="Choisir la session" />
@@ -192,7 +201,7 @@ export default function AddSeanceForm({ onFormSubmit, initialData = null }) {
               <SelectContent>
                 {sessionsdata.map((session) => (
                   <SelectItem key={session.id} value={String(session.id)}>
-                    Session #{session.id} - {session.formation.intitule}
+                    Session #{session.id} - {session.formation.intitule} - {session.entreprise.nom}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -204,7 +213,7 @@ export default function AddSeanceForm({ onFormSubmit, initialData = null }) {
         <FormField control={form.control} name="formateur_id" render={({ field }) => (
           <FormItem>
             <FormLabel>Formateur</FormLabel>
-            <Select onValueChange={field.onChange} value={String(field.value)}>
+            <Select onValueChange={field.onChange} value={String(field.value || "")}>
               <FormControl>
                 <SelectTrigger>
                   <SelectValue placeholder="Choisir le formateur" />
@@ -246,14 +255,13 @@ export default function AddSeanceForm({ onFormSubmit, initialData = null }) {
             </FormItem>
           )} />
 
-          {/* Sélection conditionnelle */}
           {contentType && (
             <FormField control={form.control} name="content_id" render={({ field }) => (
               <FormItem>
                 <FormLabel>
                   {contentType === "module" ? "Module" : "Atelier"}
                 </FormLabel>
-                <Select onValueChange={field.onChange} value={String(field.value)}>
+                <Select onValueChange={field.onChange} value={String(field.value || "")}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue 
@@ -287,6 +295,7 @@ export default function AddSeanceForm({ onFormSubmit, initialData = null }) {
             <FormLabel>Observations</FormLabel>
             <FormControl>
               <Textarea 
+                value={field.value || ""} 
                 placeholder="Observations" 
                 className="resize-none" 
                 {...field} 

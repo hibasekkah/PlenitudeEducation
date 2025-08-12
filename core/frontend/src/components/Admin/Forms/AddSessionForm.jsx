@@ -117,28 +117,6 @@ export default function AddSessionForm({ onFormSubmit, initialData = null }) {
           <FormItem><FormLabel>Date de Fin</FormLabel><FormControl><Input type="date" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         
-        {/* ADDED: Missing etat field
-        <FormField control={form.control} name="etat" render={({ field }) => (
-          <FormItem>
-            <FormLabel>État</FormLabel>
-            <Select onValueChange={field.onChange} value={field.value}>
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Choisir l'état" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent>
-                <SelectItem value="planifie">Planifié</SelectItem>
-                <SelectItem value="en_cours">En cours</SelectItem>
-                <SelectItem value="termine">Terminé</SelectItem>
-                <SelectItem value="suspendu">Suspendu</SelectItem>
-                <SelectItem value="annule">Annulé</SelectItem>
-              </SelectContent>
-            </Select>
-            <FormMessage />
-          </FormItem>
-        )} /> */}
-        
         <FormField control={form.control} name="observations" render={({ field }) => (
           <FormItem><FormLabel>Observations</FormLabel><FormControl><Textarea placeholder="Observations" className="resize-none" {...field} /></FormControl><FormMessage /></FormItem>
         )} />

@@ -104,10 +104,10 @@ export function AdminDashbord() {
       {/* </CardContent>
     </Card> */}
     </div>
-        <div className="flex flex-row items-center m-4">
+        <div className="flex flex-col items-center m-4">
           <Card className="w-3xl m-1">
                 <CardHeader>
-                  <CardTitle>Nombre des participants par formations</CardTitle>
+                  <CardTitle>Nombre des entreprises par formations</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="">
@@ -122,7 +122,7 @@ export function AdminDashbord() {
                         />
                         <ChartTooltip content={<ChartTooltipContent />} />
                         <Bar dataKey="total_entreprises" fill="var(--color-desktop)" radius={4} />
-                        <ChartLegend content={<ChartLegendContent />} />
+                        {/* <ChartLegend content={<ChartLegendContent />} /> */}
                       </BarChart>
                     </ChartContainer>
                     </div>
@@ -132,7 +132,7 @@ export function AdminDashbord() {
 
               <Card className="w-3xl m-1">
                 <CardHeader>
-                  <CardTitle>Nombre des entreprise par formations</CardTitle>
+                  <CardTitle>Nombre des participants par formations</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="">
@@ -147,7 +147,7 @@ export function AdminDashbord() {
                         />
                         <ChartTooltip content={<ChartTooltipContent />} />
                         <Bar dataKey="total_participants" fill="var(--color-desktop)" radius={4} />
-                        <ChartLegend content={<ChartLegendContent />} />
+                        {/* <ChartLegend content={<ChartLegendContent />} /> */}
                       </BarChart>
                     </ChartContainer>
                     </div>

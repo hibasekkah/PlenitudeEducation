@@ -5,6 +5,7 @@ import SessionApi from "../../../services/api/Session";
 import AddSessionForm from "../Forms/AddSessionForm";
 import AdminRHList from "../Data-table/AdminRHList";
 import RHInvitationSend from "../Forms/RHInvitationSend";
+import { AddRHFrom } from "../Forms/AddRHForm";
 
 
 export function ManageRH(){
@@ -49,7 +50,7 @@ export function ManageRH(){
                             <TabsContent
                             value="add_rh">
                             <div className="space-y-1">
-                                <RHInvitationSend />
+                                <AddRHFrom />
                             </div>
                             <Separator className="my-4"/>
                             </TabsContent>

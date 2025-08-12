@@ -90,7 +90,7 @@ export default function ModuleForm({ onFormSubmit, initialData = null }) {
   const handleMultipleFilesChange = (e) => {
     const files = Array.from(e.target.files);
     setNewFilesToUpload(prev => [...prev, ...files]);
-    e.target.value = ''; // Réinitialiser l'input
+    e.target.value = ''; 
     console.log("Nouveaux fichiers ajoutés:", files.map(f => f.name));
   };
 
@@ -104,20 +104,17 @@ export default function ModuleForm({ onFormSubmit, initialData = null }) {
     
     const formData = new FormData();
     
-    // Ajouter les champs du formulaire
     formData.append('titre', values.titre);
     formData.append('categorie', values.categorie || '');
     formData.append('duree', values.duree);
     formData.append('formation_id', values.formation_id);
 
-    // Ajouter les nouveaux fichiers
     if (newFilesToUpload.length > 0) {
       newFilesToUpload.forEach((file, index) => {
         formData.append(`files[${index}]`, file);
       });
     }
     
-    // Ajouter les IDs des fichiers à supprimer (uniquement en mode update)
     if (isUpdate && filesToDelete.length > 0) {
       filesToDelete.forEach((fileId, index) => {
         formData.append(`files_to_delete[${index}]`, parseInt(fileId));
@@ -147,7 +144,6 @@ export default function ModuleForm({ onFormSubmit, initialData = null }) {
         setExistingFiles([]);
         setFilesToDelete([]);
         
-        // Réinitialiser l'input file
         const fileInput = document.getElementById('module_files');
         if (fileInput) fileInput.value = '';
       }

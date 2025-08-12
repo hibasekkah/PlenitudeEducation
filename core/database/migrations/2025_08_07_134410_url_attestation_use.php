@@ -11,13 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pointages', function (Blueprint $table) {
-            $table->id();
-            $table->date('date');
-            $table->dateTime('arriver');
-            $table->dateTime('sortie')->nullable();;
-            $table->timestamps();
-        });
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('path_attestation')->nullable();
+            }
+            );
     }
 
     /**
@@ -25,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pointages');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('path_attestation');
+        });   
     }
 };

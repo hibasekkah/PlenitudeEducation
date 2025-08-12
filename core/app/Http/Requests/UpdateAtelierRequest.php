@@ -23,7 +23,7 @@ class UpdateAtelierRequest extends FormRequest
     {
         return [
             'type' => 'sometimes|required',
-            'materiels' => 'sometimes|required',
+            'materiels' => 'sometimes',
             'observations'=>'sometimes',
             'lieu' => 'sometimes|required',
             'duree' => 'sometimes|required',

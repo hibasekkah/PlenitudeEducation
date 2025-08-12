@@ -18,7 +18,7 @@ class Entreprise extends Model
     protected $fillable = [
         'nom',
         'secteur',
-        'SIRET',
+        'ICE',
         'IF',
         'CNSS',
         'telephone',
@@ -33,6 +33,14 @@ class Entreprise extends Model
         'doc_status',
         'doc_pv',
         'CIN_gerant',
+        'numero_patente',
+        'nombre_personnels',
+        'nombre_cadres',
+        'nombre_employees',
+        'nombre_ouvriers',
+        'nom_gerant',
+        'numero_cin_gerant',
+        'adresse_gerant',
     ];
     
     protected $table = 'entreprises';  

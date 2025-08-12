@@ -28,7 +28,7 @@ import FormationApi from "../../../services/api/Formation";
 
 const formSchema = z.object({
   type: z.string().min(2, { message: "Le type doit contenir au moins 2 caractères." }).max(100),
-  materiels: z.string().min(1, { message: "Les materiels sont obligatoires." }),
+  materiels: z.string().optional(),
   lieu: z.string().min(1, { message: "Le lieu est obligatoire." }),
   observations: z.string().optional(),
   formation_id: z.coerce 

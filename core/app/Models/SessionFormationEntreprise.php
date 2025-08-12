@@ -21,6 +21,10 @@ class SessionFormationEntreprise extends Model
         'entreprise_id',
     ];
 
+    protected $casts = [
+        'date_debut' => 'date',
+        'date_fin' => 'date',
+    ];
 
     public function formation(){
         return $this->belongsTo(Formation::class);
@@ -38,6 +42,11 @@ class SessionFormationEntreprise extends Model
     public function sessionUsers()
     {
         return $this->hasMany(SessionUser::class,'session_id');
+    }
+
+    public function Seances()
+    {
+        return $this->hasMany(Seance::class, 'session_id');
     }
 
 }

@@ -12,8 +12,17 @@ class FormationResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    // public function toArray(Request $request): array
-    // {
-    //     return parent::toArray($request);
-    // }
+    public function toArray(Request $request): array
+    {
+        return [
+            'intitule' => $this->intitule,
+            'objectifs'=> $this->objectifs,
+            'duree'=> $this->duree,
+            'niveau'=> $this->niveau,
+            'cout'=> $this->cout,
+            'categorie'=> $this->categorie,
+            'modules'=> ModuleResource::collection($this->modules),
+            'ateliers'=> $this->ateliers,
+        ];
+    }
 }

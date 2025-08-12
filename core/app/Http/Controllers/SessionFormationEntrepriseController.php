@@ -41,9 +41,9 @@ class SessionFormationEntrepriseController extends Controller
      */
     public function show(SessionFormationEntreprise $sessionFormationEntreprise)
     {
+
          return response()->json([
-            'session'=>$sessionFormationEntreprise->id,
-            'message'=>__('La session a été créée avec succès.')
+            'session'=>new SessionFormationEntrepriseResource($sessionFormationEntreprise)
         ]); 
     }
 
@@ -55,9 +55,9 @@ class SessionFormationEntrepriseController extends Controller
         $formfields = $request->validated();
         //dd($formfields);
         $sessionFormationEntreprise->update($formfields);
-        //$response = new SessionFormationEntrepriseResource($sessionFormationEntreprise);
+        $response = new SessionFormationEntrepriseResource($sessionFormationEntreprise);
         return response()->json([
-            'session'=>$sessionFormationEntreprise,
+            'session'=>$response,
             'message'=>__('La session a été mise à jour avec succès.')
         ]);
     }

@@ -8,6 +8,9 @@ import { toast } from "sonner";
 import { Loader } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import ProfileApi from "../../services/api/Profile";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react"
+
 
 
 const formSchema = z.object({
@@ -29,6 +32,9 @@ export function ChangePasswordP() {
             new_password_confirmation: "",
         },
     });
+    const [showPasswordc, setShowPasswordc] = useState(false);
+    const [showPasswordn, setShowPasswordn] = useState(false);
+    const [showPasswordcn, setShowPasswordcn] = useState(false);
 
     const onSubmit = async (values) => {
         const loader = toast.loading("Mise à jour en cours...");
@@ -60,9 +66,56 @@ export function ChangePasswordP() {
     return (
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                        <FormField control={form.control} name="current_password" render={({ field }) => (<FormItem><FormLabel>Mot de passe actuel</FormLabel><FormControl><Input type="password" placeholder="Mot de passe actuel" {...field} /></FormControl><FormMessage /></FormItem>)} />
-                        <FormField control={form.control} name="new_password" render={({ field }) => (<FormItem><FormLabel>Nouveau mot de passe</FormLabel><FormControl><Input type="password" placeholder="Nouveau mot de passe" {...field} /></FormControl><FormMessage /></FormItem>)} />
-                        <FormField control={form.control} name="new_password_confirmation" render={({ field }) => (<FormItem><FormLabel>Ressaisir le mot de passe</FormLabel><FormControl><Input type="password" placeholder="Ressaisir le mot de passe" {...field} /></FormControl><FormMessage/></FormItem>)} />
+                        <FormField control={form.control} name="current_password" render={({ field }) => 
+                            (<FormItem><FormLabel>Mot de passe actuel</FormLabel><FormControl><div className="relative">
+                                <Input
+                                    type={showPasswordc ? "text" : "password"}
+                                    placeholder="Mot de passe actuel"
+                                    {...field}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPasswordc(!showPasswordc)}
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+                                >
+                                    {showPasswordc ? <EyeOff size={18} /> : <Eye size={18} />}
+                                </button>
+                                </div>
+                        </FormControl><FormMessage /></FormItem>)} />
+                        <FormField control={form.control} name="new_password" render={({ field }) => 
+                            (<FormItem><FormLabel>Nouveau mot de passe</FormLabel><FormControl>
+                                <div className="relative">
+                                <Input
+                                    type={showPasswordn ? "text" : "password"}
+                                    placeholder="Nouveau mot de passe"
+                                    {...field}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPasswordn(!showPasswordn)}
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+                                >
+                                    {showPasswordn ? <EyeOff size={18} /> : <Eye size={18} />}
+                                </button>
+                                </div>
+                            </FormControl><FormMessage /></FormItem>)} />
+                        <FormField control={form.control} name="new_password_confirmation" render={({ field }) => 
+                            (<FormItem><FormLabel>Ressaisir le mot de passe</FormLabel><FormControl>
+                                <div className="relative">
+                                <Input
+                                    type={showPasswordcn ? "text" : "password"}
+                                    placeholder="Ressaisir le mot de passe"
+                                    {...field}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPasswordcn(!showPasswordcn)}
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+                                >
+                                    {showPasswordcn ? <EyeOff size={18} /> : <Eye size={18} />}
+                                </button>
+                                </div>
+                            </FormControl><FormMessage/></FormItem>)} />
                         
                         <Button type="submit" disabled={form.formState.isSubmitting}>
                             {form.formState.isSubmitting && <Loader className="mr-2 h-4 w-4 animate-spin" />}

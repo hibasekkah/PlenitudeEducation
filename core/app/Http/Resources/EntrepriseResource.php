@@ -19,7 +19,7 @@ class EntrepriseResource extends JsonResource
             'id'=>$this->id,
             'nom'=>$this->nom,
             'secteur'=>$this->secteur,
-            'SIRET'=>$this->SIRET,
+            'ICE'=>$this->ICE,
             'IF'=>$this->IF,
             'CNSS'=>$this->CNSS,
             'telephone'=>$this->telephone,
@@ -34,7 +34,15 @@ class EntrepriseResource extends JsonResource
             'doc_status'=>$this->doc_status,
             'doc_pv'=>$this->doc_pv,
             'CIN_gerant'=>$this->CIN_gerant,
-            'files'=>$this->files
+            'files'=>$this->files,
+            'numero_patente' => $this->numero_patente,
+            'nombre_personnels' => $this->nombre_personnels,
+            'nombre_cadres' => $this->nombre_cadres,
+            'nombre_employees' =>$this->nombre_employees,
+            'nombre_ouvriers' => $this->nombre_ouvriers,
+            'nom_gerant' => $this->nom_gerant,
+            'numero_cin_gerant' => $this->numero_cin_gerant,
+            'adresse_gerant' => $this->adresse_gerant,
         ];
     }
 }

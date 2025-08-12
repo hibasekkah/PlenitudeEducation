@@ -21,7 +21,8 @@ class UserResource extends JsonResource
             'prenom'=>$this->prenom,
             'entreprise'=>$this->entreprise,
             'telephone'=>$this->telephone,
-            'specialite_fonction'=>$this->specialite_fonction
+            'specialite_fonction'=>$this->specialite_fonction,
+            'photo_profile'=>$this->photo_profile,
         ];
     }
 }

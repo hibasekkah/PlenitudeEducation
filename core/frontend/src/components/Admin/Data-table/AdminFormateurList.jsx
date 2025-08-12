@@ -4,6 +4,7 @@ import {Button} from "@/components/ui/Button";
 import {toast} from "sonner";
 import { MoreHorizontal } from "lucide-react"
 import { DataTableColumnHeader } from "../../data-table/DataTableColumnHeader";
+import {UserRound } from 'lucide-react';
 
 import {
   AlertDialog,
@@ -24,7 +25,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import ModuleApi from "../../../services/api/Module";
 
 import {
   DropdownMenu,
@@ -61,6 +61,24 @@ export default function AdminFormateurList(){
       )
     },
     displayName : "ID",
+  },
+  {
+    accessorKey: "photo_profile",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Photo" />
+      )
+    },
+    cell: ({ row }) => {
+      return (
+        row.original.photo_profile ?
+        <img 
+            src={`${import.meta.env.VITE_BACKEND_URL}/storage/${row.original.photo_profile}`}
+            className="w-20 h-20 rounded-full object-cover"
+            alt="user photo" 
+            />: <UserRound  className="w-20 h-20 rounded-full object-cover"/>)
+    },
+    displayName : "Photo",
   },
   {
     accessorKey: "nom",

@@ -25,12 +25,8 @@ export function AnnulSession({ initialData, onFormSubmit, closeDialog }) {
         const loader = toast.loading("Annulation en cours...");
         
         try {
-            // 2. Call the onFormSubmit prop with the correct ID and the form values
             const response = await onFormSubmit(initialData.id, values);
-            
             toast.success(response.data.message || "Session annulée avec succès !");
-
-            // 3. Call the function to close the dialog
             if (closeDialog) {
               closeDialog();
             }

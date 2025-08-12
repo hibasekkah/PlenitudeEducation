@@ -74,28 +74,23 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-
-    public function sessionsDeFormation()
+ 
+    public function sessionsUser()
     {
-        return $this->belongsToMany(SessionFormationEntreprise::class, 'session_users');
+        return $this->hasMany(SessionUser::class);
     }
 
     public function attestations(){
         return $this->hasMany(Attestation::class);
     }
 
-    public function pointage(){
+    public function pointages(){
         return $this->hasMany(Pointage::class);
     }
 
     public function entreprise()
     {
         return $this->belongsTo(Entreprise::class, 'entreprise_id');
-    }
-
-    public function seances()
-    {
-        return $this->hasMany(Seance::class);
     }
 
     public function participants(){

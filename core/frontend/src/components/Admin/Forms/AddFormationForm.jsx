@@ -126,7 +126,7 @@ export default function AddFormationForm({ onFormSubmit, initialData }) {
                 </FormControl>
                 <SelectContent>
                   <SelectItem value="Debutant">Debutant</SelectItem>
-                  <SelectItem value="Dntermédiaire">Intermédiaire</SelectItem>
+                  <SelectItem value="Intermédiaire">Intermédiaire</SelectItem>
                   <SelectItem value="Expert">Expert</SelectItem>
                 </SelectContent>
               </Select>

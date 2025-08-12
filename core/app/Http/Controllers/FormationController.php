@@ -6,7 +6,14 @@ use App\Models\Formation;
 use App\Http\Requests\StoreFormationRequest;
 use App\Http\Requests\UpdateFormationRequest;
 use App\Http\Resources\FormationResource;
+use App\Http\Resources\SeanceResource;
+use App\Http\Resources\SessionFormationEntrepriseResource;
+use App\Models\Seance;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 
 class FormationController extends Controller
 {
@@ -77,4 +84,62 @@ class FormationController extends Controller
             'message' => __('La formation a été supprimée avec succès.')
             ]); 
     }
+
+    public function formationsParticipant(User $user){
+
+        $user->load(['sessionsUser.session' => function ($query) {
+            $query->where('etat', 'active')->where('date_fin','>=', Carbon::now())->with('formation');
+        }]);
+
+        $activeSessions = $user->sessionsUser->filter(function ($sessionUser) {
+            return $sessionUser->session !== null;
+        })->map(function ($sessionUser) {
+            return $sessionUser->session;
+        });
+        return SessionFormationEntrepriseResource::collection($activeSessions);
+    }
+
+    public function formationsParticipantTerminee(User $user){
+
+        $user->load(['sessionsUser.session' => function ($query) {
+            $query->where('etat', 'active')->where('date_fin','<', Carbon::now())->with('formation');
+        }]);
+
+        $activeSessions = $user->sessionsUser->filter(function ($sessionUser) {
+            return $sessionUser->session !== null;
+        })->map(function ($sessionUser) {
+            return $sessionUser->session;
+        });
+        return SessionFormationEntrepriseResource::collection($activeSessions);
+    }
+
+    public function SeancesParticipant(User $user)
+    {
+        $sessionIds = $user->sessionsUser()->pluck('session_id');
+        $seancesQuery = Seance::whereIn('session_id', $sessionIds)
+                              ->with([
+                                  'module', 
+                                  'atelier', 
+                                  'formateur',
+                                  'pointages' => function ($query) use ($user) {
+                                      $query->where('user_id', $user->id);
+                                  }
+                              ])
+                              ->orderBy('date')
+                              ->orderBy('heure_debut');
+
+        $seancesDuJour = (clone $seancesQuery)->whereDate('date', Carbon::today())->get();
+        $seancesPassees = (clone $seancesQuery)->whereDate('date', '<', Carbon::today())->get();
+        $seancesAvenir = (clone $seancesQuery)->whereDate('date', '>', Carbon::today())->get();
+
+        return response()->json([
+            'seances_du_jour' => SeanceResource::collection($seancesDuJour),
+            'seances_passees' => SeanceResource::collection($seancesPassees),
+            'seances_avenir' => SeanceResource::collection($seancesAvenir),
+        ]);
+        
+        
+        
+    }
+
 }

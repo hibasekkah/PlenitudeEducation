@@ -26,9 +26,11 @@ import ForgotPassword from "../components/Login/ForgotPassword";
 import ResetPassword from "../components/Login/ResetPassword";
 import { ManageRH } from "../components/Admin/pages/ManageRH";
 import { ManageFormateur } from "../components/Admin/pages/ManageFormateur";
-import { ParticipantInvitationRegister } from "../components/Participant/ParticipantInvitationRegister";
 import { AdminDashbord } from "../components/Admin/pages/AdminDashbord";
 import ProfileParticipant from "../components/Participant/ProfileParticipant";
+import { Seance } from "../components/Participant/Seance";
+import { Formation } from "../components/Participant/Formation";
+import { Historique } from "../components/Participant/Historique";
 
 export const LOGIN_ROUTE = '/login'
 export const ABOUT_ROUTE = '/about'
@@ -60,10 +62,6 @@ const router = createBrowserRouter([
       {
         path: "password-reset/:token",
         element: <ResetPassword />,
-      },
-      {
-        path: "register/invite/:token",
-        element: <ParticipantInvitationRegister />,
       },
       {
         element: <LoginRedirect />,
@@ -142,8 +140,16 @@ const router = createBrowserRouter([
         element: <ParticipantDashbordLayout />,
         children: [
           {
-            path: "dashboard",
-            element: <UserDashboard />,
+            path: "seance",
+            element: <Seance />,
+          },
+          {
+            path: "formation",
+            element: <Formation />,
+          },
+          {
+            path: "historique",
+            element: <Historique />,
           },
           {
             path: "profile",

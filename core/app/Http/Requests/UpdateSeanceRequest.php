@@ -29,8 +29,8 @@ class UpdateSeanceRequest extends FormRequest
             'formateur_id'=>'sometimes|required',
             'module_id'=>'sometimes|required',
             'atelier_id'=>'sometimes|required',
-            'Observations'=>'sometimes|required',
-            'etat'=>'sometimes|required|string',
+            'Observations'=>'sometimes',
+            'etat'=>'sometimes|required',
         ];
     }
 }

@@ -6,7 +6,10 @@ import {Link} from "react-router-dom";
 import {BookText , UserIcon,BookDashed ,Calendar  } from "lucide-react";
 
 export function ParticipantSideBar({className}) {
-  const profile = "/admin/profile"
+  const profile = "/participant/profile";
+  const seance = "/participant/seance";
+  const formation = "/participant/formation";
+  const historique = "/participant/historique";
   return (
     <div className={cn("pb-12", className)}>
       <div>
@@ -15,21 +18,22 @@ export function ParticipantSideBar({className}) {
             Administration
           </h2>
           <div className="space-y-1">
-            <Link to="/admin/dashboard">
-              <Button variant="ghost" className="w-full justify-start">
-                <BookDashed   className="mr-2"/>
-                Historique
-              </Button>
-            </Link>
-            <Link >
+            <Link to={seance}>
               <Button variant="ghost" className="w-full justify-start">
                 <Calendar  className="mr-2"/>
                 Planning
               </Button>
-            </Link><Link >
+            </Link>
+            <Link to={formation}>
               <Button variant="ghost" className="w-full justify-start">
                 <BookText  className="mr-2"/>
                 Formations
+              </Button>
+            </Link>
+            <Link to={historique}>
+              <Button variant="ghost" className="w-full justify-start">
+                <BookDashed   className="mr-2"/>
+                Historique
               </Button>
             </Link>
             <Link to={profile}>

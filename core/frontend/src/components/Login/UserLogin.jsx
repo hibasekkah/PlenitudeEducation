@@ -2,6 +2,8 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+import { Eye, EyeOff } from "lucide-react"
+
 
 import { Button } from "@/components/ui/button"
 import {
@@ -25,6 +27,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Link } from "react-router-dom"
+import { useState } from "react"
 
 
 
@@ -42,6 +45,9 @@ export default function UserLogin(){
       password: "AdminAdmin",
     },
   })
+
+  const [showPassword, setShowPassword] = useState(false);
+
  
   const onSubmit = async values => {
     console.log(values)
@@ -106,12 +112,26 @@ export default function UserLogin(){
                       </Link>
                       <FormLabel>Mot de passe</FormLabel>
                       <FormControl>
-                        <Input type="password" placeholder="Mot de passe" {...field} />
+                        <div className="relative">
+                          <Input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Mot de passe"
+                            {...field}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+                          >
+                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                          </button>
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+
                 <Button disabled={form.formState.isSubmitting} type="submit">
                   {form.formState.isSubmitting && <Loader className={"mx-2 my-2 animate-spin"}/>} {' '}se connecter</Button>
               </form>

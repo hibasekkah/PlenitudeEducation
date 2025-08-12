@@ -8,9 +8,9 @@ import { ParticipantSideBar } from './ParticipantSideBar';
 
 
 const ParticipantDashbordLayout = () => {
-  const { token } = useAuth();
+  const { token ,user} = useAuth();
 
-  if (!token) {
+  if (!token && user.role !== 'participant' ) {
     return <Navigate to="/login" replace />;
   }
 
@@ -30,7 +30,7 @@ const ParticipantDashbordLayout = () => {
             <img 
               src={logo} 
               alt="Plenitude Education Logo" 
-              width="80" 
+              width="50" 
             />
             <p>Plénitude Education</p>
           </div>
@@ -41,7 +41,7 @@ const ParticipantDashbordLayout = () => {
         </div>
       </div> 
     </header>
-    <main className={'mx-auto px-10 space-y-4 py-4'}>
+    <main className={'mx-auto'}>
       <div className="flex">
         <div className={'w-full md:w-2/12 border mr-2 rounded-l bg-card'}>
           <ParticipantSideBar/>

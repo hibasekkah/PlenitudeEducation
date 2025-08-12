@@ -52,6 +52,10 @@ import AffecterParticipantsForm from "../Forms/AffecterParticipantsForm";
 export default function AdminSessionList(){
   const [isAnnulDialogOpen, setIsAnnulDialogOpen] = useState(false);
 
+  const handlePlanning = (id) => {
+    window.open(`http://localhost:8000/api/planning/${id}`, "_blank");
+    };
+
   const [data,setData] = useState([]);
   useEffect(() => {
     (async () => {
@@ -83,6 +87,16 @@ export default function AdminSessionList(){
       )
     },
     displayName : "Date de début",
+    cell: ({ getValue }) => {
+      const rawDate = getValue();
+      if (!rawDate) return "";
+      
+      const date = new Date(rawDate);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
   },
   {
     accessorKey: "date_fin",
@@ -92,6 +106,16 @@ export default function AdminSessionList(){
       )
     },
     displayName : "Date de fin",
+    cell: ({ getValue }) => {
+    const rawDate = getValue();
+    if (!rawDate) return "";
+    
+    const date = new Date(rawDate);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  }
   },
   {
     accessorKey: "observations",
@@ -111,10 +135,11 @@ export default function AdminSessionList(){
     },
     cell: ({ row }) => {
       const {intitule} = row.original?.formation;
+      console.log(intitule);
       return (
-        intitule? <div className="flex flex-col space-y-2"></div>:
+        intitule? <div className="flex flex-col space-y-2">{intitule}</div>:
         <div className="flex flex-col space-y-2">
-          {intitule}
+          
         </div>
       );
     },
@@ -129,10 +154,11 @@ export default function AdminSessionList(){
     },
     cell: ({ row }) => {
       const {nom} = row.original?.entreprise;
+      console.log(nom);
       return (
-        nom? <div className="flex flex-col space-y-2"></div>:
+        nom? <div className="flex flex-col space-y-2">{nom}</div>:
         <div className="flex flex-col space-y-2">
-          {nom}
+          
         </div>
       );
     },
@@ -316,6 +342,7 @@ export default function AdminSessionList(){
                           <AffecterParticipantsForm initialData={row.original}/>
                         </DialogContent>
                     </Dialog>
+                    <DropdownMenuItem onClick={() => handlePlanning(id)}>Planning</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

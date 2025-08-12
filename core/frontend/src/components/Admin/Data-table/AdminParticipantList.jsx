@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { DataTable } from "../../data-table/DataTable";
 import {Button} from "@/components/ui/Button";
-import { ArrowUpDown, DownloadIcon } from "lucide-react";
+import { ArrowUpDown, DownloadIcon, UserRound } from "lucide-react";
 import {toast} from "sonner";
 import { MoreHorizontal } from "lucide-react"
 import { DataTableColumnHeader } from "../../data-table/DataTableColumnHeader";
@@ -65,6 +65,24 @@ export default function AdminParticipantList(){
       )
     },
     displayName : "ID",
+  },
+  {
+    accessorKey: "photo_profile",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Photo" />
+      )
+    },
+    cell: ({ row }) => {
+      return (
+        row.original.photo_profile ?
+        <img 
+            src={`${import.meta.env.VITE_BACKEND_URL}/storage/${row.original.photo_profile}`}
+            className="w-20 h-20 rounded-full object-cover"
+            alt="user photo" 
+            />: <UserRound  className="w-20 h-20 rounded-full object-cover"/>)
+    },
+    displayName : "Photo",
   },
   {
     accessorKey: "nom",

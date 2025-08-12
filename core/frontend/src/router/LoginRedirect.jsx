@@ -10,7 +10,7 @@ const LoginRedirect = () => {
       case 'admin':return <Navigate to="/admin/dashboard" replace />;break;
       case 'formateur':return <Navigate to="/formateur/dashboard" replace />;break;
       case 'rh':return <Navigate to="/rh/dashboard" replace />;break;
-      case 'participant':return <Navigate to="/participant/dashboard" replace />;break;
+      case 'participant':return <Navigate to="/participant/seance" replace />;break;
     }
     
   }

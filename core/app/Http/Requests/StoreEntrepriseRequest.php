@@ -24,11 +24,11 @@ class StoreEntrepriseRequest extends FormRequest
         return [
             'nom' => 'required|max:50',
             'secteur' => 'required',
-            'SIRET' => 'required',
+            'ICE' => 'required',
             'IF' => 'required',
             'CNSS' => 'required',
             'telephone' => 'required',
-            'email' => 'required|unique:entreprises|email',
+            'email' => 'required',
             'adresse' => 'required',
             'capital'=>'required',
             'budget' => 'required',
@@ -41,6 +41,14 @@ class StoreEntrepriseRequest extends FormRequest
             'CIN_gerant' => 'required',
             'files'=>'sometimes|array',
             'files.*' => 'required|file',
+            'numero_patente' => 'required',
+            'nombre_personnels' => 'required',
+            'nombre_cadres' => 'required',
+            'nombre_employees' =>'required',
+            'nombre_ouvriers' => 'required',
+            'nom_gerant' => 'required',
+            'numero_cin_gerant' => 'required',
+            'adresse_gerant' =>'required',
 
         ];
     }
