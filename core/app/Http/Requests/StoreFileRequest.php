@@ -25,7 +25,6 @@ class StoreFileRequest extends FormRequest
             'module_id' => 'required',
             'file_path' => 'required',
             'file_nom' => 'required',
-            'description' => 'sometimes',
             'size' => 'sometimes',
         ];
     }

@@ -25,7 +25,7 @@ class UpdateUserRequest extends FormRequest
             'nom' => 'sometimes|required',
             'prenom' => 'sometimes|required',
             'telephone' => 'sometimes|required',
-            'photo_profile' => 'required|image|mimes:jpeg,png,jpg,gif',
+            'photo_profile' => 'sometimes|image|mimes:jpeg,png,jpg,gif',
             'specialite_fonction' => 'sometimes|required',
             'entreprise_id'=>'sometimes|required',
         ];

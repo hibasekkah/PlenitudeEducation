@@ -88,14 +88,14 @@ class FormationController extends Controller
     public function formationsParticipant(User $user){
 
         $user->load(['sessionsUser.session' => function ($query) {
-            $query->where('etat', 'active')->where('date_fin','>=', Carbon::now())->with('formation');
+            $query->where('etat', 'active');
         }]);
 
         $activeSessions = $user->sessionsUser->filter(function ($sessionUser) {
             return $sessionUser->session !== null;
         })->map(function ($sessionUser) {
             return $sessionUser->session;
-        });
+        })->unique('id');;
         return SessionFormationEntrepriseResource::collection($activeSessions);
     }
 
@@ -115,7 +115,8 @@ class FormationController extends Controller
 
     public function SeancesParticipant(User $user)
     {
-        $sessionIds = $user->sessionsUser()->pluck('session_id');
+        $sessionIds = $user->sessionsUser()->pluck('session_id')->unique();
+        //dd($sessionIds->toArray()); 
         $seancesQuery = Seance::whereIn('session_id', $sessionIds)
                               ->with([
                                   'module', 
@@ -129,6 +130,7 @@ class FormationController extends Controller
                               ->orderBy('heure_debut');
 
         $seancesDuJour = (clone $seancesQuery)->whereDate('date', Carbon::today())->get();
+        //dd($seancesDuJour->toArray());
         $seancesPassees = (clone $seancesQuery)->whereDate('date', '<', Carbon::today())->get();
         $seancesAvenir = (clone $seancesQuery)->whereDate('date', '>', Carbon::today())->get();
 
@@ -141,5 +143,6 @@ class FormationController extends Controller
         
         
     }
+
 
 }

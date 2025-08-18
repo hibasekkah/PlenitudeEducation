@@ -11,7 +11,6 @@ class Module extends Model
 
     protected $fillable = [
         'titre',
-        'duree',
         'categorie',
         'formation_id',
     ];

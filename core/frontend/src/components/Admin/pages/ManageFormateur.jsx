@@ -1,10 +1,7 @@
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs.jsx";
 import {Separator} from "@/components/ui/separator.jsx";
 import {ScrollArea,ScrollBar} from "@/components/ui/scroll-area.jsx";
-import SessionApi from "../../../services/api/Session";
-import AddSessionForm from "../Forms/AddSessionForm";
 import AdminFormateurList from "../Data-table/AdminFormateurList";
-import FormateurInvitationSend from "../Forms/FormateurInvitationSend";
 import { AddFormateurFrom } from "../Forms/AddFormateurForm";
 
 

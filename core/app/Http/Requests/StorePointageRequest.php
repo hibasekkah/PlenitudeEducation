@@ -23,8 +23,8 @@ class StorePointageRequest extends FormRequest
     {
         return [
             'date' => 'required|date',
-            'arriver' => 'required',
-            'sortie' => 'sometimes',
+            'arriver' => 'required|date_format:H:i:s',
+            'sortie' => 'sometimes|time',
             'seance_id' => 'required',
             'user_id' => 'required',
         ];

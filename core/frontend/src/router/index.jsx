@@ -31,6 +31,7 @@ import ProfileParticipant from "../components/Participant/ProfileParticipant";
 import { Seance } from "../components/Participant/Seance";
 import { Formation } from "../components/Participant/Formation";
 import { Historique } from "../components/Participant/Historique";
+import { FicheEntreprise } from "../components/rh/FicheEntreprise";
 
 export const LOGIN_ROUTE = '/login'
 export const ABOUT_ROUTE = '/about'
@@ -184,8 +185,8 @@ const router = createBrowserRouter([
         element: <RhDashbordLayout />,
         children: [
           {
-            path: "dashboard",
-            element: <UserDashboard />,
+            path: "entreprise",
+            element: <FicheEntreprise />,
           },
           {
             path: "profile",

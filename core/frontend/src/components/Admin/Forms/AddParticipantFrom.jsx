@@ -22,6 +22,7 @@ const formSchema = z.object({
   email: z.string().email(),
   entreprise_id: z.coerce.number().int(),
   role: z.string(),
+  statut: z.string(),
 });
 
 export function AddParticipantFrom() {
@@ -51,6 +52,7 @@ export function AddParticipantFrom() {
             password:"",
             role:"participant",
             entreprise_id:"",
+            statut:"",
         },
     });
     const { setError } = form;
@@ -67,6 +69,7 @@ export function AddParticipantFrom() {
         formData.append('email',values.email)
         formData.append('role',values.role)
         formData.append('entreprise_id',values.entreprise_id)
+        formData.append('statut',values.statut)
         
         if (file) {
             formData.append('photo_profile', file);
@@ -111,7 +114,25 @@ export function AddParticipantFrom() {
                         <FormField control={form.control} name="role" render={({ field }) => (<FormItem><FormLabel>Role</FormLabel><FormControl><Input placeholder="Role" {...field} disabled/></FormControl><FormMessage /></FormItem>)} />
                         <FormField control={form.control} name="specialite_fonction" render={({ field }) => (<FormItem><FormLabel>Fonction</FormLabel><FormControl><Input placeholder="Fonction" {...field} /></FormControl><FormMessage/></FormItem>)} />
                         <FormField control={form.control} name="password" render={({ field }) => (<FormItem><FormLabel>Mot de passe</FormLabel><FormControl><Input type="password" placeholder="*******" {...field} /></FormControl><FormMessage/></FormItem>)} />
-                        
+                        <FormField control={form.control} name="statut" render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Statut</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Choisir le Statut" />
+                                </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                <SelectItem value="cadre">Cadre</SelectItem>
+                                <SelectItem value="ouvrier">Ouvrier</SelectItem>
+                                <SelectItem value="employe">Employé</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
                         <FormItem>
                             <FormLabel>Photo de profil</FormLabel>
                             <FormControl>

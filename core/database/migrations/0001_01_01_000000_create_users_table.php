@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('telephone')->nullable();
             $table->string('photo_profile')->nullable();
             $table->string('specialite_fonction')->nullable();
-            $table->enum('statut',['active','inactive','deleted']);
+            $table->string('statut')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

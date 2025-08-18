@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Atelier;
-use App\Models\Module;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -24,11 +22,14 @@ class SeanceResource extends JsonResource
         'heure_debut' => $this->heure_debut,
         'heure_fin' => $this->heure_fin,
         'session_id' => new SessionFormationEntrepriseResource($this->session) ,
-        'module' => new ModuleResource($this->whenLoaded('module')),
-        'atelier' => new AtelierResource($this->whenLoaded('atelier')),
-        'formateur_id' => new UserResource($this->whenLoaded('formateur')),
-        'presence_participant' => $pointage ? (bool) $pointage->est_present : null,
+        'module' => new ModuleResource($this->module),
+        'atelier' => new AtelierResource($this->atelier),
+        'formateur_id' => new UserResource($this->formateur),
+        'presence_participant' => $pointage ? (bool) true : null,
         'Observations' => $this->Observations,
+        'DEBUG_POINTAGE_OBJECT' => $pointage, // Affiche l'objet pointage entier
+        'DEBUG_EST_PRESENT_VALUE' => $pointage ? $pointage->est_present : 'POINTAGE_NON_TROUVE',
+        'DEBUG_EST_PRESENT_TYPE' => $pointage ? gettype($pointage->est_present) : 'POINTAGE_NON_TROUVE',
     ];
     }
 }

@@ -99,6 +99,13 @@ export default function AffecterParticipantsForm({initialData}){
       displayName: "Fonction",
     },
     {
+      accessorKey: "statut",
+      header: ({ column }) => (
+        <DataTableColumnHeader column={column} title="statut" />
+      ),
+      displayName: "statut",
+    },
+    {
       id: "actions",
       cell: ({ row }) => {
         const { id } = row.original;

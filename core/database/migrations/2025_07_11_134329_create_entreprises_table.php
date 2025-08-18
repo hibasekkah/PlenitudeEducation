@@ -26,10 +26,10 @@ return new class extends Migration
             $table->string('priode');
             $table->date('debut_period');
             $table->date('fin_period');
-            $table->string('doc_rc');
-            $table->string('doc_status');
-            $table->string('doc_pv');
-            $table->string('CIN_gerant');
+            $table->string('doc_rc')->nullable();
+            $table->string('doc_status')->nullable();
+            $table->string('doc_pv')->nullable();
+            $table->string('CIN_gerant')->nullable();
             $table->string('numero_patente');
             $table->integer('nombre_personnels');
             $table->integer('nombre_cadres');
@@ -37,7 +37,7 @@ return new class extends Migration
             $table->integer('nombre_ouvriers');
             $table->string('nom_gerant');
             $table->string('numero_cin_gerant');
-            $table->string('adresse_gerant');
+            $table->string('adresse_gerant')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

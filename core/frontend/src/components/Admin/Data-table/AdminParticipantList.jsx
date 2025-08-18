@@ -147,6 +147,15 @@ export default function AdminParticipantList(){
     displayName : "Fonction",
   },
   {
+    accessorKey: "statut",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Statut" />
+      )
+    },
+    displayName : "Statut",
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       const {id} = row.original;

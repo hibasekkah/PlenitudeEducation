@@ -26,7 +26,7 @@ class PointagePolicy
         if($user->role === 'admin'){
             return true;
         }
-        if($user->role === 'participant' || $pointage->user_id === $user->id){
+        if( $pointage->user_id === $user->id){
             return true;
         }
         return false;

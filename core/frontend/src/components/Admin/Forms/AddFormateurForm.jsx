@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Loader } from "lucide-react";
 import FormateurApi from "../../../services/api/Formateur";
@@ -51,6 +51,7 @@ export function AddFormateurFrom() {
         formData.append('password', values.password);
         formData.append('email',values.email)
         formData.append('role',values.role)
+        formData.append('statut',values.statut)
         
         if (file) {
             formData.append('photo_profile', file);

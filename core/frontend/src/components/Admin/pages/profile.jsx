@@ -1,6 +1,4 @@
-import { AppWindowIcon, CodeIcon } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -26,9 +24,9 @@ import { ChangePassword } from "../Forms/ChangePassword"
 
 export default function profile() {
     const {user} = useAuth();
-    if(!user){
-        return <Navigate to="/login" replace />;
-    }
+    // if(!user){
+    //     return <Navigate to="/login" replace />;
+    // }
     console.log(user)
     
   return (

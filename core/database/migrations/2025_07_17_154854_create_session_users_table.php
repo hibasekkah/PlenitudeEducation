@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('session_users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->nullOnDelete();
-            $table->unsignedBigInteger('session_id')->nullable();
+                ->cascadeOnDelete();
+            $table->unsignedBigInteger('session_id');
             $table->foreign('session_id')
                 ->references('id')
                 ->on('session_formation_entreprises')
-                ->nullOnDelete();
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }

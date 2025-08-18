@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('materiels')->nullable();
             $table->text('observations')->nullable()->charset('binary');
             $table->string('lieu')->nullable();
-            $table->float('duree');
             $table->unsignedBigInteger('formation_id');
             $table->foreign('formation_id')
                     ->references('id')

@@ -73,15 +73,6 @@ export default function AdminModuleList(){
     displayName : "Titre",
   },
   {
-    accessorKey: "duree",
-    header: ({ column }) => {
-      return (
-        <DataTableColumnHeader column={column} title="Durée" />
-      )
-    },
-    displayName : "Durée",
-  },
-  {
     accessorKey: "categorie",
     header: ({ column }) => {
       return (

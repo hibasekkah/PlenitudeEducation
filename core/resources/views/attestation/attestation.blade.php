@@ -67,8 +67,13 @@
             max-width: 600px;
         }
 
-        .signature {
-            margin-top: 90px;
+        .platforme {
+            margin-top: 80px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .signature{
+            margin-top: 4px;
             font-size: 16px;
             font-weight: bold;
         }
@@ -87,10 +92,11 @@
         <p class="presented">Nous, soussignés,:</p>
         <h2 class="name">{{ $name }}</h2>
         <p class="description">
-            a suivi la formation intitulée, dispensée du [date de début] au [date de fin] 
-            sur la plateforme [Nom de la plateforme]. Cette formation a été réalisée avec succès, conformément au programme prévu. Fait à [Ville], le [Date].
+            a suivi la formation intitulée, dispensée du {{$date_debut}} au {{$date_fin}} 
+            avec plenitude education. Cette formation a été réalisée avec succès, conformément au programme prévu. Fait à fès, le {{$date}}.
         </p>
-        <p class="signature">Manager</p>
+        <p class="platforme">Plenitude Education</p>
+        <p class="signature">signature</p>
     </div>
 </body>
 </html>

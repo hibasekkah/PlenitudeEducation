@@ -11,6 +11,9 @@ const EntrepriseApi = {
     delete: async (id)=>{
         return await axiosUser.delete(`/api/entreprises/${id}`)
     },
+    one: async (id)=>{
+        return await axiosUser.get(`/api/entreprises/${id}`)
+    },
     update: async (id, formData) => {
         return await axiosUser.post(`/api/entreprises/${id}`, formData, {
             headers: {

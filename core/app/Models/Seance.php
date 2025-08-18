@@ -41,6 +41,8 @@ class Seance extends Model
 
     public function pointages()
     {
-        return $this->hasMany(Pointage::class);
+        return $this->hasMany(Pointage::class, 'seance_id');
     }
+
+    
 }

@@ -25,7 +25,6 @@ class UpdateFileRequest extends FormRequest
             'module_id' => 'sometimes|required',
             'file_path' => 'sometimes|required',
             'file_nom' => 'sometimes|required',
-            'description' => 'sometimes',
             'size' => 'sometimes',
         ];
     }

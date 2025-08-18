@@ -33,7 +33,7 @@ import { useState } from "react"
 
 const formSchema = z.object({
   email: z.string().email().min(2).max(50),
-  password: z.string().min(8).max(50),
+  password: z.string().min(4).max(50),
 })
 
 export default function UserLogin(){
@@ -104,12 +104,6 @@ export default function UserLogin(){
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <Link
-                        to="/forgot-password"
-                        className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                      >
-                        Mot de passe oublié ?
-                      </Link>
                       <FormLabel>Mot de passe</FormLabel>
                       <FormControl>
                         <div className="relative">
@@ -136,6 +130,13 @@ export default function UserLogin(){
                   {form.formState.isSubmitting && <Loader className={"mx-2 my-2 animate-spin"}/>} {' '}se connecter</Button>
               </form>
             </Form>
+
+            <Link
+              to="/forgot-password"
+              className="ml-auto inline-block text-sm underline-offset-4 hover:underline mt-2"
+              >
+                Mot de passe oublié ?
+              </Link>
           </CardContent>
         </Card>
     </>

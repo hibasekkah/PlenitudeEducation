@@ -336,7 +336,6 @@ export default function AdminSessionList(){
                           <DialogHeader>
                             <DialogTitle>Ajouter des participants</DialogTitle>
                             <DialogDescription>
-                              {/* ajou les participants */}
                             </DialogDescription>
                           </DialogHeader>
                           <AffecterParticipantsForm initialData={row.original}/>

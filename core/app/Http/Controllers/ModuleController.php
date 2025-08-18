@@ -74,7 +74,6 @@ class ModuleController extends Controller
         $this->authorize('update', $module);
         $validatedData = $request->validate([
             'titre' => 'sometimes|required|string|max:200',
-            'duree' => 'sometimes|required',
             'categorie' => 'sometimes|required|string|max:200',
             'formation_id' => 'sometimes|required',
             'files' => 'sometimes|array',

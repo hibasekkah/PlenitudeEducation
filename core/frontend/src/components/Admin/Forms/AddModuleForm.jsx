@@ -13,7 +13,6 @@ import FormationApi from "../../../services/api/Formation";
 const formSchema = z.object({
   titre: z.string().min(2, { message: "Le titre doit contenir au moins 2 caractères." }).max(100),
   categorie: z.string().optional(),
-  duree: z.coerce.number({ invalid_type_error: "La durée est requise." }).positive("La durée doit être positive."),
   formation_id: z.coerce.number().int().positive("Veuillez sélectionner une formation."),
   files: z.any().optional(),
 });
@@ -23,7 +22,7 @@ export default function ModuleForm({ onFormSubmit, initialData = null }) {
 
   const form = useForm({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || { titre: "", categorie: "", duree: "", formation_id: "" },
+    defaultValues: initialData || { titre: "", categorie: "", formation_id: "" },
   });
   const { setError, formState: { isSubmitting }, reset } = form;
 
@@ -106,7 +105,6 @@ export default function ModuleForm({ onFormSubmit, initialData = null }) {
     
     formData.append('titre', values.titre);
     formData.append('categorie', values.categorie || '');
-    formData.append('duree', values.duree);
     formData.append('formation_id', values.formation_id);
 
     if (newFilesToUpload.length > 0) {
@@ -170,16 +168,6 @@ export default function ModuleForm({ onFormSubmit, initialData = null }) {
             <FormLabel>Titre</FormLabel>
             <FormControl>
               <Input placeholder="Titre du module" {...field} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )} />
-        
-        <FormField control={form.control} name="duree" render={({ field }) => (
-          <FormItem>
-            <FormLabel>Durée (heures)</FormLabel>
-            <FormControl>
-              <Input type="number" placeholder="Durée en heures" min="0" step="0.5" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>

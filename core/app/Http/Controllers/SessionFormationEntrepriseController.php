@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SessionFormationEntreprise;
 use App\Http\Requests\StoreSessionFormationEntrepriseRequest;
 use App\Http\Requests\UpdateSessionFormationEntrepriseRequest;
+use App\Http\Resources\SeanceResource;
 use App\Http\Resources\SessionFormationEntrepriseResource;
 use App\Http\Resources\SessionUserResource;
 use App\Http\Resources\UserResource;
@@ -116,6 +117,27 @@ class SessionFormationEntrepriseController extends Controller
             'message'=>__('La session a été réactivée avec succès.')
         ]);
     }
+
+    public function SeancesSession(Request $request, SessionFormationEntreprise $sessionFormationEntreprise)
+    {
+        $validated = $request->validate([
+            'user_id'=>'required'
+        ]);
+        $participantId = $validated['user_id'];
+        //dd($participantId);
+        $seances = $sessionFormationEntreprise->seances()->with([
+            'module',
+            'atelier',
+            'formateur',
+            'pointages' => function ($query) use ($participantId) {
+                // On utilise la variable validée ici
+                $query->where('user_id', $participantId);
+            }
+        ])->get();
+        //dd($seances);
+        return SeanceResource::collection($seances);
+    }
+
 
 
 }

@@ -26,7 +26,6 @@ class UpdateAtelierRequest extends FormRequest
             'materiels' => 'sometimes',
             'observations'=>'sometimes',
             'lieu' => 'sometimes|required',
-            'duree' => 'sometimes|required',
             'formation_id' => 'sometimes|required',
         ];
     }

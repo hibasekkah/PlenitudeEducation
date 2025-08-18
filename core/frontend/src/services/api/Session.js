@@ -30,6 +30,9 @@ const SessionApi = {
     },
     sessions: async (id)=>{
         return await axiosUser.get(`/api/sessionFormationEntreprise/user/${id}`)
+    },
+    seances: async (id,payload)=>{
+        return await axiosUser.get(`/api/sessionFormationEntreprise/seances/${id}`, { params: payload })
     }
 }
 

@@ -11,9 +11,9 @@ import { RhSideBar } from './RhSideBar';
 
 
 const RhDashbordLayout = () => {
-  const { token } = useAuth();
+  const { token,user } = useAuth();
 
-  if (!token) {
+  if (!token && user.role === 'rh') {
     return <Navigate to="/login" replace />;
   }
 
@@ -33,7 +33,7 @@ const RhDashbordLayout = () => {
             <img 
               src={logo} 
               alt="Plenitude Education Logo" 
-              width="80" 
+              width="50" 
             />
             <p>Plénitude Education</p>
           </div>
@@ -44,12 +44,12 @@ const RhDashbordLayout = () => {
         </div>
       </div>
     </header>
-    <main className={'mx-auto px-10 space-y-4 py-4'}>
+    <main className={'mx-auto'}>
       <div className="flex">
-        <div className={'w-full md:w-2/12 border mr-2 rounded-l'}>
+        <div className={'w-full md:w-2/12 border mr-2 rounded-l bg-card'}>
           <RhSideBar/>
         </div>
-        <div className={'w-full md:w-10/12 border rounded-l'}>
+        <div className={'w-full md:w-10/12 border rounded-l bg-card'}>
           <Outlet/>
         </div>
       </div>

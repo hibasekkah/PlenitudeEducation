@@ -46,10 +46,7 @@ export function ChangePassword() {
         
         try {
             const response = await ProfileApi.password(formData);
-            toast.success(response.data.message || "Mot de passe mis à jour avec succès !");  
-            setTimeout(() => {
-                navigate('/login');
-            }, 2000);          
+            toast.success(response.data.message || "Mot de passe mis à jour avec succès !");            
         } catch (error) {
             console.error("Échec de la soumission du formulaire:", error.response || error);
             if (error.response?.status === 422 && error.response.data.errors) {

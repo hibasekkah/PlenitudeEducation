@@ -19,7 +19,6 @@ class AtelierResource extends JsonResource
             'type'=>$this->type,
             'materiels'=>$this->materiels,
             'observations'=>$this->observations,
-            'duree'=>$this->duree,
             'lieu'=>$this->lieu,
             'formation'=>$this->formation,
         ];

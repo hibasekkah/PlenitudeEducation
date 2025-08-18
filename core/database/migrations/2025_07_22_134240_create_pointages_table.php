@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('pointages', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->dateTime('arriver');
-            $table->dateTime('sortie')->nullable();
+            $table->time('arriver');
+            $table->time('sortie')->nullable();
             $table->unsignedBigInteger('seance_id');
             $table->foreign('seance_id')
                     ->references('id')

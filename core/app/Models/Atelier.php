@@ -14,7 +14,6 @@ class Atelier extends Model
         'materiels',
         'observations',
         'lieu',
-        'duree',
         'formation_id',
     ];
 

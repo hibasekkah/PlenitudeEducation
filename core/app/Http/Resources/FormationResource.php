@@ -15,6 +15,7 @@ class FormationResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'intitule' => $this->intitule,
             'objectifs'=> $this->objectifs,
             'duree'=> $this->duree,
@@ -23,6 +24,7 @@ class FormationResource extends JsonResource
             'categorie'=> $this->categorie,
             'modules'=> ModuleResource::collection($this->modules),
             'ateliers'=> $this->ateliers,
+            'created_at'=>$this->created_at,
         ];
     }
 }

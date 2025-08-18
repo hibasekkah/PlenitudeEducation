@@ -138,13 +138,13 @@ export default function AdminRHList(){
     displayName : "Entreprise",
   },
   {
-    accessorKey: "specialite_fonction",
+    accessorKey: "statut",
     header: ({ column }) => {
       return (
-        <DataTableColumnHeader column={column} title="Fonction" />
+        <DataTableColumnHeader column={column} title="Status" />
       )
     },
-    displayName : "Fonction",
+    displayName : "Statut",
   },
   {
     id: "actions",

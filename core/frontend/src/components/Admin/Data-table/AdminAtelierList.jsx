@@ -72,15 +72,6 @@ export default function AdminAtelierList(){
     displayName : "Type",
   },
   {
-    accessorKey: "duree",
-    header: ({ column }) => {
-      return (
-        <DataTableColumnHeader column={column} title="Durée" />
-      )
-    },
-    displayName : "Durée",
-  },
-  {
     accessorKey: "materiels",
     header: ({ column }) => {
       return (

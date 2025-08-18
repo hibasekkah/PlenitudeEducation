@@ -28,19 +28,19 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::post('/invitation/register', [AuthController::class, 'registerWithInvitation']);
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/api/invitation/verify/{token}', [InvitationController::class, 'verify']);
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
-    Route::post('/invitation/send', [InvitationController::class,'send']);
     Route::put('/user/password',[UserController::class,'updatePassword']);
     Route::put('/user/photo',[UserController::class,'updatePhoto']);
 
     Route::get('/participant/formation/{user}',[FormationController::class,'formationsParticipant']);
     Route::get('/participant/formationTerminee/{user}',[FormationController::class,'formationsParticipantTerminee']);
     Route::get('/participant/seances/{user}',[FormationController::class,'SeancesParticipant']);
+    Route::get('/sessionFormationEntreprise/seances/{sessionFormationEntreprise}',[SessionFormationEntrepriseController::class,'SeancesSession']);
+
 
     Route::get('/dashbord/admin',[DashbordAdminController::class,'getStatistics']);
     Route::get('/dashbord/admin/formation/{formation}',[DashbordAdminController::class,'getFStatistics']);
@@ -86,3 +86,5 @@ Route::get('/attestation/{user}', AttestationController::class);
 Route::put('/sessionFormationEntreprise/suspendreSession/{sessionFormationEntreprise}',[SessionFormationEntrepriseController::class,'suspendreSession']);
 Route::put('/sessionFormationEntreprise/annulerSession/{sessionFormationEntreprise}',[SessionFormationEntrepriseController::class,'annulerSession']);
 Route::put('/sessionFormationEntreprise/activerSession/{sessionFormationEntreprise}',[SessionFormationEntrepriseController::class,'activerSession']);
+
+Route::get('/sessionFormationEntreprise/seances/{sessionFormationEntreprise}',[SessionFormationEntrepriseController::class,'SeancesSession']);

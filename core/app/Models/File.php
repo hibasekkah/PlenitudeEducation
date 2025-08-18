@@ -10,7 +10,6 @@ class File extends Model
         'module_id',
         'file_path',
         'file_nom',
-        'description',
         'size',
     ];
 

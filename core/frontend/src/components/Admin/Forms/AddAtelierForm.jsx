@@ -35,9 +35,6 @@ const formSchema = z.object({
       .number({ required_error: "Veuillez sélectionner une formation." })
       .int()
       .positive("Veuillez sélectionner une formation valide."),
-  duree: z.coerce.number({ invalid_type_error: "La durée doit être un nombre." })
-    .int({ message: "La duree doit être un nombre entier." })
-    .positive({ message: "La duree doit être un nombre positif." }),
 });
 
 const initialValues = {
@@ -45,7 +42,6 @@ const initialValues = {
   materiels: "",
   lieu: "",
   observations: "",
-  duree: "",
 };
 
 export default function AddAtelierForm({ onFormSubmit, initialData }) {
@@ -127,9 +123,6 @@ export default function AddAtelierForm({ onFormSubmit, initialData }) {
         )} />
         <FormField control={form.control} name="observations" render={({ field }) => (
           <FormItem><FormLabel>observations</FormLabel><FormControl><Textarea placeholder="observations" className="resize-none" {...field} /></FormControl><FormMessage /></FormItem>
-        )} />
-        <FormField control={form.control} name="duree" render={({ field }) => (
-          <FormItem><FormLabel>Durée (heurs)</FormLabel><FormControl><Input type="number" placeholder="Durée" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormField control={form.control} name="lieu" render={({ field }) => (
           <FormItem><FormLabel>lieu</FormLabel><FormControl><Input placeholder="lieu" {...field} /></FormControl><FormMessage /></FormItem>

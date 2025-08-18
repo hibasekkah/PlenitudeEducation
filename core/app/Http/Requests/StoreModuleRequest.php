@@ -23,7 +23,6 @@ class StoreModuleRequest extends FormRequest
     {
         return [
             'titre' => 'required|string|max:200|unique:modules,titre',
-            'duree' => 'required',
             'categorie' => 'required|string|max:200',
             'formation_id' => 'required',
             'files'=>'sometimes|array',

@@ -26,7 +26,6 @@ class StoreAtelierRequest extends FormRequest
             'materiels' => 'sometimes',
             'observations' =>'sometimes',
             'lieu' => 'required',
-            'duree' => 'required',
             'formation_id' => 'required',
         ];
     }

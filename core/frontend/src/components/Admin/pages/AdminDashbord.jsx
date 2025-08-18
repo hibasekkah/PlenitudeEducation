@@ -105,7 +105,7 @@ export function AdminDashbord() {
     </Card> */}
     </div>
         <div className="flex flex-col items-center m-4">
-          <Card className="w-3xl m-1">
+          <Card className="w-full m-1">
                 <CardHeader>
                   <CardTitle>Nombre des entreprises par formations</CardTitle>
                 </CardHeader>
@@ -130,7 +130,7 @@ export function AdminDashbord() {
               </Card>
 
 
-              <Card className="w-3xl m-1">
+              <Card className="w-full m-1">
                 <CardHeader>
                   <CardTitle>Nombre des participants par formations</CardTitle>
                 </CardHeader>

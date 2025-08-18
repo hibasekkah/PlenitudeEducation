@@ -29,6 +29,7 @@ const formSchema = z.object({
     prenom: z.string().min(2, "Le prénom est trop court.").max(100),
     specialite_fonction: z.string().min(2, "La fonction est trop court.").max(100),
     telephone: z.string(),
+    statut: z.string(),
     photo_profile: z.any().optional(),
     entreprise_id: z.coerce.number().int(),
 });
@@ -47,6 +48,7 @@ export function EditParticipantForm({initialData = null}) {
             telephone: initialData.telephone || "",
             specialite_fonction: initialData.specialite_fonction || "",
             entreprise_id: initialData.entreprise_id || "",
+            statut: initialData.statut || "",
         },
     });
     const { setError } = form;
@@ -70,6 +72,7 @@ export function EditParticipantForm({initialData = null}) {
         formData.append('prenom', values.prenom);
         formData.append('telephone', values.telephone);
         formData.append('specialite_fonction', values.specialite_fonction);
+        formData.append('statut', values.statut);
         formData.append('entreprise_id', values.entreprise_id);
         
         if (file) {
@@ -103,6 +106,25 @@ export function EditParticipantForm({initialData = null}) {
                         <FormField control={form.control} name="nom" render={({ field }) => (<FormItem><FormLabel>Nom</FormLabel><FormControl><Input placeholder="Nom" {...field} /></FormControl><FormMessage /></FormItem>)} />
                         <FormField control={form.control} name="prenom" render={({ field }) => (<FormItem><FormLabel>Prénom</FormLabel><FormControl><Input placeholder="Prénom" {...field} /></FormControl><FormMessage /></FormItem>)} />
                         <FormField control={form.control} name="telephone" render={({ field }) => (<FormItem><FormLabel>Téléphone</FormLabel><FormControl><Input placeholder="Téléphone" {...field} /></FormControl><FormMessage/></FormItem>)} />
+                        <FormField control={form.control} name="status" render={({ field }) => (
+                            <FormItem>
+                            <FormLabel>Status</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Choisir le Statut" />
+                                </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                <SelectItem value="cadre">Cadre</SelectItem>
+                                <SelectItem value="ouvrier">Ouvrier</SelectItem>
+                                <SelectItem value="employe">Employé</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            <FormMessage />
+                            </FormItem>
+                        )}
+                        />
                         <FormField control={form.control} name="specialite_fonction" render={({ field }) => (<FormItem><FormLabel>Fonction</FormLabel><FormControl><Input placeholder="Fonction" {...field} /></FormControl><FormMessage/></FormItem>)} />
                         <FormField control={form.control} name="entreprise_id" render={({ field }) => (
                             <FormItem>
