@@ -12,8 +12,6 @@ import FormateurDashbordLayout from "../layouts/Formateur/FormateurDashbordLayou
 import RhDashbordLayout from "../layouts/RH/RhDashbordLayout";
 import ParticipantDashbordLayout from "../layouts/Participant/ParticipantDashbordLayout";
 import AdminProfile from "../components/Admin/pages/profile";
-import RhProfile from "../layouts/RH/Rhprofile";
-import FormateurProfile from "../layouts/Formateur/Formateurprofile";
 import Layout from "../layouts/layout";
 import { ManageEntreprise } from "../components/Admin/pages/ManageEntreprise";
 import { ManageFormation } from "../components/Admin/pages/ManageFormation";
@@ -32,13 +30,17 @@ import { Seance } from "../components/Participant/Seance";
 import { Formation } from "../components/Participant/Formation";
 import { Historique } from "../components/Participant/Historique";
 import { FicheEntreprise } from "../components/rh/FicheEntreprise";
+import { Formations } from "../components/rh/Formations";
+import { Seances } from "../components/Formateur/Seances";
+import { SeancesP } from "../components/Formateur/SeancesP";
+import ProfileFormateur from "../components/Formateur/ProfileFormateur";
+import ProfileRH from "../components/rh/ProfileRH";
 
 export const LOGIN_ROUTE = '/login'
 export const ABOUT_ROUTE = '/about'
 export const CONTACT_ROUTE = '/contact'
 export const LOGOUT_ROUTE = '/logout'
 
-const UserDashboard = () => <div>dashbord</div>;
 const Logout = () => <div>Page de Déconnexion</div>;
 
 
@@ -167,12 +169,16 @@ const router = createBrowserRouter([
         element: <FormateurDashbordLayout />,
         children: [
           {
-            path: "dashboard",
-            element: <UserDashboard />,
+            path: "seances",
+            element: <Seances />,
+          },
+          {
+            path: "seancesp",
+            element: <SeancesP />,
           },
           {
             path: "profile",
-            element: <FormateurProfile />,
+            element: <ProfileFormateur />,
           },
           {
             path: "logout",
@@ -189,8 +195,12 @@ const router = createBrowserRouter([
             element: <FicheEntreprise />,
           },
           {
+            path: "formation",
+            element: <Formations />,
+          },
+          {
             path: "profile",
-            element: <RhProfile />,
+            element: <ProfileRH />,
           },
           {
             path: "logout",

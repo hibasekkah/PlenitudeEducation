@@ -30,7 +30,6 @@ class UpdateSeanceRequest extends FormRequest
             'module_id'=>'sometimes|required',
             'atelier_id'=>'sometimes|required',
             'Observations'=>'sometimes',
-            'etat'=>'sometimes|required',
         ];
     }
 }

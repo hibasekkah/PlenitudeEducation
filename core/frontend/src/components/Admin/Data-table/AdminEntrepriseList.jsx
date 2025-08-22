@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { DataTable } from "../../data-table/DataTable";
 import EntrepriseApi from "../../../services/api/Entreprise";
 import {Button} from "@/components/ui/Button";
-import { ArrowUpDown, DownloadIcon, FileText } from "lucide-react";
+import { DownloadIcon } from "lucide-react";
 import {toast} from "sonner";
-import { format } from 'date-fns';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,8 +23,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -168,7 +165,7 @@ export default function AdminEntrepriseList(){
     accessorKey: "nombre_personnels",
     header: ({ column }) => {
       return (
-        <DataTableColumnHeader column={column} title="personnels" />
+        <DataTableColumnHeader column={column} title="Personnels" />
       )
     },
     displayName:"Personnels",

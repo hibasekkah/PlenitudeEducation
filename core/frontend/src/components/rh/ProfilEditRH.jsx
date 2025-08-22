@@ -30,7 +30,7 @@ const formSchema = z.object({
   statut: z.string().max(100),
 });
 
-export function ProfilEditp() {
+export function ProfilEditRH() {
     const { user, setUser} = useAuth();
     const [file, setFile] = useState(null);
     const [isOpen, setIsOpen] = useState(false);

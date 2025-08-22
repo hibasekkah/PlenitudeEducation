@@ -17,12 +17,12 @@ import {
 } from "@/components/ui/tabs"
 import { useAuth } from '@/provider/authProvider';
 import { Navigate } from 'react-router-dom';
-import { ProfilEditp } from "./ProfilEditP";
-import { ChangePasswordP } from "../Participant/ChangePasswordP";
+import { ProfilEditF } from "./ProfilEditF";
+import { ChangePasswordF } from "./ChangePasswordF";
 
 
 
-export default function ProfileParticipant() {
+export default function ProfileFormateur() {
     const {user} = useAuth();
     if(!user){
         return <Navigate to="/login" replace />;
@@ -44,7 +44,7 @@ export default function ProfileParticipant() {
             <CardContent className="grid gap-6">
                 <img 
                     src={`${import.meta.env.VITE_BACKEND_URL}/storage/${user.photo_profile}`}
-                    className="w-50 h-50 rounded-full object-cover "
+                    className="w-50 h-50 rounded-full object-cover"
                     alt="user photo" 
                     />
               <div className="grid gap-3">
@@ -52,7 +52,7 @@ export default function ProfileParticipant() {
                 <Input id="tabs-demo-name" defaultValue={user.nom} disabled/>
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="tabs-demo-username">Prenom</Label>
+                <Label htmlFor="tabs-demo-username">Prénom</Label>
                 <Input id="tabs-demo-username" defaultValue={user.prenom} disabled/>
               </div>
               <div className="grid gap-3">
@@ -64,16 +64,12 @@ export default function ProfileParticipant() {
                 <Input id="tabs-demo-tele" defaultValue={user.telephone} disabled/>
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="tabs-demo-username">Fonction</Label>
+                <Label htmlFor="tabs-demo-username">Spécialite</Label>
                 <Input id="tabs-demo-tele" defaultValue={user.specialite_fonction} disabled/>
-              </div>
-              <div className="grid gap-3">
-                <Label htmlFor="tabs-demo-username">Statut</Label>
-                <Input id="tabs-demo-tele" defaultValue={user.statut} disabled/>
               </div>
             </CardContent>
             <CardFooter>
-              <ProfilEditp/>
+              <ProfilEditF/>
             </CardFooter>
           </Card>
         </TabsContent>
@@ -86,7 +82,7 @@ export default function ProfileParticipant() {
               </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-6">
-              <ChangePasswordP/>
+              <ChangePasswordF/>
             </CardContent>
           </Card>
         </TabsContent>

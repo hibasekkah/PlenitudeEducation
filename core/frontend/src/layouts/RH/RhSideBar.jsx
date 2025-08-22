@@ -8,6 +8,7 @@ import {BookText , UserIcon,ChartNoAxesCombined,Building2  } from "lucide-react"
 export function RhSideBar({className}) {
   const profile = "/rh/profile"
   const entreprise = "/rh/entreprise"
+  const formation = "/rh/formation"
   return (
     <div className={cn("pb-12", className)}>
       <div>
@@ -22,7 +23,7 @@ export function RhSideBar({className}) {
                 Fiche de l'entreprise
               </Button>
             </Link>
-            <Link >
+            <Link to={formation}>
               <Button variant="ghost" className="w-full justify-start">
                 <BookText  className="mr-2"/>
                 formations

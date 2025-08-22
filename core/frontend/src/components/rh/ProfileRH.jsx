@@ -17,12 +17,12 @@ import {
 } from "@/components/ui/tabs"
 import { useAuth } from '@/provider/authProvider';
 import { Navigate } from 'react-router-dom';
-import { ProfilEditp } from "./ProfilEditP";
+import { ProfilEditRH } from "./ProfilEditRH";
 import { ChangePasswordP } from "../Participant/ChangePasswordP";
 
 
 
-export default function ProfileParticipant() {
+export default function ProfileRH() {
     const {user} = useAuth();
     if(!user){
         return <Navigate to="/login" replace />;
@@ -44,7 +44,7 @@ export default function ProfileParticipant() {
             <CardContent className="grid gap-6">
                 <img 
                     src={`${import.meta.env.VITE_BACKEND_URL}/storage/${user.photo_profile}`}
-                    className="w-50 h-50 rounded-full object-cover "
+                    className="w-50 h-50 rounded-full object-cover"
                     alt="user photo" 
                     />
               <div className="grid gap-3">
@@ -73,7 +73,7 @@ export default function ProfileParticipant() {
               </div>
             </CardContent>
             <CardFooter>
-              <ProfilEditp/>
+              <ProfilEditRH/>
             </CardFooter>
           </Card>
         </TabsContent>

@@ -3,10 +3,12 @@ import {Button} from "../../components/ui/button.jsx";
 import {Link} from "react-router-dom";
 
 
-import {BookText , UserIcon,ChartNoAxesCombined,Calendar  } from "lucide-react";
+import {BookText , UserIcon,Calendar  } from "lucide-react";
 
 export function FormateurSideBar({className}) {
   const profile = "/formateur/profile"
+  const seances = "/formateur/seances"
+  const seancesp = "/formateur/seancesp"
   return (
     <div className={cn("pb-12", className)}>
       <div>
@@ -15,21 +17,16 @@ export function FormateurSideBar({className}) {
             Administration
           </h2>
           <div className="space-y-1">
-            <Link to="/admin/dashboard">
-              <Button variant="ghost" className="w-full justify-start">
-                <ChartNoAxesCombined  className="mr-2"/>
-                Dashboard
-              </Button>
-            </Link>
-            <Link >
+            <Link to={seances}>
               <Button variant="ghost" className="w-full justify-start">
                 <Calendar  className="mr-2"/>
                 Planning
               </Button>
-            </Link><Link >
+            </Link>
+            <Link to={seancesp} >
               <Button variant="ghost" className="w-full justify-start">
                 <BookText  className="mr-2"/>
-                Formations
+                Historiques
               </Button>
             </Link>
             <Link to={profile}>

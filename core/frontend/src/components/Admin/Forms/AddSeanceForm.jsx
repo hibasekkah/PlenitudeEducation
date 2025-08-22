@@ -48,7 +48,7 @@ export default function AddSeanceForm({ onFormSubmit, initialData = null }) {
         content_id: "",
       };
     }
-
+ 
     const content_type = initialData.module_id ? "module" : "atelier";
     const content_id = initialData.module_id || initialData.atelier_id;
 
@@ -131,7 +131,7 @@ export default function AddSeanceForm({ onFormSubmit, initialData = null }) {
       };
 
       const response = isUpdate 
-        ? await onFormSubmit(initialData.id, apiData) 
+        ? await onFormSubmit(apiData) 
         : await onFormSubmit(apiData);
         
       toast.success(response.data.message || `Séance ${isUpdate ? 'mise à jour' : 'créée'} avec succès !`);

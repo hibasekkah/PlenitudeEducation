@@ -6,6 +6,10 @@ use App\Models\Seance;
 use App\Http\Requests\StoreSeanceRequest;
 use App\Http\Requests\UpdateSeanceRequest;
 use App\Http\Resources\SeanceResource;
+use App\Mail\SeanceMiseAJourMail;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class SeanceController extends Controller
 {
@@ -46,9 +50,26 @@ class SeanceController extends Controller
     {
         $formfields = $request->validated();
         $seance->update($formfields);
-        $response  = new SeanceResource($seance);
+
+        $seance->load(['session.sessionUsers.user', 'module', 'formateur']);
+        
+        $session = $seance->session;
+        $participants = $session->sessionUsers;
+
+        if ($participants->isNotEmpty()) {
+            foreach ($participants as $participant) {
+                $user = $participant->user;
+                
+                if ($user && $user->email) {
+                    Mail::to($user->email)->send(new SeanceMiseAJourMail($seance, $session, $user));
+                }
+            }
+        }
+
+        $response = new SeanceResource($seance);
+
         return response()->json([
-            'message' => __('La séance a été mise à jour avec succès.'),
+            'message' => __('La séance a été mise à jour avec succès. Les participants ont été notifiés.'),
             'seance' => $response
         ]);
     }
@@ -63,5 +84,15 @@ class SeanceController extends Controller
             'message' => __('La séance a été supprimée avec succès.'),
             'seance' => $seance
         ]);
+    }
+
+    public function SeanceF(User $user){
+        $seances = $user->seances->where('date','>=',Carbon::now());
+        return SeanceResource::collection($seances);
+    }
+
+    public function SeanceP(User $user){
+        $seances = $user->seances->where('date','<',Carbon::now());
+        return SeanceResource::collection($seances);
     }
 }

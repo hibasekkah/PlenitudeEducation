@@ -93,4 +93,8 @@ class User extends Authenticatable implements JWTSubject
         $Participants = User::where('role','participant')->get();
         return $Participants;
     }
+
+    public function seances(){
+        return $this->hasMany(Seance::class,'formateur_id');
+    }
 }

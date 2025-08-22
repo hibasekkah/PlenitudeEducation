@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateFormationRequest;
 use App\Http\Resources\FormationResource;
 use App\Http\Resources\SeanceResource;
 use App\Http\Resources\SessionFormationEntrepriseResource;
+use App\Models\Entreprise;
 use App\Models\Seance;
 use App\Models\User;
 use Carbon\Carbon;
@@ -95,7 +96,7 @@ class FormationController extends Controller
             return $sessionUser->session !== null;
         })->map(function ($sessionUser) {
             return $sessionUser->session;
-        })->unique('id');;
+        })->unique('id');
         return SessionFormationEntrepriseResource::collection($activeSessions);
     }
 
@@ -142,6 +143,11 @@ class FormationController extends Controller
         
         
         
+    }
+
+    public function formationsRH(Entreprise $entreprise){
+        $sessions = $entreprise->sessions;
+        return SessionFormationEntrepriseResource::collection($sessions);
     }
 
 

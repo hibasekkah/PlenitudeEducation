@@ -12,6 +12,8 @@ use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\ListeParticipantController;
+use App\Http\Controllers\ListePresenceController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PlanningController;
 use App\Http\Controllers\PointageController;
@@ -37,8 +39,11 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/user/photo',[UserController::class,'updatePhoto']);
 
     Route::get('/participant/formation/{user}',[FormationController::class,'formationsParticipant']);
+    Route::get('/rh/formation/{entreprise}',[FormationController::class,'formationsRH']);
     Route::get('/participant/formationTerminee/{user}',[FormationController::class,'formationsParticipantTerminee']);
     Route::get('/participant/seances/{user}',[FormationController::class,'SeancesParticipant']);
+    Route::get('/formateur/seances/{user}',[SeanceController::class,'SeanceF']);
+    Route::get('/formateur/seancesp/{user}',[SeanceController::class,'SeanceP']);
     Route::get('/sessionFormationEntreprise/seances/{sessionFormationEntreprise}',[SessionFormationEntrepriseController::class,'SeancesSession']);
 
 
@@ -81,6 +86,8 @@ Route::middleware('auth:api')->group(function () {
 Route::post('/forgot-password', [PasswordResetLinkController::class, 'store']);
 Route::post('/reset-password', [NewPasswordController::class, 'store']);
 Route::get('/planning/{sessionFormationEntreprise}', PlanningController::class);
+Route::get('/participant/{sessionFormationEntreprise}', ListeParticipantController::class);
+Route::get('/presence/{seance}', ListePresenceController::class);
 Route::get('/attestation/{user}', AttestationController::class);
 
 Route::put('/sessionFormationEntreprise/suspendreSession/{sessionFormationEntreprise}',[SessionFormationEntrepriseController::class,'suspendreSession']);

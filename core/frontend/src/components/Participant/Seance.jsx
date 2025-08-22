@@ -83,7 +83,6 @@ export function Seance({ id, contentMapping }) {
         setLoading(true);
         setError(null);
         
-        // Si un ID de session est fourni, utiliser l'API spécifique à la session
         const response = await ParticipantApi.seance(user.id);
         
         setSeanceData(response.data.seances_du_jour || []);
@@ -108,11 +107,9 @@ export function Seance({ id, contentMapping }) {
       return;
     }
 
-    // Vérifier si nous sommes dans les horaires de la séance
     const now = new Date();
     const seanceDate = new Date(seance.date);
     
-    // Vérifier si c'est le bon jour
     if (now.toDateString() !== seanceDate.toDateString()) {
       toast.error("Le pointage n'est possible que le jour de la séance");
       return;

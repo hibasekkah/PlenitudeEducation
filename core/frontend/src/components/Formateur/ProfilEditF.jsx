@@ -27,10 +27,9 @@ const formSchema = z.object({
   telephone: z.string().optional(),
   photo_profile: z.any().optional(),
   specialite_fonction: z.string().max(100),
-  statut: z.string().max(100),
 });
 
-export function ProfilEditp() {
+export function ProfilEditF() {
     const { user, setUser} = useAuth();
     const [file, setFile] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +40,6 @@ export function ProfilEditp() {
             nom: user?.nom || "",
             prenom: user?.prenom || "",
             telephone: user?.telephone || "",
-            statut: user?.statut || "",
             specialite_fonction: user?.specialite_fonction || "",
         },
     });
@@ -55,7 +53,6 @@ export function ProfilEditp() {
         formData.append('nom', values.nom);
         formData.append('prenom', values.prenom);
         formData.append('telephone', values.telephone);
-        formData.append('statut', values.statut);
         formData.append('specialite_fonction', values.specialite_fonction);
         
         if (file) {
@@ -103,9 +100,8 @@ export function ProfilEditp() {
                         <FormField control={form.control} name="nom" render={({ field }) => (<FormItem><FormLabel>Nom</FormLabel><FormControl><Input placeholder="Nom" {...field} /></FormControl><FormMessage /></FormItem>)} />
                         <FormField control={form.control} name="prenom" render={({ field }) => (<FormItem><FormLabel>Prénom</FormLabel><FormControl><Input placeholder="Prénom" {...field} /></FormControl><FormMessage /></FormItem>)} />
                         <FormField control={form.control} name="telephone" render={({ field }) => (<FormItem><FormLabel>Téléphone</FormLabel><FormControl><Input placeholder="Téléphone" {...field} /></FormControl><FormMessage/></FormItem>)} />
-                        <FormField control={form.control} name="statut" render={({ field }) => (<FormItem><FormLabel>Statut</FormLabel><FormControl><Input placeholder="Statut" {...field} /></FormControl><FormMessage/></FormItem>)} />
-                        <FormField control={form.control} name="specialite_fonction" render={({ field }) => (<FormItem><FormLabel>Fonction</FormLabel><FormControl><Input placeholder="Fonction" {...field} /></FormControl><FormMessage/></FormItem>)} />
-
+                        <FormField control={form.control} name="specialite_fonction" render={({ field }) => (<FormItem><FormLabel>Spécialite</FormLabel><FormControl><Input placeholder="Spécialite" {...field} /></FormControl><FormMessage/></FormItem>)} />
+                        
                         <FormItem>
                             <FormLabel>Photo de profil</FormLabel>
                             <FormControl>

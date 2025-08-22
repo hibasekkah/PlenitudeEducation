@@ -27,8 +27,8 @@ class StoreSeanceRequest extends FormRequest
             'heure_fin'=>'required', 
             'session_id'=>'required',
             'formateur_id'=>'required',
-            'module_id'=>'required|sometimes',
-            'atelier_id'=>'required|sometimes',
+            'module_id'=>'sometimes',
+            'atelier_id'=>'sometimes',
             'Observations'=>'sometimes',
         ];
     } 

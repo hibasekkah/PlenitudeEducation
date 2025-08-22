@@ -10,6 +10,12 @@ const FormateurApi = {
     create: async (formData)=>{
         return await axiosUser.post(`/api/user/formateur/create`, formData)
     },
+    seances: async (id)=>{
+        return await axiosUser.get(`/api/formateur/seances/${id}`)
+    },
+    seancesp: async (id)=>{
+        return await axiosUser.get(`/api/formateur/seancesp/${id}`)
+    },
 }
 
 export default FormateurApi;
