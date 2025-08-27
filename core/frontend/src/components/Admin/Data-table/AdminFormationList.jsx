@@ -139,13 +139,11 @@ export default function AdminFormationList(){
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            
+          <DropdownMenuContent align="end">            
               <Sheet>
                 <SheetTrigger asChild>
                   <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                    editer
+                    Editer
                   </DropdownMenuItem>
                 </SheetTrigger>
                 <SheetContent className="flex flex-col">
@@ -168,9 +166,9 @@ export default function AdminFormationList(){
               </Sheet>
             
               <AlertDialog>
-                <AlertDialogTrigger>
+                <AlertDialogTrigger asChild>
                   <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                    supprimer
+                    Supprimer
                   </DropdownMenuItem>
                 </AlertDialogTrigger>
                 <AlertDialogContent>

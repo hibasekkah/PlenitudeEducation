@@ -1,4 +1,3 @@
-
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Check, ChevronsUpDown } from "lucide-react"
 import { useForm } from "react-hook-form"
@@ -45,13 +44,7 @@ import {
 } from "@/components/ui/popover"
 import { useEffect, useState } from "react"
 import FormationApi from "../../../services/api/Formation";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart"
 import StatistiqueApi from "../../../services/api/Statistique"
-import { ChartLegend, ChartLegendContent } from "@/components/ui/chart"
 
 const FormSchema = z.object({
   formation: z.coerce.number().int({
@@ -194,7 +187,6 @@ export function FormationsRecherche() {
                   <p> Sessions terminées : {satistiques?.kpis?.sessionsTerminees}</p>
                   <p> Sessions Planifiées : {satistiques?.kpis?.sessionsAVenir}</p>
                   <p> Sessions Annuler : {satistiques?.kpis?.sessionsAnnulees}</p> 
-
                 </HoverCardContent>
               </HoverCard>
             </CardContent>

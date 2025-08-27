@@ -164,7 +164,7 @@ export default function AdminRHList(){
               <Sheet>
                 <SheetTrigger asChild>
                   <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                    editer
+                    Editer
                   </DropdownMenuItem>
                 </SheetTrigger>
                 <SheetContent className="flex flex-col">
@@ -183,9 +183,9 @@ export default function AdminRHList(){
                 </SheetContent>
               </Sheet>
               <AlertDialog>
-                <AlertDialogTrigger>
-                  <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                    supprimer
+                <AlertDialogTrigger asChild>
+                  <DropdownMenuItem onSelect={(e)=>e.preventDefault()} className="w-full ">
+                    Supprimer
                   </DropdownMenuItem>
                 </AlertDialogTrigger>
                 <AlertDialogContent>

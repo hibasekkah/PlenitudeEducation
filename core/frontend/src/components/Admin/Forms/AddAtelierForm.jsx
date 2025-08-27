@@ -27,14 +27,41 @@ import { useEffect, useState } from "react";
 import FormationApi from "../../../services/api/Formation";
 
 const formSchema = z.object({
-  type: z.string().min(2, { message: "Le type doit contenir au moins 2 caractères." }).max(100),
-  materiels: z.string().optional(),
-  lieu: z.string().min(1, { message: "Le lieu est obligatoire." }),
-  observations: z.string().optional(),
-  formation_id: z.coerce 
-      .number({ required_error: "Veuillez sélectionner une formation." })
-      .int()
-      .positive("Veuillez sélectionner une formation valide."),
+  type: z
+    .string({
+      required_error: "Le type est requis",
+      invalid_type_error: "Le type doit être une chaîne de caractères"
+    })
+    .min(2, { message: "Le type doit contenir au moins 2 caractères." })
+    .max(100, { message: "Le type ne peut pas dépasser 100 caractères." }),
+    
+  materiels: z
+    .string({
+      invalid_type_error: "Les matériels doivent être une chaîne de caractères"
+    })
+    .optional(),
+    
+  lieu: z
+    .string({
+      required_error: "Le lieu est requis",
+      invalid_type_error: "Le lieu doit être une chaîne de caractères"
+    })
+    .min(1, { message: "Le lieu est obligatoire." }),
+    
+  observations: z
+    .string({
+      invalid_type_error: "Les observations doivent être une chaîne de caractères"
+    })
+    .optional(),
+    
+  formation_id: z
+    .coerce
+    .number({ 
+      required_error: "Veuillez sélectionner une formation.",
+      invalid_type_error: "L'ID de formation doit être un nombre"
+    })
+    .int({ message: "L'ID de formation doit être un nombre entier." })
+    .positive("Veuillez sélectionner une formation valide.")
 });
 
 const initialValues = {
@@ -119,13 +146,13 @@ export default function AddAtelierForm({ onFormSubmit, initialData }) {
           <FormItem><FormLabel>Type</FormLabel><FormControl><Input placeholder="Type" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormField control={form.control} name="materiels" render={({ field }) => (
-          <FormItem><FormLabel>materiels</FormLabel><FormControl><Textarea placeholder="materiels" className="resize-none" {...field} /></FormControl><FormMessage /></FormItem>
+          <FormItem><FormLabel>Materiels</FormLabel><FormControl><Textarea placeholder="materiels" className="resize-none" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormField control={form.control} name="observations" render={({ field }) => (
-          <FormItem><FormLabel>observations</FormLabel><FormControl><Textarea placeholder="observations" className="resize-none" {...field} /></FormControl><FormMessage /></FormItem>
+          <FormItem><FormLabel>Observations</FormLabel><FormControl><Textarea placeholder="observations" className="resize-none" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormField control={form.control} name="lieu" render={({ field }) => (
-          <FormItem><FormLabel>lieu</FormLabel><FormControl><Input placeholder="lieu" {...field} /></FormControl><FormMessage /></FormItem>
+          <FormItem><FormLabel>Lieu</FormLabel><FormControl><Input placeholder="lieu" {...field} /></FormControl><FormMessage /></FormItem>
         )} />
         <FormField control={form.control} name="formation_id" render={({ field }) => (
           <FormItem>

@@ -143,7 +143,7 @@ export default function AdminFormateurList(){
               <Sheet>
                 <SheetTrigger asChild>
                   <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                    editer
+                    Editer
                   </DropdownMenuItem>
                 </SheetTrigger>
                 <SheetContent className="flex flex-col">
@@ -162,9 +162,9 @@ export default function AdminFormateurList(){
                 </SheetContent>
               </Sheet>
               <AlertDialog>
-                <AlertDialogTrigger>
+                <AlertDialogTrigger asChild>
                   <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                    supprimer
+                    Supprimer
                   </DropdownMenuItem>
                 </AlertDialogTrigger>
                 <AlertDialogContent>

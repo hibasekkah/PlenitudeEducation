@@ -1,14 +1,15 @@
 import axios from "axios";
-import { createContext, useContext, useEffect, useMemo, useState, useCallback } from "react"; 
+import { createContext, useContext, useEffect, useMemo, useState, useCallback } from "react";
 import { axiosUser } from "../components/api/axios";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [token, setToken_] = useState(localStorage.getItem("token"));
-  const [user, setUser_] = useState(
-    localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
-  );
+  const [token, setToken_] = useState(() => localStorage.getItem("token"));
+  const [user, setUser_] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
   const setToken = useCallback((newToken, userData = null) => {
     setToken_(newToken);
@@ -23,8 +24,7 @@ const AuthProvider = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(userData));
     }
   }, []);
-
-
+  
   const setUser = useCallback((newUserData) => {
     setUser_(newUserData);
     if (newUserData) {
@@ -42,9 +42,9 @@ const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     try {
-      const resp = await axiosUser.post('/api/logout'); 
+      const resp = await axiosUser.post('/api/logout');
       console.log(resp.data.message);
     } catch (error) {
       console.error("Erreur lors de la déconnexion côté serveur:", error);
@@ -54,17 +54,17 @@ const AuthProvider = ({ children }) => {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
     }
-  };
+  }, []);
 
   const contextValue = useMemo(
     () => ({
       token,
       user,
       setToken,
-      setUser, 
+      setUser,
       logout,
     }),
-    [token, user, setToken, setUser]
+    [token, user, setToken, setUser, logout]
   );
 
   return (

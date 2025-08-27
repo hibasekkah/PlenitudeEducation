@@ -2,7 +2,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Check, ChevronsUpDown } from "lucide-react"
 import { useForm } from "react-hook-form"
-import { toast } from "sonner"
 import { z } from "zod"
 import {
   Card,
@@ -175,20 +174,27 @@ export function EntrepriseRecherche() {
               <CardTitle className="text-center">Nombre des formations</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p>{satistiques?.kpis?.formations_uniques_suivies}</p>
+              <HoverCard>
+                <HoverCardTrigger><Button variant="ghost">{satistiques?.kpis?.total_sessions}</Button></HoverCardTrigger>
+                <HoverCardContent>
+                  <p> Formations terminées : {satistiques?.kpis?.sessions_terminees}</p>
+                  <p> Formations Planifiées : {satistiques?.kpis?.sessions_a_venir}</p>
+                </HoverCardContent>
+              </HoverCard>
             </CardContent>
           </Card>
 
           <Card className="w-full max-w-2xs">
             <CardHeader>
-              <CardTitle className="text-center">Nombre des sessions</CardTitle>
+              <CardTitle className="text-center">Budget consomme</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
               <HoverCard>
-                <HoverCardTrigger><Button variant="ghost">{satistiques?.kpis?.total_sessions}</Button></HoverCardTrigger>
+                <HoverCardTrigger><Button variant="ghost">{satistiques?.kpis?.budget_consomme}</Button></HoverCardTrigger>
                 <HoverCardContent>
-                  <p> Sessions terminées : {satistiques?.kpis?.sessions_terminees}</p>
-                  <p> Sessions Planifiées : {satistiques?.kpis?.sessions_a_venir}</p>
+                  <p> Budget total : {satistiques?.kpis?.budget_total}</p>
+                  <p> Budget restant : {satistiques?.kpis?.budget_restant}</p>
+                  <p> Pourcentage : {satistiques?.kpis?.taux_consommation_budget}%</p>
                 </HoverCardContent>
               </HoverCard>
             </CardContent>

@@ -11,9 +11,29 @@ import { Loader, Trash2, FileText, X, DownloadIcon } from "lucide-react";
 import FormationApi from "../../../services/api/Formation";
 
 const formSchema = z.object({
-  titre: z.string().min(2, { message: "Le titre doit contenir au moins 2 caractères." }).max(100),
-  categorie: z.string().optional(),
-  formation_id: z.coerce.number().int().positive("Veuillez sélectionner une formation."),
+  titre: z
+    .string({
+      required_error: "Le titre est requis",
+      invalid_type_error: "Le titre doit être une chaîne de caractères"
+    })
+    .min(2, { message: "Le titre doit contenir au moins 2 caractères." })
+    .max(100, { message: "Le titre ne peut pas dépasser 100 caractères." }),
+    
+  categorie: z
+    .string({
+      invalid_type_error: "La catégorie doit être une chaîne de caractères"
+    })
+    .optional(),
+    
+  formation_id: z
+    .coerce
+    .number({
+      required_error: "Veuillez sélectionner une formation.",
+      invalid_type_error: "L'ID de formation doit être un nombre"
+    })
+    .int({ message: "L'ID de formation doit être un nombre entier." })
+    .positive("Veuillez sélectionner une formation."),
+    
   files: z.any().optional(),
 });
 

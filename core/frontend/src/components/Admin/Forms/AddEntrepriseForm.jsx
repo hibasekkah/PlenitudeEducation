@@ -10,27 +10,167 @@ import { Loader, X, FileText, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 const formSchema = z.object({
-  nom: z.string().min(2, { message: "Le nom doit contenir au moins 2 caractères." }).max(100),
-  secteur: z.string().min(1, { message: "Le secteur d'activité est obligatoire." }),
-  email: z.string({ required_error: "L'e-mail est obligatoire." }).email({ message: "Veuillez entrer une adresse e-mail valide." }),
-  adresse: z.string().min(1, { message: "L'adresse est obligatoire." }).max(255),
-  telephone: z.string().min(1, { message: "Le numéro de téléphone est obligatoire." }),
-  ICE: z.string().min(2,{ message: "Le ICE doit contenir au moins 2 caractères." }),
-  IF: z.string().min(2,{ message: "Le IF doit contenir au moins 2 caractères." }),
-  CNSS: z.string().min(2,{ message: "Le CNSS doit contenir au moins 2 caractères." }),
-  numero_patente: z.string().min(2,{ message: "Le numero de patente doit contenir au moins 2 caractères." }),
-  priode: z.coerce.number().int().positive(),
-  nombre_personnels: z.coerce.number().int().positive(),
-  nombre_cadres: z.coerce.number().int().positive(),
-  nombre_employees: z.coerce.number().int().positive(),
-  nombre_ouvriers: z.coerce.number().int().positive(),
-  nom_gerant: z.string().min(2, { message: "Le nom doit contenir au moins 2 caractères." }),
-  numero_cin_gerant: z.string().min(2,{ message: "Le CIN doit contenir au moins 2 caractères." }),
-  adresse_gerant: z.string().min(1, { message: "L'adresse est obligatoire." }),
-  capital: z.coerce.number().positive(),
-  budget: z.coerce.number().positive(),
-  debut_period: z.string().min(1, { message: "La date de début est obligatoire." }),
-  fin_period: z.string().min(1, { message: "La date de fin est obligatoire." }),
+  nom: z
+    .string({
+      required_error: "Le nom est requis",
+      invalid_type_error: "Le nom doit être une chaîne de caractères"
+    })
+    .min(2, { message: "Le nom doit contenir au moins 2 caractères." })
+    .max(100, { message: "Le nom ne peut pas dépasser 100 caractères." }),
+    
+  secteur: z
+    .string({
+      required_error: "Le secteur d'activité est requis",
+      invalid_type_error: "Le secteur d'activité doit être une chaîne de caractères"
+    })
+    .min(1, { message: "Le secteur d'activité est obligatoire." }),
+    
+  email: z
+    .string({ 
+      required_error: "L'e-mail est obligatoire.",
+      invalid_type_error: "L'e-mail doit être une chaîne de caractères"
+    })
+    .email({ message: "Veuillez entrer une adresse e-mail valide." }),
+    
+  adresse: z
+    .string({
+      required_error: "L'adresse est requise",
+      invalid_type_error: "L'adresse doit être une chaîne de caractères"
+    })
+    .min(1, { message: "L'adresse est obligatoire." })
+    .max(255, { message: "L'adresse ne peut pas dépasser 255 caractères." }),
+    
+  telephone: z
+    .string({
+      required_error: "Le numéro de téléphone est requis",
+      invalid_type_error: "Le numéro de téléphone doit être une chaîne de caractères"
+    })
+    .min(1, { message: "Le numéro de téléphone est obligatoire." }),
+    
+  ICE: z
+    .string({
+      required_error: "L'ICE est requis",
+      invalid_type_error: "L'ICE doit être une chaîne de caractères"
+    })
+    .min(2, { message: "L'ICE doit contenir au moins 2 caractères." }),
+    
+  IF: z
+    .string({
+      required_error: "L'IF est requis",
+      invalid_type_error: "L'IF doit être une chaîne de caractères"
+    })
+    .min(2, { message: "L'IF doit contenir au moins 2 caractères." }),
+    
+  CNSS: z
+    .string({
+      required_error: "Le CNSS est requis",
+      invalid_type_error: "Le CNSS doit être une chaîne de caractères"
+    })
+    .min(2, { message: "Le CNSS doit contenir au moins 2 caractères." }),
+    
+  numero_patente: z
+    .string({
+      required_error: "Le numéro de patente est requis",
+      invalid_type_error: "Le numéro de patente doit être une chaîne de caractères"
+    })
+    .min(2, { message: "Le numéro de patente doit contenir au moins 2 caractères." }),
+    
+  priode: z
+    .coerce
+    .number({
+      required_error: "La période est requise",
+      invalid_type_error: "La période doit être un nombre"
+    })
+    .int({ message: "La période doit être un nombre entier." })
+    .positive({ message: "La période doit être un nombre positif." }),
+    
+  nombre_personnels: z
+    .coerce
+    .number({
+      required_error: "Le nombre de personnels est requis",
+      invalid_type_error: "Le nombre de personnels doit être un nombre"
+    })
+    .int({ message: "Le nombre de personnels doit être un nombre entier." })
+    .positive({ message: "Le nombre de personnels doit être un nombre positif." }),
+    
+  nombre_cadres: z
+    .coerce
+    .number({
+      required_error: "Le nombre de cadres est requis",
+      invalid_type_error: "Le nombre de cadres doit être un nombre"
+    })
+    .int({ message: "Le nombre de cadres doit être un nombre entier." })
+    .positive({ message: "Le nombre de cadres doit être un nombre positif." }),
+    
+  nombre_employees: z
+    .coerce
+    .number({
+      required_error: "Le nombre d'employés est requis",
+      invalid_type_error: "Le nombre d'employés doit être un nombre"
+    })
+    .int({ message: "Le nombre d'employés doit être un nombre entier." })
+    .positive({ message: "Le nombre d'employés doit être un nombre positif." }),
+    
+  nombre_ouvriers: z
+    .coerce
+    .number({
+      required_error: "Le nombre d'ouvriers est requis",
+      invalid_type_error: "Le nombre d'ouvriers doit être un nombre"
+    })
+    .int({ message: "Le nombre d'ouvriers doit être un nombre entier." })
+    .positive({ message: "Le nombre d'ouvriers doit être un nombre positif." }),
+    
+  nom_gerant: z
+    .string({
+      required_error: "Le nom du gérant est requis",
+      invalid_type_error: "Le nom du gérant doit être une chaîne de caractères"
+    })
+    .min(2, { message: "Le nom du gérant doit contenir au moins 2 caractères." }),
+    
+  numero_cin_gerant: z
+    .string({
+      required_error: "Le numéro CIN du gérant est requis",
+      invalid_type_error: "Le numéro CIN du gérant doit être une chaîne de caractères"
+    })
+    .min(2, { message: "Le CIN du gérant doit contenir au moins 2 caractères." }),
+    
+  adresse_gerant: z
+    .string({
+      required_error: "L'adresse du gérant est requise",
+      invalid_type_error: "L'adresse du gérant doit être une chaîne de caractères"
+    })
+    .min(1, { message: "L'adresse du gérant est obligatoire." }),
+    
+  capital: z
+    .coerce
+    .number({
+      required_error: "Le capital est requis",
+      invalid_type_error: "Le capital doit être un nombre"
+    })
+    .positive({ message: "Le capital doit être un nombre positif." }),
+    
+  budget: z
+    .coerce
+    .number({
+      required_error: "Le budget est requis",
+      invalid_type_error: "Le budget doit être un nombre"
+    })
+    .positive({ message: "Le budget doit être un nombre positif." }),
+    
+  debut_period: z
+    .string({
+      required_error: "La date de début est requise",
+      invalid_type_error: "La date de début doit être une chaîne de caractères"
+    })
+    .min(1, { message: "La date de début est obligatoire." }),
+    
+  fin_period: z
+    .string({
+      required_error: "La date de fin est requise",
+      invalid_type_error: "La date de fin doit être une chaîne de caractères"
+    })
+    .min(1, { message: "La date de fin est obligatoire." }),
+    
   doc_rc: z.any().optional(),
   doc_status: z.any().optional(),
   doc_pv: z.any().optional(),

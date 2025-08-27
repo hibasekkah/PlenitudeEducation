@@ -25,14 +25,51 @@ import { Loader } from "lucide-react";
 import { toast } from "sonner";
 
 const formSchema = z.object({
-  intitule: z.string().min(2, { message: "L'intitule doit contenir au moins 2 caractères." }).max(100),
-  objectifs: z.string().min(1, { message: "Les objectifs sont obligatoires." }),
-  niveau: z.string(),
-  categorie: z.string(),
-  duree: z.coerce.number({ invalid_type_error: "La période doit être un nombre." })
-    .int({ message: "La duree doit être un nombre entier." })
-    .positive({ message: "La duree doit être un nombre positif." }),
-  cout: z.coerce.number({ invalid_type_error: "Le cout doit être un nombre." }).positive(),
+  intitule: z
+    .string({
+      required_error: "L'intitulé est requis",
+      invalid_type_error: "L'intitulé doit être une chaîne de caractères"
+    })
+    .min(2, { message: "L'intitulé doit contenir au moins 2 caractères." })
+    .max(100, { message: "L'intitulé ne peut pas dépasser 100 caractères." }),
+    
+  objectifs: z
+    .string({
+      required_error: "Les objectifs sont requis",
+      invalid_type_error: "Les objectifs doivent être une chaîne de caractères"
+    })
+    .min(1, { message: "Les objectifs sont obligatoires." }),
+    
+  niveau: z
+    .string({
+      required_error: "Le niveau est requis",
+      invalid_type_error: "Le niveau doit être une chaîne de caractères"
+    })
+    .min(1, { message: "Le niveau est obligatoire." }),
+    
+  categorie: z
+    .string({
+      required_error: "La catégorie est requise",
+      invalid_type_error: "La catégorie doit être une chaîne de caractères"
+    })
+    .min(1, { message: "La catégorie est obligatoire." }),
+    
+  duree: z
+    .coerce
+    .number({ 
+      required_error: "La durée est requise",
+      invalid_type_error: "La durée doit être un nombre." 
+    })
+    .int({ message: "La durée doit être un nombre entier." })
+    .positive({ message: "La durée doit être un nombre positif." }),
+    
+  cout: z
+    .coerce
+    .number({ 
+      required_error: "Le coût est requis",
+      invalid_type_error: "Le coût doit être un nombre." 
+    })
+    .positive({ message: "Le coût doit être un nombre positif." }),
 });
 
 const initialValues = {

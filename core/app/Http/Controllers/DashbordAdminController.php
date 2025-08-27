@@ -127,6 +127,19 @@ class DashbordAdminController extends Controller
             }
         ]);
 
+        $formationsUniquesCount = $entreprise->sessions()
+                                             ->distinct('formation_id')
+                                             ->count('formation_id');
+
+        $budgetConsomme = $entreprise->sessions()
+                                     ->with('formation') 
+                                     ->get()
+                                     ->sum(function ($session) {
+                                         return $session->formation->cout ?? 0;
+                                     });
+
+        $budgetTotal = $entreprise->budget ?? 0;
+
         return response()->json([
             'kpis' => [
                 'total_participants' => $entreprise->total_participants,
@@ -134,6 +147,11 @@ class DashbordAdminController extends Controller
                 'sessions_a_venir' => $entreprise->sessions_a_venir_count,
                 'sessions_terminees' => $entreprise->sessions_terminees_count,
                 'formations_uniques_suivies' => $entreprise->formations_uniques_suivies,
+
+                'budget_total' => (float) $budgetTotal,
+                'budget_consomme' => (float) $budgetConsomme,
+                'budget_restant' => (float) ($budgetTotal - $budgetConsomme),
+                'taux_consommation_budget' => $budgetTotal > 0 ? round(($budgetConsomme / $budgetTotal) * 100, 2) : 0,
             ],
             'charts' => [
                 

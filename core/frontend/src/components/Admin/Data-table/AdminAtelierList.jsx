@@ -133,7 +133,7 @@ export default function AdminAtelierList(){
               <Sheet className='m-2'>
                 <SheetTrigger asChild>
                   <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                    editer
+                    Editer
                   </DropdownMenuItem>
                 </SheetTrigger>
                 <SheetContent className="flex flex-col">
@@ -152,11 +152,10 @@ export default function AdminAtelierList(){
                   </div>
                 </SheetContent>
               </Sheet>
-            <DropdownMenuSeparator/>
               <AlertDialog>
-                <AlertDialogTrigger>
+                <AlertDialogTrigger asChild>
                   <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                    supprimer
+                    Supprimer
                   </DropdownMenuItem>
                 </AlertDialogTrigger>
                 <AlertDialogContent>

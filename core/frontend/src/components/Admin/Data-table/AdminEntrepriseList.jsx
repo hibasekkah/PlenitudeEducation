@@ -279,7 +279,7 @@ export default function AdminEntrepriseList(){
                       <Sheet>
                         <SheetTrigger asChild>
                           <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                            editer
+                            Editer
                           </DropdownMenuItem>
                         </SheetTrigger>
                         <SheetContent className="flex flex-col">
@@ -299,9 +299,9 @@ export default function AdminEntrepriseList(){
                         </SheetContent>
                       </Sheet>
                       <AlertDialog>
-                        <AlertDialogTrigger>
+                        <AlertDialogTrigger asChild>
                           <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                            supprimer
+                            Supprimer
                           </DropdownMenuItem>
                         </AlertDialogTrigger>
                         <AlertDialogContent>
@@ -329,7 +329,7 @@ export default function AdminEntrepriseList(){
                     <Dialog>
                         <DialogTrigger asChild>
                           <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                              documents
+                              Documents
                             </DropdownMenuItem>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[425px]">
@@ -341,6 +341,7 @@ export default function AdminEntrepriseList(){
                             <div className="grid">
                               <div className="flex items-center justify-between bg-gray-50 p-2 rounded border">
                                   <div className="flex items-center space-x-2">
+                                    {doc_rc?
                                     <a
                                       //key={file.id}
                                       href={`${import.meta.env.VITE_BACKEND_URL}/storage/${doc_rc}`}
@@ -351,7 +352,7 @@ export default function AdminEntrepriseList(){
                                     >
                                       <DownloadIcon className="h-4 w-4 mr-2 text-blue-700" />
                                        Registre de commerce 
-                                    </a>
+                                    </a>:<p>Registre de commerce est vide</p>}
                                     <span className="text-xs text-gray-500">
                                         {/* ({formatFileSize(file.size)}) */}
                                       </span></div>
@@ -360,6 +361,7 @@ export default function AdminEntrepriseList(){
                             <div className="grid gap-3">
                               <div className="flex items-center justify-between bg-gray-50 p-2 rounded border">
                                   <div className="flex items-center space-x-2">
+                                    {doc_status ?
                                     <a
                                       //key={file.id}
                                       href={`${import.meta.env.VITE_BACKEND_URL}/storage/${doc_status}`}
@@ -370,15 +372,15 @@ export default function AdminEntrepriseList(){
                                     >
                                       <DownloadIcon className="h-4 w-4 mr-2 text-blue-700" />
                                        Statuts d'entreprise 
-                                    </a>
+                                    </a>:<p>Statuts d'entreprise est vide</p>}
                                     <span className="text-xs text-gray-500">
-                                        {/* ({formatFileSize(file.size)}) */}
                                       </span></div>
                                   </div>
                             </div>
                             <div className="grid gap-3">
                               <div className="flex items-center justify-between bg-gray-50 p-2 rounded border">
                                   <div className="flex items-center space-x-2">
+                                    {doc_pv? 
                                     <a
                                       //key={file.id}
                                       href={`${import.meta.env.VITE_BACKEND_URL}/storage/${doc_pv}`}
@@ -388,8 +390,8 @@ export default function AdminEntrepriseList(){
                                       rel="noopener noreferrer"
                                     >
                                       <DownloadIcon className="h-4 w-4 mr-2 text-blue-700" />
-                                       Procès verbal 
-                                    </a>
+                                       PV 
+                                    </a>:<p>PV est vide</p>}
                                     <span className="text-xs text-gray-500">
                                         {/* ({formatFileSize(file.size)}) */}
                                       </span></div>
@@ -398,6 +400,7 @@ export default function AdminEntrepriseList(){
                             <div className="grid gap-3">
                               <div className="flex items-center justify-between bg-gray-50 p-2 rounded border">
                                   <div className="flex items-center space-x-2">
+                                    {CIN_gerant?
                                     <a
                                       //key={file.id}
                                       href={`${import.meta.env.VITE_BACKEND_URL}/storage/${CIN_gerant}`}
@@ -408,7 +411,7 @@ export default function AdminEntrepriseList(){
                                     >
                                       <DownloadIcon className="h-4 w-4 mr-2 text-blue-700" />
                                       CIN Gérant 
-                                    </a>
+                                    </a>:<>CIN Gérant est vide</>}
                                     <span className="text-xs text-gray-500">
                                         {/* ({formatFileSize(file.size)}) */}
                                       </span>

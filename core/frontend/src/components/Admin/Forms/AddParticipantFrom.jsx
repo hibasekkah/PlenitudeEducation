@@ -13,16 +13,75 @@ import ParticipantApi from "../../../services/api/Participant";
 import EntrepriseApi from "../../../services/api/Entreprise";
 
 const formSchema = z.object({
-  nom: z.string().min(2, "Le nom est trop court.").max(100),
-  prenom: z.string().min(2, "Le prénom est trop court.").max(100),
-  specialite_fonction: z.string().min(2, "La fonction est trop court.").max(100),
-  telephone: z.string(),
+  nom: z
+    .string({
+      required_error: "Le nom est requis",
+      invalid_type_error: "Le nom doit être une chaîne de caractères"
+    })
+    .min(2, "Le nom est trop court.")
+    .max(100, "Le nom ne peut pas dépasser 100 caractères."),
+    
+  prenom: z
+    .string({
+      required_error: "Le prénom est requis",
+      invalid_type_error: "Le prénom doit être une chaîne de caractères"
+    })
+    .min(2, "Le prénom est trop court.")
+    .max(100, "Le prénom ne peut pas dépasser 100 caractères."),
+    
+  specialite_fonction: z
+    .string({
+      required_error: "La spécialité/fonction est requise",
+      invalid_type_error: "La spécialité/fonction doit être une chaîne de caractères"
+    })
+    .min(2, "La fonction est trop courte.")
+    .max(100, "La spécialité/fonction ne peut pas dépasser 100 caractères."),
+    
+  telephone: z
+    .string({
+      required_error: "Le numéro de téléphone est requis",
+      invalid_type_error: "Le numéro de téléphone doit être une chaîne de caractères"
+    })
+    .min(1, "Le numéro de téléphone est obligatoire."),
+    
   photo_profile: z.any().optional(),
-  password:z.string().min(8),
-  email: z.string().email(),
-  entreprise_id: z.coerce.number().int(),
-  role: z.string(),
-  statut: z.string(),
+  
+  password: z
+    .string({
+      required_error: "Le mot de passe est requis",
+      invalid_type_error: "Le mot de passe doit être une chaîne de caractères"
+    })
+    .min(8, "Le mot de passe doit contenir au moins 8 caractères."),
+    
+  email: z
+    .string({
+      required_error: "L'email est requis",
+      invalid_type_error: "L'email doit être une chaîne de caractères"
+    })
+    .email("Veuillez entrer une adresse email valide."),
+    
+  entreprise_id: z
+    .coerce
+    .number({
+      required_error: "Veuillez sélectionner une entreprise.",
+      invalid_type_error: "L'ID d'entreprise doit être un nombre"
+    })
+    .int({ message: "L'ID d'entreprise doit être un nombre entier." })
+    .positive({ message: "Veuillez sélectionner une entreprise valide." }),
+    
+  role: z
+    .string({
+      required_error: "Le rôle est requis",
+      invalid_type_error: "Le rôle doit être une chaîne de caractères"
+    })
+    .min(1, "Le rôle est obligatoire."),
+    
+  statut: z
+    .string({
+      required_error: "Le statut est requis",
+      invalid_type_error: "Le statut doit être une chaîne de caractères"
+    })
+    .min(1, "Le statut est obligatoire."),
 });
 
 export function AddParticipantFrom() {

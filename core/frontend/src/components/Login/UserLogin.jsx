@@ -32,8 +32,22 @@ import { useState } from "react"
 
 
 const formSchema = z.object({
-  email: z.string().email().min(2).max(50),
-  password: z.string().min(4).max(50),
+  email: z
+    .string({
+      required_error: "L'email est requis",
+      invalid_type_error: "L'email doit être une chaîne de caractères"
+    })
+    .min(2, "L'email doit contenir au moins 2 caractères")
+    .max(50, "L'email ne peut pas dépasser 50 caractères")
+    .email("Veuillez entrer une adresse email valide"),
+  
+  password: z
+    .string({
+      required_error: "Le mot de passe est requis",
+      invalid_type_error: "Le mot de passe doit être une chaîne de caractères"
+    })
+    .min(4, "Le mot de passe doit contenir au moins 4 caractères")
+    .max(50, "Le mot de passe ne peut pas dépasser 50 caractères")
 })
 
 export default function UserLogin(){

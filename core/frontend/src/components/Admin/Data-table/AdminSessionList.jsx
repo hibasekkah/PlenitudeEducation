@@ -174,6 +174,51 @@ export default function AdminSessionList(){
     displayName : "Etat",
   },
   {
+    id: "statut",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Statut" />
+      )
+    },
+    cell: ({ row }) => {
+      const dateDebut = new Date(row.original.date_debut);
+      const dateFin = new Date(row.original.date_fin);
+      const maintenant = new Date();
+      const etat = row.original.etat;
+      
+      let statut = "";
+      let className = "";
+      
+      // Vérifier d'abord si la session est suspendue ou annulée
+      if (etat === "suspendue") {
+        statut = "Suspendue";
+        className = "bg-orange-100 text-orange-800 border-orange-300";
+      } else if (etat === "annulée" || etat === "annulee") {
+        statut = "Annulée";
+        className = "bg-red-100 text-red-800 border-red-300";
+      } else {
+        // Sinon, déterminer le statut basé sur les dates
+        if (maintenant < dateDebut) {
+          statut = "Planifiée";
+          className = "bg-blue-100 text-blue-800 border-blue-300";
+        } else if (maintenant >= dateDebut && maintenant <= dateFin) {
+          statut = "En cours";
+          className = "bg-yellow-100 text-yellow-800 border-yellow-300";
+        } else {
+          statut = "Terminée";
+          className = "bg-green-100 text-green-800 border-green-300";
+        }
+      }
+      
+      return (
+        <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${className}`}>
+          {statut}
+        </div>
+      );
+    },
+    displayName: "Statut",
+  },
+  {
     accessorKey: "raison_sus",
     header: ({ column }) => {
       return (
@@ -208,7 +253,7 @@ export default function AdminSessionList(){
               <Sheet>
                 <SheetTrigger asChild>
                   <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                    editer
+                    Editer
                   </DropdownMenuItem>
                 </SheetTrigger>
                 <SheetContent className="flex flex-col">
@@ -232,7 +277,7 @@ export default function AdminSessionList(){
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                    supprimer
+                    Supprimer
                   </DropdownMenuItem>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
@@ -260,7 +305,7 @@ export default function AdminSessionList(){
                   <Dialog>
                         <DialogTrigger asChild>
                           <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                            suspendre
+                            Suspendre
                           </DropdownMenuItem>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[425px]">
@@ -280,7 +325,7 @@ export default function AdminSessionList(){
                     <Dialog open={isAnnulDialogOpen} onOpenChange={setIsAnnulDialogOpen}>
                         <DialogTrigger asChild>
                           <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                            annuler
+                            Annuler
                           </DropdownMenuItem>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[425px]">
@@ -301,7 +346,7 @@ export default function AdminSessionList(){
                 <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                    re activer
+                    Reactiver
                   </DropdownMenuItem>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
@@ -329,7 +374,7 @@ export default function AdminSessionList(){
                 <Dialog>
                         <DialogTrigger asChild>
                           <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                            participants
+                            Participants
                           </DropdownMenuItem>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[90vw]">

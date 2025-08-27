@@ -42,6 +42,21 @@ import AddSeanceForm from "../Forms/AddSeanceForm";
 
 export default function AdminSeanceList(){
   const [data,setData] = useState([]);
+
+
+  const handlePresence = async (id) => {
+    try {
+      await new Promise(resolve => setTimeout(resolve, 500));
+      window.open(`http://localhost:8000/api/presence/${id}`, "_blank");
+      toast.success("La liste de présence téléchargé avec succès");
+    } catch (error) {
+      toast.error("Erreur lors du téléchargement de la liste de présence");
+      console.error("Erreur téléchargement de la liste de présence:", error);
+    } finally {
+      setDownloadingListeId(null);
+    }
+  };
+
   useEffect(() => {
     (async () => {
       try {
@@ -53,6 +68,8 @@ export default function AdminSeanceList(){
       }
     })(); 
   }, []);
+
+
 
   const  AdminModuleColumns = [
   {
@@ -197,6 +214,46 @@ export default function AdminSeanceList(){
     },
     displayName : "Formateur",
   },
+  // Ajouter cette colonne dans AdminModuleColumns après la colonne "etat"
+  {
+    id: "statut",
+    header: ({ column }) => {
+      return (
+        <DataTableColumnHeader column={column} title="Statut" />
+      )
+    },
+    cell: ({ row }) => {
+      const date = new Date(row.original.date);
+      const heureDebut = row.original.heure_debut;
+      const heureFin = row.original.heure_fin;
+      
+      // Créer les objets Date complets avec date et heure
+      const dateDebut = new Date(`${row.original.date}T${heureDebut}`);
+      const dateFin = new Date(`${row.original.date}T${heureFin}`);
+      const maintenant = new Date();
+      
+      let statut = "";
+      let className = "";
+      
+      if (maintenant < dateDebut) {
+        statut = "Planifiée";
+        className = "bg-blue-100 text-blue-800 border-blue-300";
+      } else if (maintenant >= dateDebut && maintenant <= dateFin) {
+        statut = "En cours";
+        className = "bg-yellow-100 text-yellow-800 border-yellow-300";
+      } else {
+        statut = "Terminée";
+        className = "bg-green-100 text-green-800 border-green-300";
+      }
+      
+      return (
+        <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${className}`}>
+          {statut}
+        </div>
+      );
+    },
+    displayName: "Statut",
+  },
   {
     id: "actions",
     cell: ({ row }) => {
@@ -215,7 +272,7 @@ export default function AdminSeanceList(){
               <Sheet>
                 <SheetTrigger asChild>
                   <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                    editer
+                    Editer
                   </DropdownMenuItem>
                 </SheetTrigger>
                 <SheetContent className="flex flex-col">
@@ -234,11 +291,10 @@ export default function AdminSeanceList(){
                   </div>
                 </SheetContent>
               </Sheet>
-            <DropdownMenuSeparator/>
               <AlertDialog>
-                <AlertDialogTrigger>
+                <AlertDialogTrigger asChild>
                   <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
-                    supprimer
+                    Supprimer
                   </DropdownMenuItem>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
@@ -262,6 +318,8 @@ export default function AdminSeanceList(){
                     </AlertDialogFooter>
                 </AlertDialogContent>
                 </AlertDialog>
+                <DropdownMenuItem onClick={() => handlePresence(id)}>Présence</DropdownMenuItem>
+
           </DropdownMenuContent>
         </DropdownMenu>
       )
