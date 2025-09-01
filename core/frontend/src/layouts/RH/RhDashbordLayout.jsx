@@ -13,7 +13,7 @@ import { RhSideBar } from './RhSideBar';
 const RhDashbordLayout = () => {
   const { token,user } = useAuth();
 
-  if (!token && user.role === 'rh') {
+  if (!token || user.role !== 'rh') {
     return <Navigate to="/login" replace />;
   }
 

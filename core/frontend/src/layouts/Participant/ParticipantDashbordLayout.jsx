@@ -8,9 +8,9 @@ import { ParticipantSideBar } from './ParticipantSideBar';
 
 
 const ParticipantDashbordLayout = () => {
-  const { token ,user} = useAuth();
+  const { token , user} = useAuth();
 
-  if (!token && user.role !== 'participant' ) {
+  if (!token || user.role !== 'participant' ) {
     return <Navigate to="/login" replace />;
   }
 

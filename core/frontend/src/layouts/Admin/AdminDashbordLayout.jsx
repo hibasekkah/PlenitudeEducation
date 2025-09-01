@@ -8,9 +8,11 @@ import { AdminSideBar } from './AdminSideBar';
 
 
 const AdminDashbordLayout = () => {
-  const { user } = useAuth();
+  const { token, user } = useAuth();
 
-  if (!user.token && user.role !== 'admin') {
+
+
+  if (!token || user.role !== 'admin') {
     return <Navigate to="/login" replace />;
   }
 

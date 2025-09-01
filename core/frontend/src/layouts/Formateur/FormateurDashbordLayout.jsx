@@ -4,8 +4,6 @@ import { useAuth } from '@/provider/authProvider';
 import {Link} from "react-router-dom";
 import logo from '@/assets/images/logo.png'; 
 import {HomeIcon, LogOut} from "lucide-react";
-import { LOGOUT_ROUTE } from "@/router";
-import { axiosUser } from '../../components/api/axios';
 import { Button } from '../../components/ui/button';
 
 import { useNavigate } from 'react-router-dom';
@@ -13,9 +11,9 @@ import { FormateurSideBar } from './FormateurSideBar';
 
 
 const FormateurDashbordLayout = () => {
-  const { token } = useAuth();
+  const { token, user } = useAuth();
 
-  if (!token) {
+  if (!token || user.role !== 'formateur') {
     return <Navigate to="/login" replace />;
   }
 
