@@ -36,7 +36,7 @@ export function FicheEntreprise(){
     return <>
         <Card className='w-2xl m-auto mt-3 mb-3'>
         <CardHeader className='text-center'>
-            <CardTitle>fiche d'entreprise</CardTitle>
+            <CardTitle>Fiche d'entreprise</CardTitle>
             <CardDescription>les inforamtions de l'entreprise</CardDescription>
         </CardHeader>
         <CardContent>

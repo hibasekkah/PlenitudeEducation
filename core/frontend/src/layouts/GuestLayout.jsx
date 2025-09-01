@@ -13,7 +13,7 @@ export default function GuestLayout() {
             <img 
               src={logo} 
               alt="Plenitude Education Logo" 
-              width="80" 
+              width="50" 
             />
             <p>Plénitude Education</p>
           </div>

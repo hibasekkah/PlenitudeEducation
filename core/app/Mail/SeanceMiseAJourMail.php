@@ -29,7 +29,7 @@ class SeanceMiseAJourMail extends Mailable
         $this->seance = $seance;
         $this->session = $session;
         $this->participant = $participant;
-        $this->planningUrl = config('app.frontend_url') . '/participant/planning'; 
+        $this->planningUrl = config('app.frontend_url') . '/api/login'; 
     }
 
     /**

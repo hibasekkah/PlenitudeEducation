@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { DataTable } from "../../data-table/DataTable";
 import {Button} from "@/components/ui/Button";
-import { DownloadIcon } from "lucide-react";
 import {toast} from "sonner";
 import { MoreHorizontal } from "lucide-react"
 import { DataTableColumnHeader } from "../../data-table/DataTableColumnHeader";
@@ -214,7 +213,6 @@ export default function AdminSeanceList(){
     },
     displayName : "Formateur",
   },
-  // Ajouter cette colonne dans AdminModuleColumns après la colonne "etat"
   {
     id: "statut",
     header: ({ column }) => {
@@ -223,35 +221,53 @@ export default function AdminSeanceList(){
       )
     },
     cell: ({ row }) => {
-      const date = new Date(row.original.date);
-      const heureDebut = row.original.heure_debut;
-      const heureFin = row.original.heure_fin;
-      
-      // Créer les objets Date complets avec date et heure
-      const dateDebut = new Date(`${row.original.date}T${heureDebut}`);
-      const dateFin = new Date(`${row.original.date}T${heureFin}`);
-      const maintenant = new Date();
-      
-      let statut = "";
-      let className = "";
-      
-      if (maintenant < dateDebut) {
-        statut = "Planifiée";
-        className = "bg-blue-100 text-blue-800 border-blue-300";
-      } else if (maintenant >= dateDebut && maintenant <= dateFin) {
-        statut = "En cours";
-        className = "bg-yellow-100 text-yellow-800 border-yellow-300";
-      } else {
-        statut = "Terminée";
-        className = "bg-green-100 text-green-800 border-green-300";
-      }
-      
-      return (
-        <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${className}`}>
-          {statut}
-        </div>
-      );
-    },
+  const date = new Date(row.original.date);
+  const heureDebut = row.original.heure_debut;
+  const heureFin = row.original.heure_fin;
+  
+  // Vérification des données
+  console.log('Date originale:', row.original.date);
+  console.log('Heure début:', heureDebut);
+  console.log('Heure fin:', heureFin);
+  
+  // Extraction de la date (YYYY-MM-DD) depuis le timestamp
+  const dateStr = row.original.date.split('T')[0]; // Récupère "2025-08-31"
+  const dateDebut = new Date(`${dateStr}T${heureDebut}`);
+  const dateFin = new Date(`${dateStr}T${heureFin}`);
+  const maintenant = new Date();
+  
+  // Debug des dates construites
+  console.log('Date début construite:', dateDebut);
+  console.log('Date fin construite:', dateFin);
+  console.log('Maintenant:', maintenant);
+  console.log('Date début valide?', !isNaN(dateDebut.getTime()));
+  console.log('Date fin valide?', !isNaN(dateFin.getTime()));
+  
+  let statut = "";
+  let className = "";
+  
+  // Vérification que les dates sont valides
+  if (isNaN(dateDebut.getTime()) || isNaN(dateFin.getTime())) {
+    statut = "Erreur";
+    className = "bg-red-100 text-red-800 border-red-300";
+    console.error('Dates invalides détectées');
+  } else if (maintenant < dateDebut) {
+    statut = "Planifiée";
+    className = "bg-blue-100 text-blue-800 border-blue-300";
+  } else if (maintenant >= dateDebut && maintenant <= dateFin) {
+    statut = "En cours";
+    className = "bg-yellow-100 text-yellow-800 border-yellow-300";
+  } else {
+    statut = "Terminée";
+    className = "bg-green-100 text-green-800 border-green-300";
+  }
+  
+  return (
+    <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${className}`}>
+      {statut}
+    </div>
+  );
+},
     displayName: "Statut",
   },
   {

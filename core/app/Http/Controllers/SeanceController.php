@@ -86,13 +86,45 @@ class SeanceController extends Controller
         ]);
     }
 
-    public function SeanceF(User $user){
-        $seances = $user->seances->where('date','>=',Carbon::now());
+    public function SeanceF(User $user) {
+        $now = Carbon::now();
+        
+        $seances = $user->seances->filter(function($seance) use ($now) {
+            try {
+                // Parser correctement la date et l'heure de fin
+                $seanceDate = Carbon::parse($seance->date)->format('Y-m-d');
+                $heureFinFormatted = strlen($seance->heure_fin) === 5 ? $seance->heure_fin . ':00' : $seance->heure_fin;
+                $seanceEndDateTime = Carbon::parse($seanceDate . ' ' . $heureFinFormatted);
+                
+                return $seanceEndDateTime > $now;
+            } catch (\Exception $e) {
+            
+                return false;
+            }
+        });
+        
         return SeanceResource::collection($seances);
     }
 
-    public function SeanceP(User $user){
-        $seances = $user->seances->where('date','<',Carbon::now());
+    // Méthode pour les séances passées (terminées)
+    public function SeanceP(User $user) {
+        $now = Carbon::now();
+        
+        $seances = $user->seances->filter(function($seance) use ($now) {
+            try {
+                // Parser correctement la date et l'heure de fin
+                $seanceDate = Carbon::parse($seance->date)->format('Y-m-d');
+                $heureFinFormatted = strlen($seance->heure_fin) === 5 ? $seance->heure_fin . ':00' : $seance->heure_fin;
+                $seanceEndDateTime = Carbon::parse($seanceDate . ' ' . $heureFinFormatted);
+                
+                return $seanceEndDateTime <= $now;
+            } catch (\Exception $e) {
+                
+                return false;
+            }
+        });
+        
         return SeanceResource::collection($seances);
     }
+
 }

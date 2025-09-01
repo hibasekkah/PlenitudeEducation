@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/card"
 import { useAuth } from "@/provider/authProvider";
 import { Button } from "../ui/button"
-import SessionApi from "../../services/api/Session";
 import { useEffect, useState } from "react";
 import { 
   Calendar, 

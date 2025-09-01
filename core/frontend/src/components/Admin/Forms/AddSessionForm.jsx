@@ -15,9 +15,6 @@ import EntrepriseApi from "../../../services/api/Entreprise";
 const formSchema = z.object({
   date_debut: z.string().min(1, { message: "La date de début est obligatoire." }),
   date_fin: z.string().min(1, { message: "La date de fin est obligatoire." }),
-  //etat: z.string().min(2, { message: "L'état doit contenir au moins 2 caractères." }).max(100),
-  //raison_sus: z.string().optional(),
-  //raison_annulation: z.string().optional(),
   observations: z.string().optional(),
   formation_id: z.coerce.number().int().positive("Veuillez sélectionner une formation."),
   entreprise_id: z.coerce.number().int().positive("Veuillez sélectionner une entreprise."),
