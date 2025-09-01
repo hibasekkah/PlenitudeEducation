@@ -22,11 +22,11 @@ class UpdateAtelierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => 'sometimes|required',
+            'type' => 'sometimes',
             'materiels' => 'sometimes',
             'observations'=>'sometimes',
-            'lieu' => 'sometimes|required',
-            'formation_id' => 'sometimes|required',
+            'lieu' => 'sometimes',
+            'formation_id' => 'sometimes',
         ];
     }
 }

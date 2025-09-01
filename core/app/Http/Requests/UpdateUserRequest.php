@@ -22,12 +22,12 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nom' => 'sometimes|required',
-            'prenom' => 'sometimes|required',
-            'telephone' => 'sometimes|required',
+            'nom' => 'sometimes',
+            'prenom' => 'sometimes',
+            'telephone' => 'sometimes',
             'photo_profile' => 'sometimes|image|mimes:jpeg,png,jpg,gif',
-            'specialite_fonction' => 'sometimes|required',
-            'entreprise_id'=>'sometimes|required',
+            'specialite_fonction' => 'sometimes',
+            'entreprise_id'=>'sometimes',
         ];
     }
 }

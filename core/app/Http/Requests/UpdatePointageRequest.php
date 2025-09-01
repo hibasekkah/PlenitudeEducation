@@ -24,7 +24,7 @@ class UpdatePointageRequest extends FormRequest
         return [
             'date' => 'sometimes|date',
             'arriver' => 'sometimes',
-            'sortie' => 'required',
+            'sortie' => 'sometimes',
             'seance_id' => 'sometimes',
             'user_id' => 'sometimes',
         ];

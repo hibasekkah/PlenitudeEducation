@@ -22,13 +22,13 @@ class UpdateSeanceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date'=>'sometimes|required|date',
-            'heure_debut'=>'sometimes|required',
-            'heure_fin'=>'sometimes|required', 
-            'session_id'=>'sometimes|required',
-            'formateur_id'=>'sometimes|required',
-            'module_id'=>'sometimes|required',
-            'atelier_id'=>'sometimes|required',
+            'date'=>'sometimes|date',
+            'heure_debut'=>'sometimes',
+            'heure_fin'=>'sometimes', 
+            'session_id'=>'sometimes',
+            'formateur_id'=>'sometimes',
+            'module_id'=>'sometimes',
+            'atelier_id'=>'sometimes',
             'Observations'=>'sometimes',
         ];
     }

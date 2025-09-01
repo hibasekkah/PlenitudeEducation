@@ -22,14 +22,14 @@ class UpdateSessionFormationEntrepriseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'date_debut' => 'required',
-            'date_fin' => 'required',
-            'etat' => 'sometimes|required',
+            'date_debut' => 'sometimes',
+            'date_fin' => 'sometimes',
+            'etat' => 'sometimes',
             'raison_sus'=>'sometimes',
             'raison_annulation' =>'sometimes',
             'observations' =>'sometimes',
-            'formation_id' => 'sometimes|required',
-            'entreprise_id' => 'sometimes|required',
+            'formation_id' => 'sometimes',
+            'entreprise_id' => 'sometimes',
         ];
     }
 }

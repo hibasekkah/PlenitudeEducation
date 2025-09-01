@@ -22,10 +22,10 @@ class UpdateModuleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'titre' => 'sometimes|required|string|max:200',
-            'duree' => 'sometimes|required',
-            'categorie' => 'sometimes|required|string|max:200',
-            'formation_id' => 'sometimes|required',
+            'titre' => 'sometimes|string|max:200',
+            'duree' => 'sometimes',
+            'categorie' => 'sometimes|string|max:200',
+            'formation_id' => 'sometimes',
             'files' => 'sometimes|array',
             'files.*' => 'sometimes|file',
             'files_to_delete' => 'sometimes|array',

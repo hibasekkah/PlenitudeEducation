@@ -22,12 +22,12 @@ class UpdateFormationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'intitule' => 'sometimes|required',
-            'objectifs' => 'sometimes|required',
-            'duree' => 'sometimes|required',
-            'niveau' => 'sometimes|required',
-            'cout' => 'sometimes|required',
-            'categorie' => 'sometimes|required',
+            'intitule' => 'sometimes',
+            'objectifs' => 'sometimes',
+            'duree' => 'sometimes',
+            'niveau' => 'sometimes',
+            'cout' => 'sometimes',
+            'categorie' => 'sometimes',
         ];
     }
 }
