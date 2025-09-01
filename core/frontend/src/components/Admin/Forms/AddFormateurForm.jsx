@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useState } from "react";
 
-import { Loader } from "lucide-react";
+import { Eye, EyeOff, Loader } from "lucide-react";
 import FormateurApi from "../../../services/api/Formateur";
 
 const formSchema = z.object({
@@ -84,7 +84,7 @@ export function AddFormateurFrom() {
         },
     });
     const { setError } = form;
-
+    const [showPassword, setShowPassword] = useState(false);
     const onSubmit = async (values) => {
 
         const loader = toast.loading("registration en cours...");
@@ -130,7 +130,14 @@ export function AddFormateurFrom() {
                         <FormField control={form.control} name="telephone" render={({ field }) => (<FormItem><FormLabel>Téléphone</FormLabel><FormControl><Input placeholder="Téléphone" {...field} /></FormControl><FormMessage/></FormItem>)} />
                         <FormField control={form.control} name="role" render={({ field }) => (<FormItem><FormLabel>Role</FormLabel><FormControl><Input placeholder="Role" {...field} disabled/></FormControl><FormMessage /></FormItem>)} />
                         <FormField control={form.control} name="specialite_fonction" render={({ field }) => (<FormItem><FormLabel>Spécialité</FormLabel><FormControl><Input placeholder="Spécialité" {...field} /></FormControl><FormMessage/></FormItem>)} />
-                        <FormField control={form.control} name="password" render={({ field }) => (<FormItem><FormLabel>Mot de passe</FormLabel><FormControl><Input type="password" placeholder="*******" {...field} /></FormControl><FormMessage/></FormItem>)} />
+                        <FormField control={form.control} name="password" render={({ field }) => (<FormItem><FormLabel>Mot de passe</FormLabel><FormControl><div className="relative"><Input type={showPassword ? "text" : "password"} placeholder="*******" {...field} />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+                          >
+                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                          </button></div></FormControl><FormMessage/></FormItem>)} />
                         <FormItem>
                             <FormLabel>Photo de profil</FormLabel>
                             <FormControl>

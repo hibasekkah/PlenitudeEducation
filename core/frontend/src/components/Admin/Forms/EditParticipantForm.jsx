@@ -106,7 +106,7 @@ export function EditParticipantForm({initialData = null}) {
                         <FormField control={form.control} name="nom" render={({ field }) => (<FormItem><FormLabel>Nom</FormLabel><FormControl><Input placeholder="Nom" {...field} /></FormControl><FormMessage /></FormItem>)} />
                         <FormField control={form.control} name="prenom" render={({ field }) => (<FormItem><FormLabel>Prénom</FormLabel><FormControl><Input placeholder="Prénom" {...field} /></FormControl><FormMessage /></FormItem>)} />
                         <FormField control={form.control} name="telephone" render={({ field }) => (<FormItem><FormLabel>Téléphone</FormLabel><FormControl><Input placeholder="Téléphone" {...field} /></FormControl><FormMessage/></FormItem>)} />
-                        <FormField control={form.control} name="status" render={({ field }) => (
+                        <FormField control={form.control} name="statut" render={({ field }) => (
                             <FormItem>
                             <FormLabel>Status</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -118,7 +118,7 @@ export function EditParticipantForm({initialData = null}) {
                                 <SelectContent>
                                 <SelectItem value="cadre">Cadre</SelectItem>
                                 <SelectItem value="ouvrier">Ouvrier</SelectItem>
-                                <SelectItem value="employe">Employé</SelectItem>
+                                <SelectItem value="employé">Employé</SelectItem>
                                 </SelectContent>
                             </Select>
                             <FormMessage />

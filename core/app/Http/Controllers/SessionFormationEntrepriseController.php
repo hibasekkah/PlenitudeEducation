@@ -124,17 +124,15 @@ class SessionFormationEntrepriseController extends Controller
             'user_id'=>'required'
         ]);
         $participantId = $validated['user_id'];
-        //dd($participantId);
         $seances = $sessionFormationEntreprise->seances()->with([
             'module',
             'atelier',
             'formateur',
             'pointages' => function ($query) use ($participantId) {
-                // On utilise la variable validée ici
+               
                 $query->where('user_id', $participantId);
             }
         ])->get();
-        //dd($seances);
         return SeanceResource::collection($seances);
     }
 

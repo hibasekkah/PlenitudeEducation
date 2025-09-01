@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { axiosUser } from "../api/axios"
-import { useAuth } from "@/provider/authProvider";
 import { Loader } from "lucide-react"
 
 import {
@@ -44,7 +43,7 @@ export default function ForgotPassword(){
     try {
       const response = await axiosUser.post('/api/forgot-password', values);
       toast.success(response.data.status);
-      console.log("successfully:", response.data);
+      
 
     } catch (error) {
       console.error(error);

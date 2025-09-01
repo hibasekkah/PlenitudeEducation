@@ -13,7 +13,7 @@ Vous trouverez ci-dessous un résumé des informations essentielles.
 
 **Intitulé :** {{ $session->formation->intitule }}
 
-**Dates :** Du {{ $session->date_debut }} au {{ $session->date_fin}}
+**Dates :** Du {{ \Carbon\Carbon::parse($session->date_debut)->format('d/m/Y') }} au {{  \Carbon\Carbon::parse($session->date_fin)->format('d/m/Y')}}
 
 **Lieu :** {{ $session->formation->lieu }}
 
@@ -29,5 +29,5 @@ Tous les détails concernant votre formation, y compris le **planning détaillé
 </x-mail::button>
 
 Cordialement,<br>
-L'équipe de {{ config('app.name') }}
+L'équipe de Plénitude Groupe
 </x-mail::message>

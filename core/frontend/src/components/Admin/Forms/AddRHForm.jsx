@@ -8,8 +8,7 @@ import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-import { Loader } from "lucide-react";
-import ParticipantApi from "../../../services/api/Participant";
+import { Eye, EyeOff, Loader } from "lucide-react";
 import EntrepriseApi from "../../../services/api/Entreprise";
 import RHApi from "../../../services/api/RH";
 
@@ -97,7 +96,7 @@ export function AddRHFrom() {
         };
         fetchEntreprises();
     }, []);
-
+    const [showPassword, setShowPassword] = useState(false);
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -171,7 +170,14 @@ export function AddRHFrom() {
                         <FormField control={form.control} name="telephone" render={({ field }) => (<FormItem><FormLabel>Téléphone</FormLabel><FormControl><Input placeholder="Téléphone" {...field} /></FormControl><FormMessage/></FormItem>)} />
                         <FormField control={form.control} name="role" render={({ field }) => (<FormItem><FormLabel>Role</FormLabel><FormControl><Input placeholder="Role" {...field} disabled/></FormControl><FormMessage /></FormItem>)} />
                         <FormField control={form.control} name="specialite_fonction" render={({ field }) => (<FormItem><FormLabel>Fonction</FormLabel><FormControl><Input placeholder="Fonction" {...field} /></FormControl><FormMessage/></FormItem>)} />
-                        <FormField control={form.control} name="password" render={({ field }) => (<FormItem><FormLabel>Mot de passe</FormLabel><FormControl><Input type="password" placeholder="*******" {...field} /></FormControl><FormMessage/></FormItem>)} />
+                        <FormField control={form.control} name="password" render={({ field }) => (<FormItem><FormLabel>Mot de passe</FormLabel><FormControl><div className="relative"><Input type={showPassword ? "text" : "password"} placeholder="*******" {...field} />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+                          >
+                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                          </button></div></FormControl><FormMessage/></FormItem>)} />
                         <FormField control={form.control} name="statut" render={({ field }) => (
                             <FormItem>
                             <FormLabel>Statut</FormLabel>

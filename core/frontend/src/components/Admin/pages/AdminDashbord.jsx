@@ -153,10 +153,8 @@ export function AdminDashbord() {
         }
       }
       
-      // Uncomment and replace with your actual API call:
       const response = await StatistiqueApi.admin();
       
-      //const response = mockResponse
       
       setStatistics(response.data)
       setChartData(response.data.charts.entreprisesParFormation || [])
@@ -197,10 +195,10 @@ export function AdminDashbord() {
 
   return (
     <div className="space-y-8 p-6 max-w-7xl mx-auto">
-      {/* Header */}
+  
       <SectionHeader title="Tableau de bord administrateur" />
       
-      {/* Error Alert */}
+    
       {error && (
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
@@ -210,7 +208,7 @@ export function AdminDashbord() {
 
       <Separator className="my-6" />
 
-      {/* KPI Cards */}
+     
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {kpiData.map((kpi, index) => (
           <KpiCard 
@@ -224,7 +222,6 @@ export function AdminDashbord() {
         ))}
       </div>
 
-      {/* Charts Section */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         <StatChart
           title="Entreprises par formation"
@@ -243,7 +240,6 @@ export function AdminDashbord() {
 
       <Separator className="my-8" />
 
-      {/* Formations Section */}
       <div className="space-y-6">
         <SectionHeader title="Gestion des formations" />
         <div className="flex flex-col justify-center">
@@ -253,7 +249,6 @@ export function AdminDashbord() {
 
       <Separator className="my-8" />
 
-      {/* Entreprises Section */}
       <div className="space-y-6">
         <SectionHeader title="Gestion des entreprises" />
         <div className="flex flex-col justify-center">

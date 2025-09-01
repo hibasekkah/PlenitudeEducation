@@ -66,9 +66,9 @@ h2 {
   
   @foreach($seances as $row)
   <tr>
-    <td>{{$row["date"]}}</td>
-    <td>{{$row["heure_debut"]}}</td>
-    <td>{{$row["heure_fin"]}}</td>
+    <td>{{\Carbon\Carbon::parse($row["date"] )->format('d/m/Y')}}</td>
+    <td>{{\Carbon\Carbon::parse($row["heure_debut"])->format('H:i')}}</td>
+    <td>{{\Carbon\Carbon::parse($row["heure_fin"])->format('H:i')}}</td>
     <td>{{ $row["module"] ? $row["module"]:$row["atelier"] }}</td>
     <td>{{$row["formateur"]}}</td>
     <td>{{$row["Observations"]}}</td>

@@ -24,7 +24,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Remplit toute la page */
+            object-fit: cover; 
             z-index: -1;
         }
 
@@ -89,10 +89,10 @@
         <img src="{{ public_path('images/logo.png') }}" alt="logo">
         <h1 class="title">ATTESTATION</h1>
         <h2 class="subtitle">DE FORMATION</h2>
-        <p class="presented">Nous, soussignés,:</p>
+        <p class="presented">Nous, soussignés:</p>
         <h2 class="name">{{ $name }}</h2>
         <p class="description">
-            a suivi la formation intitulée, dispensée du {{$date_debut}} au {{$date_fin}} 
+            a suivi la formation intitulée {{$formation}}, dispensée du {{$date_debut}} au {{$date_fin}} 
             avec plenitude education. Cette formation a été réalisée avec succès, conformément au programme prévu. Fait à fès, le {{$date}}.
         </p>
         <p class="platforme">Plenitude Education</p>

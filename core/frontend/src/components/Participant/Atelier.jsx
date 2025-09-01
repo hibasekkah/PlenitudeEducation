@@ -17,9 +17,9 @@ export function Atelier({atelier}){
             </CardHeader>
             <CardContent>
                 <div className="flex flex-col space-y-2">             
-                    <div className="space-y-2"><h2>support du cours :</h2>
+                    <div className="space-y-2"><h2>Lieu: {atelier.lieu}</h2>
                                 </div>
-                                </div>
+                    </div>
                             </CardContent>
                             <CardFooter>
                             </CardFooter>

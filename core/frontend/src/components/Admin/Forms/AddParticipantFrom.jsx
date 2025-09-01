@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-import { Loader } from "lucide-react";
+import { Eye, EyeOff, Loader } from "lucide-react";
 import ParticipantApi from "../../../services/api/Participant";
 import EntrepriseApi from "../../../services/api/Entreprise";
 
@@ -31,11 +31,8 @@ const formSchema = z.object({
     
   specialite_fonction: z
     .string({
-      required_error: "La spécialité/fonction est requise",
-      invalid_type_error: "La spécialité/fonction doit être une chaîne de caractères"
-    })
-    .min(2, "La fonction est trop courte.")
-    .max(100, "La spécialité/fonction ne peut pas dépasser 100 caractères."),
+      invalid_type_error: "La fonction doit être une chaîne de caractères"
+    }).optional(),
     
   telephone: z
     .string({
@@ -114,6 +111,7 @@ export function AddParticipantFrom() {
             statut:"",
         },
     });
+    const [showPassword, setShowPassword] = useState(false);
     const { setError } = form;
 
     const onSubmit = async (values) => {
@@ -172,7 +170,14 @@ export function AddParticipantFrom() {
                         <FormField control={form.control} name="telephone" render={({ field }) => (<FormItem><FormLabel>Téléphone</FormLabel><FormControl><Input placeholder="Téléphone" {...field} /></FormControl><FormMessage/></FormItem>)} />
                         <FormField control={form.control} name="role" render={({ field }) => (<FormItem><FormLabel>Role</FormLabel><FormControl><Input placeholder="Role" {...field} disabled/></FormControl><FormMessage /></FormItem>)} />
                         <FormField control={form.control} name="specialite_fonction" render={({ field }) => (<FormItem><FormLabel>Fonction</FormLabel><FormControl><Input placeholder="Fonction" {...field} /></FormControl><FormMessage/></FormItem>)} />
-                        <FormField control={form.control} name="password" render={({ field }) => (<FormItem><FormLabel>Mot de passe</FormLabel><FormControl><Input type="password" placeholder="*******" {...field} /></FormControl><FormMessage/></FormItem>)} />
+                        <FormField control={form.control} name="password" render={({ field }) => (<FormItem><FormLabel>Mot de passe</FormLabel><FormControl><div className="relative"><Input type={showPassword ? "text" : "password"} placeholder="*******" {...field} />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+                          >
+                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                          </button></div></FormControl><FormMessage/></FormItem>)} />
                         <FormField control={form.control} name="statut" render={({ field }) => (
                             <FormItem>
                             <FormLabel>Statut</FormLabel>
@@ -185,7 +190,7 @@ export function AddParticipantFrom() {
                                 <SelectContent>
                                 <SelectItem value="cadre">Cadre</SelectItem>
                                 <SelectItem value="ouvrier">Ouvrier</SelectItem>
-                                <SelectItem value="employe">Employé</SelectItem>
+                                <SelectItem value="employé">Employé</SelectItem>
                                 </SelectContent>
                             </Select>
                             <FormMessage />

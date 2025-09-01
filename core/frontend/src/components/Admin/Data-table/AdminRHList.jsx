@@ -141,7 +141,7 @@ export default function AdminRHList(){
     accessorKey: "statut",
     header: ({ column }) => {
       return (
-        <DataTableColumnHeader column={column} title="Status" />
+        <DataTableColumnHeader column={column} title="Statut" />
       )
     },
     displayName : "Statut",

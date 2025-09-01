@@ -66,8 +66,8 @@ class DashbordAdminController extends Controller
             });
 
         $sessions = SessionFormationEntreprise::query();
-        $sessionsAVenir = (clone $sessions)->where('etat', 'active')->count();
-        $sessionsTerminees = (clone $sessions)->where('etat', 'termine')->count();
+        $sessionsAVenir = (clone $sessions)->where('etat', 'active')->where('date_debut','>', Carbon::now())->count();
+        $sessionsTerminees = (clone $sessions)->where('etat', 'active')->where('date_fin','<=', Carbon::now())->count();
         $sessionsAnnulees = (clone $sessions)->where('etat', 'annuler')->count();
         
 
@@ -120,16 +120,12 @@ class DashbordAdminController extends Controller
         $entreprise->loadCount([
             'employees as total_participants',
             'sessions', 
-            'sessions as sessions_a_venir_count' => fn($q) => $q->where('etat', 'active'),
-            'sessions as sessions_terminees_count' => fn($q) => $q->where('etat', 'termine'),
+            'sessions as sessions_a_venir_count' => fn($q) => $q->where('etat', 'active')->where('date_fin','>', Carbon::now()),
+            'sessions as sessions_terminees_count' => fn($q) => $q->where('etat', 'active')->where('date_fin','<', Carbon::now()),
             'sessions as formations_uniques_suivies' => function ($query) {
                 $query->select(DB::raw('count(distinct formation_id)'));
             }
         ]);
-
-        $formationsUniquesCount = $entreprise->sessions()
-                                             ->distinct('formation_id')
-                                             ->count('formation_id');
 
         $budgetConsomme = $entreprise->sessions()
                                      ->with('formation') 
@@ -167,10 +163,10 @@ class DashbordAdminController extends Controller
         'sessions', 
         
         'sessions as sessions_a_venir_count' => function ($query) {
-            $query->where('etat', 'active');
+            $query->where('etat', 'active')->where('date_fin','>', Carbon::now());
         },
         'sessions as sessions_terminees_count' => function ($query) {
-            $query->where('etat', 'termine');
+            $query->where('etat', 'active')->where('date_fin','<=', Carbon::now());
         },
         'sessions as sessions_suspendues_count' => function ($query) {
             $query->where('etat', 'suspendue');

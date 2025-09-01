@@ -44,7 +44,6 @@ export default function AdminAtelierList(){
     (async () => {
       try {
         const response = await AtelierApi.all();
-        console.log(response.data);
         setData(response.data.data);
       } catch (error) {
         console.error("Erreur lors de la récupération des formations:", error);

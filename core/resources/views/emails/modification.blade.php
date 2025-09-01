@@ -42,7 +42,7 @@
         </p>
 
         <div class="footer">
-            <p>Cordialement,<br>L'équipe de Formation</p>
+            <p>Cordialement,<br> Plénitude Groupe</p>
         </div>
     </div>
 </body>

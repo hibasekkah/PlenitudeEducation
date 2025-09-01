@@ -74,7 +74,7 @@ export default function profile() {
             <CardHeader>
               <CardTitle>Mot de passe</CardTitle>
               <CardDescription>
-                Modifiez votre mot de passe ici. Après l'enregistrement, vous serez déconnecté.
+                Modifiez votre mot de passe ici.
               </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-6">

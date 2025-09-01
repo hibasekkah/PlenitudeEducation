@@ -50,7 +50,6 @@ import AffecterParticipantsForm from "../Forms/AffecterParticipantsForm";
 
 
 export default function AdminSessionList(){
-  const [isAnnulDialogOpen, setIsAnnulDialogOpen] = useState(false);
 
   const handlePlanning = (id) => {
     window.open(`http://localhost:8000/api/planning/${id}`, "_blank");
@@ -165,15 +164,6 @@ export default function AdminSessionList(){
     displayName : "Entreprise",
   },
   {
-    accessorKey: "etat",
-    header: ({ column }) => {
-      return (
-        <DataTableColumnHeader column={column} title="Etat" />
-      )
-    },
-    displayName : "Etat",
-  },
-  {
     id: "statut",
     header: ({ column }) => {
       return (
@@ -189,15 +179,13 @@ export default function AdminSessionList(){
       let statut = "";
       let className = "";
       
-      // Vérifier d'abord si la session est suspendue ou annulée
       if (etat === "suspendue") {
         statut = "Suspendue";
         className = "bg-orange-100 text-orange-800 border-orange-300";
-      } else if (etat === "annulée" || etat === "annulee") {
+      } else if (etat === "annulée" || etat === "annuler") {
         statut = "Annulée";
         className = "bg-red-100 text-red-800 border-red-300";
       } else {
-        // Sinon, déterminer le statut basé sur les dates
         if (maintenant < dateDebut) {
           statut = "Planifiée";
           className = "bg-blue-100 text-blue-800 border-blue-300";
@@ -322,7 +310,7 @@ export default function AdminSessionList(){
                         </DialogContent>
                     </Dialog>
 
-                    <Dialog open={isAnnulDialogOpen} onOpenChange={setIsAnnulDialogOpen}>
+                    <Dialog>
                         <DialogTrigger asChild>
                           <DropdownMenuItem onSelect={(e)=>e.preventDefault()}>
                             Annuler
@@ -338,7 +326,6 @@ export default function AdminSessionList(){
                           <AnnulSession
                               initialData={row.original} 
                               onFormSubmit={(id, values) => SessionApi.annuler(id, values)} 
-                              closeDialog={() => setIsAnnulDialogOpen(false)}
                             />
                         </DialogContent>
                     </Dialog>

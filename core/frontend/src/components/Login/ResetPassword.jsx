@@ -2,7 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-import { useParams, useNavigate, useSearchParams } from "react-router-dom" // <-- 2. Import useParams
+import { useParams, useNavigate, useSearchParams } from "react-router-dom" 
 import {
   Form,
   FormControl,
@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { axiosUser } from "../api/axios" 
-import { Loader } from "lucide-react"
+import { Eye, EyeOff, Loader } from "lucide-react"
 import {
   Card,
   CardContent,
@@ -23,6 +23,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { toast } from "sonner"
+import { useState } from "react"
 
 const formSchema = z.object({
   password: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères.").max(50),
@@ -37,7 +38,8 @@ export default function ResetPassword() {
     const [searchParams] = useSearchParams();
     const email = searchParams.get('email');
     const navigate = useNavigate();
-
+    const [showPassword, setShowPassword] = useState(false);
+    const [showPasswordC, setShowPasswordC] = useState(false);
     const form = useForm({
         resolver: zodResolver(formSchema), 
         defaultValues: {
@@ -72,7 +74,8 @@ export default function ResetPassword() {
     if (!email || !token) {
         return <div>Lien de réinitialisation invalide ou incomplet.</div>;
     }
-
+    
+    
     return (
         <div className="flex justify-center items-center m-11 w-full">
             <Card className="w-full max-w-sm">
@@ -99,7 +102,15 @@ export default function ResetPassword() {
                                     <FormItem>
                                         <FormLabel>Nouveau mot de passe</FormLabel>
                                         <FormControl>
-                                            <Input type="password" placeholder="********" {...field} />
+                                            <div className="relative">
+                                            <Input type={showPassword ? "text" : "password"} placeholder="********" {...field} />
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowPassword(!showPassword)}
+                                                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+                                            >
+                                                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                                            </button></div>
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -112,7 +123,15 @@ export default function ResetPassword() {
                                     <FormItem>
                                         <FormLabel>Confirmer le mot de passe</FormLabel>
                                         <FormControl>
-                                            <Input type="password" placeholder="********" {...field} />
+                                            <div className="relative">
+                                            <Input type={showPasswordC ? "text" : "password"} placeholder="********" {...field} />
+                                            <button
+                                                type="button"
+                                                onClick={() => setShowPasswordC(!showPasswordC)}
+                                                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+                                            >
+                                                {showPasswordC ? <EyeOff size={18} /> : <Eye size={18} />}
+                                            </button></div>
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>

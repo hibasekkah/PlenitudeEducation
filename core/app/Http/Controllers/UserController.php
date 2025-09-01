@@ -158,7 +158,7 @@ class UserController extends Controller
             'telephone' => 'required',
             'statut' => 'required',
             'photo_profile' => 'image|mimes:jpeg,png,jpg,gif',
-            'specialite_fonction' => 'required',
+            'specialite_fonction' => 'sometimes',
             'password' => 'required|string|min:8',
             'entreprise_id'=>'required|exists:entreprises,id',
         ]);
@@ -172,7 +172,7 @@ class UserController extends Controller
             'specialite_fonction' => $request->specialite_fonction,
             'password' => Hash::make($request->password),
             'role' => 'participant',
-            'statut' => 'active',
+            'statut' => $request->statut,
             'entreprise_id'=>$request->entreprise_id,
         ];
 
@@ -204,7 +204,7 @@ class UserController extends Controller
             'telephone' => 'required',
             'statut' => 'required',
             'photo_profile' => 'image|mimes:jpeg,png,jpg,gif',
-            'specialite_fonction' => 'required',
+            'specialite_fonction' => 'sometimes',
             'password' => 'required|string|min:8',
             'entreprise_id'=>'required',
         ]);
@@ -218,7 +218,7 @@ class UserController extends Controller
             'specialite_fonction' => $request->specialite_fonction,
             'password' => Hash::make($request->password),
             'role' => 'rh',
-            'statut' => 'active',
+            'statut' => $request->statut,
             'entreprise_id'=>$request->entreprise_id,
         ];
 
@@ -249,7 +249,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'telephone' => 'required',
             'photo_profile' => 'image|mimes:jpeg,png,jpg,gif',
-            'specialite_fonction' => 'required',
+            'specialite_fonction' => 'sometimes',
             'password' => 'required|string|min:8',
         ]);
 
@@ -261,7 +261,7 @@ class UserController extends Controller
             'specialite_fonction' => $request->specialite_fonction,
             'password' => Hash::make($request->password),
             'role' => 'formateur',
-            'statut' => 'active',
+            'statut' => $request->statut,
         ];
 
         if($request->hasFile('photo_profile')){

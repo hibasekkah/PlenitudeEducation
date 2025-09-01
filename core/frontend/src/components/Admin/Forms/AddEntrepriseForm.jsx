@@ -33,12 +33,7 @@ const formSchema = z.object({
     .email({ message: "Veuillez entrer une adresse e-mail valide." }),
     
   adresse: z
-    .string({
-      required_error: "L'adresse est requise",
-      invalid_type_error: "L'adresse doit être une chaîne de caractères"
-    })
-    .min(1, { message: "L'adresse est obligatoire." })
-    .max(255, { message: "L'adresse ne peut pas dépasser 255 caractères." }),
+    .string().optional(),
     
   telephone: z
     .string({
@@ -69,11 +64,7 @@ const formSchema = z.object({
     .min(2, { message: "Le CNSS doit contenir au moins 2 caractères." }),
     
   numero_patente: z
-    .string({
-      required_error: "Le numéro de patente est requis",
-      invalid_type_error: "Le numéro de patente doit être une chaîne de caractères"
-    })
-    .min(2, { message: "Le numéro de patente doit contenir au moins 2 caractères." }),
+    .string().optional(),
     
   priode: z
     .coerce
@@ -86,68 +77,46 @@ const formSchema = z.object({
     
   nombre_personnels: z
     .coerce
-    .number({
-      required_error: "Le nombre de personnels est requis",
-      invalid_type_error: "Le nombre de personnels doit être un nombre"
-    })
-    .int({ message: "Le nombre de personnels doit être un nombre entier." })
-    .positive({ message: "Le nombre de personnels doit être un nombre positif." }),
+    .number().optional(),
     
   nombre_cadres: z
     .coerce
     .number({
-      required_error: "Le nombre de cadres est requis",
       invalid_type_error: "Le nombre de cadres doit être un nombre"
-    })
-    .int({ message: "Le nombre de cadres doit être un nombre entier." })
-    .positive({ message: "Le nombre de cadres doit être un nombre positif." }),
+    }).optional(),
     
   nombre_employees: z
     .coerce
     .number({
-      required_error: "Le nombre d'employés est requis",
       invalid_type_error: "Le nombre d'employés doit être un nombre"
-    })
-    .int({ message: "Le nombre d'employés doit être un nombre entier." })
-    .positive({ message: "Le nombre d'employés doit être un nombre positif." }),
+    }).optional(),
     
   nombre_ouvriers: z
     .coerce
     .number({
-      required_error: "Le nombre d'ouvriers est requis",
       invalid_type_error: "Le nombre d'ouvriers doit être un nombre"
-    })
-    .int({ message: "Le nombre d'ouvriers doit être un nombre entier." })
-    .positive({ message: "Le nombre d'ouvriers doit être un nombre positif." }),
+    }).optional(),
     
   nom_gerant: z
     .string({
-      required_error: "Le nom du gérant est requis",
       invalid_type_error: "Le nom du gérant doit être une chaîne de caractères"
-    })
-    .min(2, { message: "Le nom du gérant doit contenir au moins 2 caractères." }),
+    }).optional(),
     
   numero_cin_gerant: z
     .string({
-      required_error: "Le numéro CIN du gérant est requis",
       invalid_type_error: "Le numéro CIN du gérant doit être une chaîne de caractères"
-    })
-    .min(2, { message: "Le CIN du gérant doit contenir au moins 2 caractères." }),
+    }).optional(),
     
   adresse_gerant: z
     .string({
-      required_error: "L'adresse du gérant est requise",
       invalid_type_error: "L'adresse du gérant doit être une chaîne de caractères"
-    })
-    .min(1, { message: "L'adresse du gérant est obligatoire." }),
+    }).optional(),
     
   capital: z
     .coerce
     .number({
-      required_error: "Le capital est requis",
       invalid_type_error: "Le capital doit être un nombre"
-    })
-    .positive({ message: "Le capital doit être un nombre positif." }),
+    }).optional(),
     
   budget: z
     .coerce

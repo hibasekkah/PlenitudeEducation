@@ -25,7 +25,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
-import SessionApi from "../../../services/api/Session";
 
 import {
   DropdownMenu,
@@ -116,15 +115,6 @@ export default function AdminSeanceList(){
       )
     },
     displayName : "Fin",
-  },
-  {
-    accessorKey: "etat",
-    header: ({ column }) => {
-      return (
-        <DataTableColumnHeader column={column} title="Etat" />
-      )
-    },
-    displayName : "Etat",
   },
   {
     accessorKey: "Observations",

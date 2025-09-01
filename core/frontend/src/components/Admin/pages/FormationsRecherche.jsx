@@ -184,9 +184,9 @@ export function FormationsRecherche() {
               <HoverCard>
                 <HoverCardTrigger><Button variant="ghost">{satistiques?.kpis?.sessions}</Button></HoverCardTrigger>
                 <HoverCardContent>
-                  <p> Sessions terminées : {satistiques?.kpis?.sessionsTerminees}</p>
+                  <p> Sessions Terminées : {satistiques?.kpis?.sessionsTerminees}</p>
                   <p> Sessions Planifiées : {satistiques?.kpis?.sessionsAVenir}</p>
-                  <p> Sessions Annuler : {satistiques?.kpis?.sessionsAnnulees}</p> 
+                  <p> Sessions Annulées : {satistiques?.kpis?.sessionsAnnulees}</p> 
                 </HoverCardContent>
               </HoverCard>
             </CardContent>

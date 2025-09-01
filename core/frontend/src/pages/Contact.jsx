@@ -25,11 +25,11 @@ const Contact = () => {
         (result) => {
           console.log(result.text);
           clearState();
-          alert("Message sent successfully!");
+          alert("Message envoyé avec succès !");
         },
         (error) => {
           console.log(error.text);
-          alert("Failed to send message. Please try again.");
+          alert("Échec de l’envoi du message. Veuillez réessayer.");
         }
       );
   };
@@ -39,7 +39,6 @@ const Contact = () => {
       <div id="contact" className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="lg:flex lg:gap-12">
-            {/* Contact Form */}
             <div className="lg:w-2/3">
               <div className="mb-12">
                 <h2 className="text-3xl font-bold text-gray-900">
