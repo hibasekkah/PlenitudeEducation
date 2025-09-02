@@ -135,7 +135,7 @@ export default function AdminSeanceList(){
     displayName: "Session ID",
   },
   {
-    id: "formation",
+    accessorKey: "session_id.formation.intitule",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Formation" />,
     cell: ({ row }) => {
       const intitule = row.original.session_id?.formation?.intitule;
@@ -144,7 +144,7 @@ export default function AdminSeanceList(){
     displayName: "Formation",
   },
   {
-    id: "entreprise",
+    accessorKey: "session_id.entreprise.nom",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Entreprise" />,
     cell: ({ row }) => { 
       const nom = row.original.session_id?.entreprise?.nom;
@@ -153,7 +153,7 @@ export default function AdminSeanceList(){
     displayName: "Entreprise",
   },
   {
-    accessorKey: "module",
+    accessorKey: "module.titre",
     header: ({ column }) => {
       return (
         <DataTableColumnHeader column={column} title="Module" />
@@ -170,7 +170,7 @@ export default function AdminSeanceList(){
     displayName : "Module",
   },
   {
-    accessorKey: "atelier",
+    accessorKey: "atelier.type",
     header: ({ column }) => {
       return (
         <DataTableColumnHeader column={column} title="Atelier" />
@@ -187,7 +187,7 @@ export default function AdminSeanceList(){
     displayName : "Atelier",
   },
   {
-    accessorKey: "formateur_id",
+    accessorKey: "formateur_id.nom",
     header: ({ column }) => {
       return (
         <DataTableColumnHeader column={column} title="Formateur" />
@@ -204,62 +204,84 @@ export default function AdminSeanceList(){
     displayName : "Formateur",
   },
   {
-    id: "statut",
-    header: ({ column }) => {
-      return (
-        <DataTableColumnHeader column={column} title="Statut" />
-      )
-    },
-    cell: ({ row }) => {
-  const date = new Date(row.original.date);
-  const heureDebut = row.original.heure_debut;
-  const heureFin = row.original.heure_fin;
-  
-  // Vérification des données
-  console.log('Date originale:', row.original.date);
-  console.log('Heure début:', heureDebut);
-  console.log('Heure fin:', heureFin);
-  
-  // Extraction de la date (YYYY-MM-DD) depuis le timestamp
-  const dateStr = row.original.date.split('T')[0]; // Récupère "2025-08-31"
-  const dateDebut = new Date(`${dateStr}T${heureDebut}`);
-  const dateFin = new Date(`${dateStr}T${heureFin}`);
-  const maintenant = new Date();
-  
-  // Debug des dates construites
-  console.log('Date début construite:', dateDebut);
-  console.log('Date fin construite:', dateFin);
-  console.log('Maintenant:', maintenant);
-  console.log('Date début valide?', !isNaN(dateDebut.getTime()));
-  console.log('Date fin valide?', !isNaN(dateFin.getTime()));
-  
-  let statut = "";
-  let className = "";
-  
-  // Vérification que les dates sont valides
-  if (isNaN(dateDebut.getTime()) || isNaN(dateFin.getTime())) {
-    statut = "Erreur";
-    className = "bg-red-100 text-red-800 border-red-300";
-    console.error('Dates invalides détectées');
-  } else if (maintenant < dateDebut) {
-    statut = "Planifiée";
-    className = "bg-blue-100 text-blue-800 border-blue-300";
-  } else if (maintenant >= dateDebut && maintenant <= dateFin) {
-    statut = "En cours";
-    className = "bg-yellow-100 text-yellow-800 border-yellow-300";
-  } else {
-    statut = "Terminée";
-    className = "bg-green-100 text-green-800 border-green-300";
-  }
-  
-  return (
-    <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${className}`}>
-      {statut}
-    </div>
-  );
-},
-    displayName: "Statut",
+  accessorKey: "statut",
+  header: ({ column }) => {
+    return (
+      <DataTableColumnHeader column={column} title="Statut" />
+    )
   },
+  cell: ({ row }) => {
+    const date = new Date(row.original.date);
+    const heureDebut = row.original.heure_debut;
+    const heureFin = row.original.heure_fin;
+    
+    // Vérification des données
+    console.log('Date originale:', row.original.date);
+    console.log('Heure début:', heureDebut);
+    console.log('Heure fin:', heureFin);
+    
+    const dateStr = row.original.date.split('T')[0]; // Récupère "2025-08-31"
+    const dateDebut = new Date(`${dateStr}T${heureDebut}`);
+    const dateFin = new Date(`${dateStr}T${heureFin}`);
+    const maintenant = new Date();
+    
+    // Debug des dates construites
+    console.log('Date début construite:', dateDebut);
+    console.log('Date fin construite:', dateFin);
+    console.log('Maintenant:', maintenant);
+    console.log('Date début valide?', !isNaN(dateDebut.getTime()));
+    console.log('Date fin valide?', !isNaN(dateFin.getTime()));
+    
+    let statut = "";
+    let className = "";
+    
+    // Vérification que les dates sont valides
+    if (isNaN(dateDebut.getTime()) || isNaN(dateFin.getTime())) {
+      statut = "Erreur";
+      className = "bg-red-100 text-red-800 border-red-300";
+      console.error('Dates invalides détectées');
+    } else if (maintenant < dateDebut) {
+      statut = "Planifiée";
+      className = "bg-blue-100 text-blue-800 border-blue-300";
+    } else if (maintenant >= dateDebut && maintenant <= dateFin) {
+      statut = "En cours";
+      className = "bg-yellow-100 text-yellow-800 border-yellow-300";
+    } else {
+      statut = "Terminée";
+      className = "bg-green-100 text-green-800 border-green-300";
+    }
+    
+    return (
+      <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${className}`}>
+        {statut}
+      </div>
+    );
+  },
+  // Fonction de filtre personnalisée pour le statut calculé
+  filterFn: (row, id, value) => {
+    const heureDebut = row.original.heure_debut;
+    const heureFin = row.original.heure_fin;
+    const dateStr = row.original.date.split('T')[0];
+    const dateDebut = new Date(`${dateStr}T${heureDebut}`);
+    const dateFin = new Date(`${dateStr}T${heureFin}`);
+    const maintenant = new Date();
+    
+    let statut = "";
+    
+    if (isNaN(dateDebut.getTime()) || isNaN(dateFin.getTime())) {
+      statut = "Erreur";
+    } else if (maintenant < dateDebut) {
+      statut = "Planifiée";
+    } else if (maintenant >= dateDebut && maintenant <= dateFin) {
+      statut = "En cours";
+    } else {
+      statut = "Terminée";
+    }
+    
+    return statut.toLowerCase().includes(value.toLowerCase());
+  },
+  displayName: "Statut",
+},
   {
     id: "actions",
     cell: ({ row }) => {

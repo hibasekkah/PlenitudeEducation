@@ -60,7 +60,7 @@ export default function AdminSessionList(){
     (async () => {
       try {
         const response = await SessionApi.all();
-        console.log(response.data);
+        console.log(response.data.data);
         setData(response.data.data);
       } catch (error) {
         console.error("Erreur lors de la récupération des Sessions:", error);
@@ -126,7 +126,7 @@ export default function AdminSessionList(){
     displayName : "Observations",
   },
   {
-    accessorKey: "formation_id",
+    accessorKey: "formation.intitule",
     header: ({ column }) => {
       return (
         <DataTableColumnHeader column={column} title="Formation" />
@@ -145,67 +145,89 @@ export default function AdminSessionList(){
     displayName : "Formation",
   },
   {
-    accessorKey: "entreprise_id",
+    accessorKey: "entreprise.nom",
     header: ({ column }) => {
       return (
         <DataTableColumnHeader column={column} title="Entreprise" />
       )
     },
     cell: ({ row }) => {
-      const {nom} = row.original?.entreprise;
-      console.log(nom);
+      const nom = row.original?.entreprise?.nom;
       return (
-        nom? <div className="flex flex-col space-y-2">{nom}</div>:
         <div className="flex flex-col space-y-2">
-          
+          {nom || '-'}
         </div>
       );
     },
-    displayName : "Entreprise",
+    displayName: "Entreprise",
   },
   {
-    id: "statut",
-    header: ({ column }) => {
-      return (
-        <DataTableColumnHeader column={column} title="Statut" />
-      )
-    },
-    cell: ({ row }) => {
-      const dateDebut = new Date(row.original.date_debut);
-      const dateFin = new Date(row.original.date_fin);
-      const maintenant = new Date();
-      const etat = row.original.etat;
-      
-      let statut = "";
-      let className = "";
-      
-      if (etat === "suspendue") {
-        statut = "Suspendue";
-        className = "bg-orange-100 text-orange-800 border-orange-300";
-      } else if (etat === "annulée" || etat === "annuler") {
-        statut = "Annulée";
-        className = "bg-red-100 text-red-800 border-red-300";
-      } else {
-        if (maintenant < dateDebut) {
-          statut = "Planifiée";
-          className = "bg-blue-100 text-blue-800 border-blue-300";
-        } else if (maintenant >= dateDebut && maintenant <= dateFin) {
-          statut = "En cours";
-          className = "bg-yellow-100 text-yellow-800 border-yellow-300";
-        } else {
-          statut = "Terminée";
-          className = "bg-green-100 text-green-800 border-green-300";
-        }
-      }
-      
-      return (
-        <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${className}`}>
-          {statut}
-        </div>
-      );
-    },
-    displayName: "Statut",
+  accessorKey: "statut",
+  header: ({ column }) => {
+    return (
+      <DataTableColumnHeader column={column} title="Statut" />
+    )
   },
+  cell: ({ row }) => {
+    const dateDebut = new Date(row.original.date_debut);
+    const dateFin = new Date(row.original.date_fin);
+    const maintenant = new Date();
+    const etat = row.original.etat;
+    
+    let statut = "";
+    let className = "";
+    
+    if (etat === "suspendue") {
+      statut = "Suspendue";
+      className = "bg-orange-100 text-orange-800 border-orange-300";
+    } else if (etat === "annulée" || etat === "annuler") {
+      statut = "Annulée";
+      className = "bg-red-100 text-red-800 border-red-300";
+    } else {
+      if (maintenant < dateDebut) {
+        statut = "Planifiée";
+        className = "bg-blue-100 text-blue-800 border-blue-300";
+      } else if (maintenant >= dateDebut && maintenant <= dateFin) {
+        statut = "En cours";
+        className = "bg-yellow-100 text-yellow-800 border-yellow-300";
+      } else {
+        statut = "Terminée";
+        className = "bg-green-100 text-green-800 border-green-300";
+      }
+    }
+    
+    return (
+      <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${className}`}>
+        {statut}
+      </div>
+    );
+  },
+  filterFn: (row, id, value) => {
+    const dateDebut = new Date(row.original.date_debut);
+    const dateFin = new Date(row.original.date_fin);
+    const maintenant = new Date();
+    const etat = row.original.etat;
+    
+    let statut = "";
+    
+    if (etat === "suspendue") {
+      statut = "Suspendue";
+    } else if (etat === "annulée" || etat === "annuler") {
+      statut = "Annulée";
+    } else {
+      if (maintenant < dateDebut) {
+        statut = "Planifiée";
+      } else if (maintenant >= dateDebut && maintenant <= dateFin) {
+        statut = "En cours";
+      } else {
+        statut = "Terminée";
+      }
+    }
+    
+    return statut.toLowerCase().includes(value.toLowerCase());
+  },
+  displayName: "Statut",
+},
   {
     accessorKey: "raison_sus",
     header: ({ column }) => {

@@ -121,7 +121,7 @@ export default function AdminParticipantList(){
     displayName : "Téléphone",
   },
   {
-    accessorKey: "entreprise_id",
+    accessorKey: "entreprise.nom",
     header: ({ column }) => {
       return (
         <DataTableColumnHeader column={column} title="Entreprise" />

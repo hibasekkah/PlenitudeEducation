@@ -37,7 +37,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import AddModuleForm from "../Forms/AddModuleForm";
 import RHApi from "../../../services/api/RH";
 import { EditParticipantForm } from "../Forms/EditParticipantForm";
 
@@ -121,7 +120,7 @@ export default function AdminRHList(){
     displayName : "Téléphone",
   },
   {
-    accessorKey: "entreprise_id",
+    accessorKey: "entreprise.nom",
     header: ({ column }) => {
       return (
         <DataTableColumnHeader column={column} title="Entreprise" />

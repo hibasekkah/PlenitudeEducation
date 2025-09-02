@@ -22,9 +22,9 @@ class UpdateFileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'module_id' => 'sometimes|required',
-            'file_path' => 'sometimes|required',
-            'file_nom' => 'sometimes|required',
+            'module_id' => 'sometimes',
+            'file_path' => 'sometimes',
+            'file_nom' => 'sometimes',
             'size' => 'sometimes',
         ];
     }

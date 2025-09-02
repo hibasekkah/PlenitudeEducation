@@ -82,21 +82,20 @@ export default function AdminModuleList(){
     displayName : "Catégorie",
   },
   {
-    accessorKey: "formation_id",
+    accessorKey: "formation.intitule",
     header: ({ column }) => {
       return (
         <DataTableColumnHeader column={column} title="Formation" />
       )
     },
     cell: ({ row }) => {
-      const {intitule} = row.original.formation;
       return (
         <div className="flex flex-col space-y-2">
-          {intitule}
+          {row.original.formation.intitule}
         </div>
       );
     },
-    displayName : "Formation",
+    displayName: "Formation",
   },
   {
     accessorKey: "files", 

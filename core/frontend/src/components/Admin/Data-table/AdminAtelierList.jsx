@@ -44,6 +44,7 @@ export default function AdminAtelierList(){
     (async () => {
       try {
         const response = await AtelierApi.all();
+        console.log(response.data.data)
         setData(response.data.data);
       } catch (error) {
         console.error("Erreur lors de la récupération des formations:", error);
@@ -78,6 +79,14 @@ export default function AdminAtelierList(){
       )
     },
     displayName : "Matériels",
+    cell: ({ row }) => {
+      const materiels = row.original.materiels;
+      return (
+        <div className="w-64 whitespace-pre-wrap break-words p-2">
+          {materiels}
+        </div>
+      );
+    },
   },
   {
     accessorKey: "observations",
@@ -85,6 +94,14 @@ export default function AdminAtelierList(){
       return (
         <DataTableColumnHeader column={column} title="Observations" />
       )
+    },
+    cell: ({ row }) => {
+      const observations = row.original.observations;
+      return (
+        <div className="w-64 whitespace-pre-wrap break-words p-2">
+          {observations}
+        </div>
+      );
     },
     displayName : "Observations",
   },
@@ -98,21 +115,20 @@ export default function AdminAtelierList(){
     displayName : "Lieu",
   },
   {
-    accessorKey: "formation_id",
+    accessorKey: "formation.intitule",
     header: ({ column }) => {
       return (
         <DataTableColumnHeader column={column} title="Formation" />
       )
     },
     cell: ({ row }) => {
-      const {intitule} = row.original.formation;
       return (
         <div className="flex flex-col space-y-2">
-          {intitule}
+          {row.original.formation.intitule}
         </div>
       );
     },
-    displayName : "Formation",
+    displayName: "Formation",
   },
   {
     id: "actions",
