@@ -59,14 +59,7 @@ cd ..
 # Configurer l'environnement
 dans .env éditer base de données, clés JWT et Mail
 
-MAIL_MAILER=smtp
-MAIL_SCHEME=null
-MAIL_HOST=127.0.0.1
-MAIL_PORT=1025
-MAIL_USERNAME=null
-MAIL_PASSWORD=null
-MAIL_FROM_ADDRESS="admin@example.com"
-MAIL_FROM_NAME="${APP_NAME}"
+
 
 # Migrer la base
 php artisan migrate (pour cree un compte admin --seed Admin@example.com AdminAdmin)
@@ -74,3 +67,5 @@ php artisan migrate (pour cree un compte admin --seed Admin@example.com AdminAdm
 # Lancer les serveurs
 cd core && php artisan serve     # backend
 cd core && cd frontend && npm run dev   # frontend
+
+Lancer MailHog et XAMPP (MySQL)
